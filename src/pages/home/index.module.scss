@@ -1,0 +1,173 @@
+// src/pages/home/index.module.scss
+.page {
+  min-height: 100vh;
+  background: var(--color-bg-base);
+  padding: 0 20px 40px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+// 品牌区
+.brandArea {
+  padding-top: 80px;
+  padding-bottom: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.brandName {
+  font-size: 56rpx;
+  font-weight: 700;
+  line-height: 1.2;
+  background: var(--gradient-brand);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.slogan {
+  margin-top: 8px;
+  font-size: 28rpx;
+  color: var(--color-text-secondary);
+}
+
+// 输入卡片
+.inputCard {
+  background: var(--color-bg-card);
+  border-radius: 20px;
+  padding: 20px 16px;
+  border: 1.5px solid transparent;
+  transition: border-color 280ms ease, box-shadow 280ms ease;
+  margin-bottom: 20px;
+}
+
+.inputCardFocused {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(255, 92, 43, 0.12);
+}
+
+.input {
+  font-size: 28rpx;
+  color: var(--color-text-primary);
+  width: 100%;
+}
+
+.inputPlaceholder {
+  color: var(--color-text-disabled);
+  font-size: 28rpx;
+}
+
+// 快捷标签横向滚动
+.tagScroll {
+  white-space: nowrap;
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: row;
+}
+
+.tag {
+  display: inline-block;
+  padding: 8px 16px;
+  border-radius: 8px;
+  background: var(--color-bg-card);
+  color: var(--color-text-secondary);
+  font-size: 20rpx;
+  font-weight: 500;
+  margin-right: 8px;
+  transition: background 200ms ease, color 200ms ease;
+  flex-shrink: 0;
+}
+
+.tagActive {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+// 快捷品类行
+.categoryRow {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.categoryItem {
+  flex: 1;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-bg-card);
+  border-radius: 12px;
+  font-size: 24rpx;
+  color: var(--color-text-secondary);
+  border: 1.5px solid transparent;
+  transition: border-color 200ms ease, color 200ms ease;
+}
+
+.categoryItemActive {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+// 三个 Picker
+.pickerRow {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  margin-bottom: 32px;
+}
+
+.pickerItem {
+  flex: 1;
+  background: var(--color-bg-card);
+  border-radius: 12px;
+  padding: 12px 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.pickerLabel {
+  font-size: 20rpx;
+  color: var(--color-text-disabled);
+}
+
+.pickerValue {
+  font-size: 28rpx;
+  color: var(--color-text-primary);
+  font-weight: 600;
+}
+
+// 按钮区
+.btnArea {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.primaryBtn {
+  width: 100%;
+  height: 56px;
+  border-radius: 14px;
+  background: var(--gradient-brand);
+  box-shadow: var(--shadow-btn-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #fff;
+  letter-spacing: 1px;
+}
+
+.secondaryBtn {
+  margin-top: 12px;
+  text-align: center;
+  color: var(--color-text-secondary);
+  font-size: 24rpx;
+  padding: 8px 0;
+}
