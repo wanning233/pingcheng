@@ -1,0 +1,30 @@
+{
+  "name": "pincheng",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev:weapp": "taro build --type weapp --watch",
+    "build:weapp": "taro build --type weapp"
+  },
+  "dependencies": {
+    "@tarojs/components": "3.6.34",
+    "@tarojs/plugin-platform-weapp": "3.6.34",
+    "@tarojs/react": "3.6.34",
+    "@tarojs/runtime": "3.6.34",
+    "@tarojs/taro": "3.6.34",
+    "@nutui/nutui-react-taro": "^2.0.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "zustand": "^4.4.7",
+    "classnames": "^2.3.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.8.0",
+    "@tarojs/cli": "3.6.34",
+    "@tarojs/webpack5-runner": "3.6.34",
+    "@types/react": "^18.0.0",
+    "babel-preset-taro": "3.6.34",
+    "typescript": "^5.0.4",
+    "sass": "^1.55.0"
+  }
+}

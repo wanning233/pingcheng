@@ -1,0 +1,11 @@
+@import './styles/theme.scss';
+@import './styles/animation.scss';
+
+page {
+  background-color: var(--color-bg-base);
+  color: var(--color-text-primary);
+  font-family: 'PingFang SC', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-variant-numeric: tabular-nums;
+  min-height: 100vh;
+  box-sizing: border-box;
+}

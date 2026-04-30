@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "target": "es6", "lib": ["es6", "dom"], "allowJs": true,
+    "skipLibCheck": true, "strict": false, "forceConsistentCasingInFileNames": true,
+    "module": "commonjs", "moduleResolution": "node", "resolveJsonModule": true,
+    "baseUrl": ".", "paths": { "@/*": ["src/*"] },
+    "allowSyntheticDefaultImports": true, "esModuleInterop": true,
+    "noImplicitAny": false, "jsx": "react-jsx"
+  },
+  "include": ["src"], "exclude": ["node_modules", "dist"]
+}
