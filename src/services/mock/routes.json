@@ -1,0 +1,177 @@
+[
+  {
+    "id": "route-easy",
+    "name": "少排队轻松线",
+    "budgetPerPerson": 118,
+    "totalMinutes": 270,
+    "walkDistanceM": 800,
+    "queueRisk": "low",
+    "energyLevel": "轻松",
+    "isRecommended": false,
+    "highlights": ["全程步行≤10分钟", "有座位休息", "排队风险低"],
+    "stops": [
+      {
+        "id": "stop-hunanese",
+        "name": "弄堂里的湖南菜",
+        "category": "餐厅",
+        "coord": { "lat": 31.2990, "lng": 121.5120 },
+        "arriveTime": "12:00",
+        "stayMinutes": 90,
+        "completed": false,
+        "queueRisk": "low",
+        "estimatedQueueMinutes": 5,
+        "planB": [],
+        "tags": ["湖南菜", "有座位", "排队少"],
+        "ugcHighlight": "招牌剁椒鱼头超下饭，鸳鸯锅满足辣与不辣"
+      },
+      {
+        "id": "stop-zhichuang",
+        "name": "创智天地草坪",
+        "category": "拍照打卡",
+        "coord": { "lat": 31.2978, "lng": 121.5098 },
+        "arriveTime": "13:45",
+        "stayMinutes": 45,
+        "completed": false,
+        "queueRisk": "low",
+        "estimatedQueueMinutes": 0,
+        "planB": [],
+        "tags": ["拍照", "草坪", "免费"],
+        "ugcHighlight": "黄昏光线超好，适合人物逆光拍"
+      },
+      {
+        "id": "stop-arabica",
+        "name": "%Arabica咖啡",
+        "category": "咖啡",
+        "coord": { "lat": 31.2962, "lng": 121.5085 },
+        "arriveTime": "14:45",
+        "stayMinutes": 60,
+        "completed": false,
+        "queueRisk": "low",
+        "estimatedQueueMinutes": 10,
+        "planB": [],
+        "tags": ["精品咖啡", "日系", "出片"],
+        "ugcHighlight": "%LOGO拍照角度绝了，建议点冰拿铁"
+      }
+    ]
+  },
+  {
+    "id": "route-budget",
+    "name": "高性价比省钱线",
+    "budgetPerPerson": 95,
+    "totalMinutes": 240,
+    "walkDistanceM": 1200,
+    "queueRisk": "medium",
+    "energyLevel": "适中",
+    "isRecommended": false,
+    "highlights": ["人均最低", "复旦校园随拍", "本帮菜体验"],
+    "stops": [
+      {
+        "id": "stop-sipingbang",
+        "name": "四平路本帮菜",
+        "category": "餐厅",
+        "coord": { "lat": 31.3025, "lng": 121.5058 },
+        "arriveTime": "12:00",
+        "stayMinutes": 75,
+        "completed": false,
+        "queueRisk": "medium",
+        "estimatedQueueMinutes": 20,
+        "planB": [],
+        "tags": ["本帮菜", "经济实惠", "老上海味"],
+        "ugcHighlight": "红烧肉和醉鸡必点，人均60-70搞定"
+      },
+      {
+        "id": "stop-fudan",
+        "name": "复旦大学校园",
+        "category": "拍照打卡",
+        "coord": { "lat": 31.2985, "lng": 121.5025 },
+        "arriveTime": "13:30",
+        "stayMinutes": 60,
+        "completed": false,
+        "queueRisk": "low",
+        "estimatedQueueMinutes": 0,
+        "planB": [],
+        "tags": ["校园", "拍照", "文艺"],
+        "ugcHighlight": "光华楼前广场是绝佳机位，春秋最美"
+      },
+      {
+        "id": "stop-hushan-ae",
+        "name": "沪上阿姨（邯郸路店）",
+        "category": "茶饮",
+        "coord": { "lat": 31.2998, "lng": 121.5040 },
+        "arriveTime": "14:45",
+        "stayMinutes": 30,
+        "completed": false,
+        "queueRisk": "low",
+        "estimatedQueueMinutes": 5,
+        "planB": [],
+        "tags": ["茶饮", "性价比", "新中式"],
+        "ugcHighlight": "草莓爆爆珠限定款，15块钱幸福感拉满"
+      }
+    ]
+  },
+  {
+    "id": "route-photo",
+    "name": "拍照出片线",
+    "budgetPerPerson": 132,
+    "totalMinutes": 300,
+    "walkDistanceM": 1500,
+    "queueRisk": "low",
+    "energyLevel": "适中",
+    "isRecommended": true,
+    "highlights": ["AI推荐", "网红打卡全覆盖", "出片率最高", "兼顾王萌辣食需求"],
+    "stops": [
+      {
+        "id": "stop-yuanyang-pot",
+        "name": "网红鸳鸯锅",
+        "category": "餐厅",
+        "coord": { "lat": 31.3014, "lng": 121.5145 },
+        "arriveTime": "12:00",
+        "stayMinutes": 90,
+        "completed": false,
+        "queueRisk": "high",
+        "estimatedQueueMinutes": 58,
+        "planB": [
+          {
+            "id": "planb-hunanese",
+            "name": "弄堂里的湖南菜",
+            "reason": "同样有鸳鸯锅，等位仅5分钟，节省53分钟",
+            "rating": 4.6,
+            "pricePerPerson": 95,
+            "estimatedQueueMinutes": 5,
+            "walkMinutesFromOriginal": 6
+          }
+        ],
+        "tags": ["鸳鸯锅", "网红", "辣不辣都有"],
+        "ugcHighlight": "锅底汤料超浓郁，拍完照再涮菜，出片率高"
+      },
+      {
+        "id": "stop-daxue-wall",
+        "name": "大学路网红墙",
+        "category": "拍照打卡",
+        "coord": { "lat": 31.3005, "lng": 121.5132 },
+        "arriveTime": "14:00",
+        "stayMinutes": 60,
+        "completed": false,
+        "queueRisk": "low",
+        "estimatedQueueMinutes": 0,
+        "planB": [],
+        "tags": ["网红墙", "拍照", "涂鸦"],
+        "ugcHighlight": "彩色涂鸦墙，午后光线从左侧打来最好看"
+      },
+      {
+        "id": "stop-seesaw",
+        "name": "SeeSaw咖啡（大学路店）",
+        "category": "咖啡",
+        "coord": { "lat": 31.2997, "lng": 121.5118 },
+        "arriveTime": "15:15",
+        "stayMinutes": 60,
+        "completed": false,
+        "queueRisk": "low",
+        "estimatedQueueMinutes": 8,
+        "planB": [],
+        "tags": ["精品咖啡", "网红", "出片"],
+        "ugcHighlight": "橙色门头超上镜，特调「日落」和店面颜色绝配"
+      }
+    ]
+  }
+]

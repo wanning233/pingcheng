@@ -1,0 +1,72 @@
+{
+  "routeId": "route-photo",
+  "routeName": "拍照出片线",
+  "stops": [
+    {
+      "id": "stop-yuanyang-pot",
+      "name": "网红鸳鸯锅",
+      "category": "餐厅",
+      "coord": { "lat": 31.3014, "lng": 121.5145 },
+      "arriveTime": "12:00",
+      "stayMinutes": 90,
+      "completed": false,
+      "queueRisk": "high",
+      "estimatedQueueMinutes": 58,
+      "planB": [
+        {
+          "id": "planb-hunanese",
+          "name": "弄堂里的湖南菜",
+          "reason": "同样有鸳鸯锅，等位仅5分钟，可节省53分钟，让行程不超时",
+          "rating": 4.6,
+          "pricePerPerson": 95,
+          "estimatedQueueMinutes": 5,
+          "walkMinutesFromOriginal": 6
+        }
+      ],
+      "tags": ["鸳鸯锅", "网红", "辣不辣都有", "排队需等"],
+      "ugcHighlight": "锅底汤料超浓郁，拍完照再涮菜，出片率高，但排队是硬伤"
+    },
+    {
+      "id": "stop-daxue-wall",
+      "name": "大学路网红墙",
+      "category": "拍照打卡",
+      "coord": { "lat": 31.3005, "lng": 121.5132 },
+      "arriveTime": "14:00",
+      "stayMinutes": 60,
+      "completed": false,
+      "queueRisk": "low",
+      "estimatedQueueMinutes": 0,
+      "planB": [],
+      "tags": ["网红墙", "拍照", "涂鸦", "免费"],
+      "ugcHighlight": "彩色涂鸦墙，午后光线从左侧打来最好看，建议14:00-15:30间来"
+    },
+    {
+      "id": "stop-seesaw",
+      "name": "SeeSaw咖啡（大学路店）",
+      "category": "咖啡",
+      "coord": { "lat": 31.2997, "lng": 121.5118 },
+      "arriveTime": "15:15",
+      "stayMinutes": 60,
+      "completed": false,
+      "queueRisk": "low",
+      "estimatedQueueMinutes": 8,
+      "planB": [],
+      "tags": ["精品咖啡", "网红", "出片", "橙色门头"],
+      "ugcHighlight": "橙色门头超上镜，特调「日落」和店面颜色绝配，建议拍完再喝"
+    },
+    {
+      "id": "stop-wujiaochang",
+      "name": "五角场合生汇（出发/返回）",
+      "category": "交通枢纽",
+      "coord": { "lat": 31.3021, "lng": 121.5098 },
+      "arriveTime": "16:30",
+      "stayMinutes": 0,
+      "completed": false,
+      "queueRisk": "low",
+      "estimatedQueueMinutes": 0,
+      "planB": [],
+      "tags": ["地铁", "返回"],
+      "ugcHighlight": "10号线五角场站，直达市中心"
+    }
+  ]
+}

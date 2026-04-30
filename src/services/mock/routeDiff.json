@@ -1,0 +1,32 @@
+{
+  "timeStatus": "rescued",
+  "sessionDeadline": "21:00",
+  "currentStop": {
+    "id": "stop-yuanyang-pot",
+    "name": "网红鸳鸯锅",
+    "rating": 4.8,
+    "estimatedQueueMinutes": 58,
+    "pricePerPerson": 132,
+    "estimatedEndTime": "21:15"
+  },
+  "planBStop": {
+    "id": "planb-hunanese",
+    "name": "弄堂里的湖南菜",
+    "rating": 4.6,
+    "estimatedQueueMinutes": 5,
+    "pricePerPerson": 115,
+    "estimatedEndTime": "20:48"
+  },
+  "gains": {
+    "savedMinutes": 53,
+    "savedPricePerPerson": 17,
+    "label": "换了能救回来"
+  },
+  "costs": {
+    "ratingDrop": 0.2,
+    "extraWalkMeters": 420,
+    "extraWalkMinutes": 6
+  },
+  "aiRecommendation": "强烈建议换。原路线排队58分钟，行程将在21:15结束，超出截止时间15分钟。换成弄堂里的湖南菜，鸳鸯锅同样有，等位仅5分钟，能在20:48结束，为你们抢回12分钟。",
+  "bufferMinutes": 5
+}

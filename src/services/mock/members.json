@@ -1,0 +1,58 @@
+[
+  {
+    "id": "member-linxiaxia",
+    "name": "林小夏",
+    "avatar": "https://api.dicebear.com/7.x/adventurer/svg?seed=linxiaxia",
+    "status": "done",
+    "isHost": true,
+    "preferences": {
+      "taste": ["拍照出片", "精致感", "网红打卡"],
+      "budget": 150,
+      "energy": "适中",
+      "avoidSpicy": false,
+      "needsSeating": false
+    }
+  },
+  {
+    "id": "member-chenyu",
+    "name": "陈宇",
+    "avatar": "https://api.dicebear.com/7.x/adventurer/svg?seed=chenyu",
+    "status": "done",
+    "isHost": false,
+    "preferences": {
+      "taste": ["不挑食", "性价比"],
+      "budget": 100,
+      "energy": "适中",
+      "avoidSpicy": false,
+      "needsSeating": false
+    }
+  },
+  {
+    "id": "member-wangmeng",
+    "name": "王萌",
+    "avatar": "https://api.dicebear.com/7.x/adventurer/svg?seed=wangmeng",
+    "status": "done",
+    "isHost": false,
+    "preferences": {
+      "taste": ["必须吃辣", "火锅", "重口味"],
+      "budget": 120,
+      "energy": "充沛",
+      "avoidSpicy": false,
+      "needsSeating": false
+    }
+  },
+  {
+    "id": "member-liting",
+    "name": "李婷",
+    "avatar": "https://api.dicebear.com/7.x/adventurer/svg?seed=liting",
+    "status": "filling",
+    "isHost": false,
+    "preferences": {
+      "taste": ["不吃辣", "清淡", "有座位"],
+      "budget": 120,
+      "energy": "偏弱",
+      "avoidSpicy": true,
+      "needsSeating": true
+    }
+  }
+]
