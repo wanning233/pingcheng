@@ -1,0 +1,22 @@
+// src/pages/route-detail/index.module.scss
+.page {
+  min-height: 100vh;
+  background: var(--color-bg-base);
+  position: relative;
+}
+
+// 滚动区域：top随地图折叠状态动态变化（行内style控制）
+.scrollView {
+  height: 100vh;
+  transition: margin-top 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.content {
+  padding: 0 20px;
+  padding-top: 8px;
+}
+
+// 为底部浮层留出空间
+.bottomPad {
+  height: calc(80px + env(safe-area-inset-bottom));
+}
