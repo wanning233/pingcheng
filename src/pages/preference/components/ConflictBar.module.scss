@@ -1,0 +1,35 @@
+// src/pages/preference/components/ConflictBar.module.scss
+
+// 关键：position:fixed + bottom，弹簧 translateY 动效
+.conflictBar {
+  position: fixed;
+  bottom: 80px;
+  left: 16px;
+  right: 16px;
+  background: rgba(255, 183, 0, 0.12);
+  border: 1px solid rgba(255, 183, 0, 0.3);
+  border-radius: 12px;
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  // 初始态：在底部不可见
+  transform: translateY(120%);
+  transition: transform 400ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  // 不用 visibility/display 切换，用 translateY 控制可见性
+}
+
+.conflictBarVisible {
+  transform: translateY(0);
+}
+
+.icon {
+  font-size: 28rpx;
+}
+
+.message {
+  font-size: 24rpx;
+  color: var(--color-warning);
+  flex: 1;
+}
