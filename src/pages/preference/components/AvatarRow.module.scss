@@ -1,0 +1,66 @@
+// src/pages/preference/components/AvatarRow.module.scss
+.row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 20px;
+  padding: 16px 0 12px;
+}
+
+.memberItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.avatarWrap {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ringsvg {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--color-bg-glass);
+  border: 1.5px solid rgba(255, 255, 255, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 300ms ease;
+}
+
+.avatarSelf {
+  border-color: var(--color-primary);
+}
+
+.avatarDone {
+  border-color: transparent;
+}
+
+.avatarInitial {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.name {
+  font-size: 20rpx;
+  color: var(--color-text-secondary);
+}
+
+.doneLabel {
+  font-size: 18rpx;
+  color: var(--color-success);
+}
