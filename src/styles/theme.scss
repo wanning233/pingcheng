@@ -1,0 +1,98 @@
+// src/styles/theme.scss
+// 拼程设计系统 — 全量 CSS 变量
+// 深色主题，日落橙 × 宇宙蓝
+
+:root {
+  // ---- 背景层级 ----
+  --color-bg-base:    #0D0D12;
+  --color-bg-card:    #1C1C26;
+  --color-bg-glass:   rgba(255, 255, 255, 0.06);
+
+  // ---- 主色 ----
+  --color-primary:       #FF5C2B;
+  --color-primary-light: #FF7A47;
+
+  // ---- 辅助色 ----
+  --color-accent:   #4D6EFF;
+  --color-success:  #00C9A7;
+  --color-warning:  #FFB800;
+  --color-danger:   #FF4757;
+
+  // ---- 文字层级 ----
+  --color-text-primary:   #F2F2F5;
+  --color-text-secondary: #9494A8;
+  --color-text-disabled:  #4A4A5E;
+
+  // ---- 渐变 ----
+  --gradient-brand: linear-gradient(135deg, #FF5C2B, #FFB300);
+  --gradient-ai:    linear-gradient(135deg, #4D6EFF, #7B2FFF);
+  --gradient-mask:  linear-gradient(180deg, transparent, rgba(13, 13, 18, 0.85));
+
+  // ---- 圆角 ----
+  --radius-card-lg: 20px;
+  --radius-card-md: 16px;
+  --radius-btn:     14px;
+  --radius-tag:     8px;
+  --radius-icon:    12px;
+  --radius-input:   16px;
+  --radius-sheet:   28px 28px 0 0;
+
+  // ---- 间距（4px 基础单位） ----
+  --space-xs:  4px;
+  --space-s:   8px;
+  --space-m:   12px;
+  --space-l:   16px;
+  --space-xl:  20px;
+  --space-2xl: 24px;
+  --space-3xl: 32px;
+
+  // ---- 彩色阴影系统 ----
+
+  // 主按钮 — 橙红燃烧感
+  --shadow-btn-primary:
+    0 4px 12px rgba(255, 92, 43, 0.55),
+    0 8px 32px rgba(255, 92, 43, 0.25);
+
+  // AI推荐卡片 — 电蓝+橙红双色
+  --shadow-card-recommend:
+    0  2px  8px rgba(77, 110, 255, 0.20),
+    0  8px 24px rgba(77, 110, 255, 0.30),
+    0 16px 48px rgba(77, 110, 255, 0.15),
+    0  0  32px  rgba(255, 92, 43, 0.08);
+
+  // 普通卡片默认态
+  --shadow-card-default:
+    0 2px  8px rgba(10, 10, 20, 0.60),
+    0 4px 16px rgba(10, 10, 20, 0.40);
+
+  // 卡片选中态 — 橙红
+  --shadow-card-selected:
+    0  2px  6px rgba(255, 92, 43, 0.30),
+    0  6px 20px rgba(255, 92, 43, 0.20),
+    0 12px 40px rgba(255, 92, 43, 0.10);
+
+  // 底部悬浮操作栏
+  --shadow-floating-bar:
+    0 -4px  16px rgba(255, 92, 43, 0.18),
+    0 -1px  32px rgba(255, 92, 43, 0.08),
+    0 -12px 48px rgba(10, 10, 20, 0.50);
+
+  // Route Diff 卡片 — 青绿
+  --shadow-card-diff:
+    0  2px  8px rgba(0, 201, 167, 0.20),
+    0  8px 24px rgba(0, 201, 167, 0.15),
+    0 16px 40px rgba(0, 201, 167, 0.08);
+
+  // 时间轴当前节点 — 信标感
+  --shadow-timeline-active:
+    0 0  0  3px rgba(255, 92, 43, 0.25),
+    0 0 12px 4px rgba(255, 92, 43, 0.50),
+    0 0 24px 8px rgba(255, 92, 43, 0.20);
+
+  // 途中助手 AI 环境光
+  --shadow-ai-ambient:
+    0  0  40px  16px rgba(138, 92, 246, 0.18),
+    0  0  80px  32px rgba(138, 92, 246, 0.10),
+    0  8px 24px  8px rgba(77, 110, 255, 0.12),
+    0  0  120px 48px rgba(255, 92, 43, 0.05);
+}
