@@ -1,0 +1,144 @@
+// src/pages/preference/components/ConflictCard.module.scss
+
+.card {
+  background: var(--color-bg-card);
+  border-radius: 16px;
+  padding: 16px;
+  border: 1.5px solid var(--color-warning);
+  box-shadow: var(--shadow-card-default);
+  margin-bottom: 12px;
+  // 初始态：底部不可见
+  transform: translateY(100%);
+  opacity: 0;
+  transition:
+    transform 400ms cubic-bezier(0.34, 1.56, 0.64, 1),
+    opacity 400ms ease,
+    border-color 500ms ease;
+}
+
+.cardVisible {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+// 冲突解决后 border 从 warning → success
+.cardResolved {
+  border-color: var(--color-success);
+  // scale 呼吸：1→1.02→1，400ms
+  animation: breathe 400ms ease forwards;
+}
+
+@keyframes breathe {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.02); }
+  100% { transform: scale(1); }
+}
+
+.tagRow {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 8px;
+}
+
+.statusTag {
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: rgba(255, 183, 0, 0.15);
+  transition: background 300ms ease;
+}
+
+.statusTagResolved {
+  background: rgba(0, 201, 167, 0.15);
+}
+
+.statusTagText {
+  font-size: 20rpx;
+  font-weight: 500;
+  color: var(--color-warning);
+}
+
+.statusTagTextResolved {
+  color: var(--color-success);
+}
+
+.description {
+  font-size: 28rpx;
+  color: var(--color-text-primary);
+  font-weight: 500;
+  margin-bottom: 12px;
+  line-height: 1.4;
+}
+
+// 头像碰撞行
+.avatarRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.avatarLeft,
+.avatarRight {
+  flex: 1;
+  background: var(--color-bg-glass);
+  border-radius: 8px;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 200ms ease;
+}
+
+// 碰撞动效：左头像右移+旋转，右头像左移+旋转
+.avatarLeftCollide {
+  transform: translateX(8px) rotate(3deg);
+}
+
+.avatarRightCollide {
+  transform: translateX(-8px) rotate(-3deg);
+}
+
+.avatarName {
+  font-size: 24rpx;
+  color: var(--color-text-primary);
+  font-weight: 600;
+}
+
+.vs {
+  font-size: 24rpx;
+  color: var(--color-danger);
+  font-weight: 700;
+}
+
+// AI 解决方案区域
+.resolutionArea {
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding-top: 12px;
+}
+
+.aiLabel {
+  font-size: 20rpx;
+  color: var(--color-accent);
+  font-weight: 500;
+  margin-bottom: 6px;
+  display: block;
+}
+
+// 打字机效果：clip-path 裁切从右侧展开
+.resolutionText {
+  font-size: 24rpx;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+
+.typewriter {
+  display: block;
+  clip-path: inset(0 100% 0 0);
+  animation: typewriter 800ms linear forwards;
+}
+
+@keyframes typewriter {
+  from { clip-path: inset(0 100% 0 0); }
+  to   { clip-path: inset(0 0% 0 0); }
+}
