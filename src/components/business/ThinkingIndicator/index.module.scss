@@ -1,0 +1,38 @@
+// src/components/business/ThinkingIndicator/index.module.scss
+@import '@/styles/animation.scss';
+
+.aiRow {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  margin-bottom: 12px;
+  padding-right: 48px;
+}
+
+.aiStripe {
+  width: 3px;
+  background: #4D6EFF;
+  border-radius: 2px;
+  flex-shrink: 0;
+  align-self: stretch;
+  margin-right: 8px;
+  min-height: 36px;
+}
+
+.bubble {
+  background: var(--color-bg-card);
+  border-radius: 0 16px 16px 16px;
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--color-text-secondary);
+  animation: dotBounce 1.4s ease-in-out infinite;
+}

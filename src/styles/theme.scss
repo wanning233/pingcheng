@@ -1,98 +1,83 @@
-// src/styles/theme.scss
-// 拼程设计系统 — 全量 CSS 变量
-// 深色主题，日落橙 × 宇宙蓝
+// src/styles/theme.scss — Warm Cream × Orange
 
-:root {
-  // ---- 背景层级 ----
-  --color-bg-base:    #0D0D12;
-  --color-bg-card:    #1C1C26;
-  --color-bg-glass:   rgba(255, 255, 255, 0.06);
+page, :root {
+  // 背景 — 顶部横向彩色渐变 → 向下淡出至奶白
+  --color-bg-base:    #F5EEE9;
+  --color-bg-card:    rgba(255, 255, 255, 0.72);
+  --gradient-bg:
+    radial-gradient(ellipse 120% 60% at 50% 0%, #f0cfc0 0%, #ebd2d2 30%, #e1dacf 55%, transparent 75%),
+    #F5EEE9;
 
-  // ---- 主色 ----
-  --color-primary:       #FF5C2B;
-  --color-primary-light: #FF7A47;
+  // 品牌橙
+  --color-primary:    #FF6B2B;
+  --color-primary-bg: rgba(255, 107, 43, 0.10);
+  --color-primary-light: rgba(255, 107, 43, 0.12);
 
-  // ---- 辅助色 ----
-  --color-accent:   #4D6EFF;
-  --color-success:  #00C9A7;
-  --color-warning:  #FFB800;
-  --color-danger:   #FF4757;
+  // 文字
+  --color-label-1:  #1A1A1A;
+  --color-label-2:  #4A4A4A;
+  --color-label-3:  rgba(26, 26, 26, 0.45);
+  --color-label-4:  rgba(26, 26, 26, 0.25);
 
-  // ---- 文字层级 ----
-  --color-text-primary:   #F2F2F5;
-  --color-text-secondary: #9494A8;
-  --color-text-disabled:  #4A4A5E;
+  // 兼容旧名
+  --color-text-primary:   #1A1A1A;
+  --color-text-secondary: rgba(26, 26, 26, 0.45);
+  --color-text-disabled:  rgba(26, 26, 26, 0.25);
+  --color-success:  #34C759;
 
-  // ---- 渐变 ----
-  --gradient-brand: linear-gradient(135deg, #FF5C2B, #FFB300);
-  --gradient-ai:    linear-gradient(135deg, #4D6EFF, #7B2FFF);
-  --gradient-mask:  linear-gradient(180deg, transparent, rgba(13, 13, 18, 0.85));
+  // 渐变 — 橙色主渐变（左浅黄橙 → 右深橙，模仿截图CTA按钮）
+  --gradient-brand: linear-gradient(to right, #FFBB55 0%, #FF6B2B 100%);
+  // 次要按钮色
+  --color-btn-secondary-bg:   #FFF0E6;
+  --color-btn-secondary-text: #FF6B2B;
+  // 图标圆形背景
+  --color-icon-circle-solid:  #FF7A30;
+  --color-icon-circle-ghost:  rgba(255, 107, 43, 0.12);
+  --gradient-mask:  linear-gradient(180deg, transparent 0%, rgba(245,238,233,0.95) 100%);
 
-  // ---- 圆角 ----
-  --radius-card-lg: 20px;
+  // 圆角
+  --radius-pill:    999px;
+  --radius-card:    22px;
+  --radius-card-sm: 16px;
+  --radius-btn:     999px;
+  --radius-tag:     999px;
+  --radius-input:   999px;
+  --radius-icon:    16px;
+  --radius-sheet:   26px 26px 0 0;
+
+  // 兼容旧名
+  --radius-card-lg: 22px;
   --radius-card-md: 16px;
-  --radius-btn:     14px;
-  --radius-tag:     8px;
-  --radius-icon:    12px;
-  --radius-input:   16px;
-  --radius-sheet:   28px 28px 0 0;
 
-  // ---- 间距（4px 基础单位） ----
+  // 间距
   --space-xs:  4px;
   --space-s:   8px;
-  --space-m:   12px;
-  --space-l:   16px;
-  --space-xl:  20px;
-  --space-2xl: 24px;
-  --space-3xl: 32px;
+  --space-m:   14px;
+  --space-l:   20px;
+  --space-xl:  28px;
 
-  // ---- 彩色阴影系统 ----
+  // 阴影 — 极轻，暖色调
+  --shadow-card:
+    0 2px 12px rgba(0, 0, 0, 0.06);
 
-  // 主按钮 — 橙红燃烧感
-  --shadow-btn-primary:
-    0 4px 12px rgba(255, 92, 43, 0.55),
-    0 8px 32px rgba(255, 92, 43, 0.25);
+  --shadow-card-raised:
+    0 6px 24px rgba(0, 0, 0, 0.09);
 
-  // AI推荐卡片 — 电蓝+橙红双色
-  --shadow-card-recommend:
-    0  2px  8px rgba(77, 110, 255, 0.20),
-    0  8px 24px rgba(77, 110, 255, 0.30),
-    0 16px 48px rgba(77, 110, 255, 0.15),
-    0  0  32px  rgba(255, 92, 43, 0.08);
-
-  // 普通卡片默认态
-  --shadow-card-default:
-    0 2px  8px rgba(10, 10, 20, 0.60),
-    0 4px 16px rgba(10, 10, 20, 0.40);
-
-  // 卡片选中态 — 橙红
   --shadow-card-selected:
-    0  2px  6px rgba(255, 92, 43, 0.30),
-    0  6px 20px rgba(255, 92, 43, 0.20),
-    0 12px 40px rgba(255, 92, 43, 0.10);
+    0 4px 20px rgba(255, 107, 43, 0.22),
+    0 1px 6px rgba(255, 107, 43, 0.14);
 
-  // 底部悬浮操作栏
-  --shadow-floating-bar:
-    0 -4px  16px rgba(255, 92, 43, 0.18),
-    0 -1px  32px rgba(255, 92, 43, 0.08),
-    0 -12px 48px rgba(10, 10, 20, 0.50);
+  --shadow-btn:
+    0 4px 16px rgba(255, 107, 43, 0.38),
+    0 1px 4px rgba(255, 107, 43, 0.18);
 
-  // Route Diff 卡片 — 青绿
-  --shadow-card-diff:
-    0  2px  8px rgba(0, 201, 167, 0.20),
-    0  8px 24px rgba(0, 201, 167, 0.15),
-    0 16px 40px rgba(0, 201, 167, 0.08);
+  --shadow-floating:
+    0 -1px 0 rgba(0, 0, 0, 0.04),
+    0 -4px 20px rgba(0, 0, 0, 0.06);
 
-  // 时间轴当前节点 — 信标感
-  --shadow-timeline-active:
-    0 0  0  3px rgba(255, 92, 43, 0.25),
-    0 0 12px 4px rgba(255, 92, 43, 0.50),
-    0 0 24px 8px rgba(255, 92, 43, 0.20);
-
-  // 途中助手 AI 环境光
-  --shadow-ai-ambient:
-    0  0  40px  16px rgba(138, 92, 246, 0.18),
-    0  0  80px  32px rgba(138, 92, 246, 0.10),
-    0  8px 24px  8px rgba(77, 110, 255, 0.12),
-    0  0  120px 48px rgba(255, 92, 43, 0.05);
+  // 兼容旧名
+  --shadow-card-default:   var(--shadow-card);
+  --shadow-btn-primary:    var(--shadow-btn);
+  --shadow-floating-bar:   var(--shadow-floating);
+  --shadow-card-recommend: var(--shadow-card-raised);
 }

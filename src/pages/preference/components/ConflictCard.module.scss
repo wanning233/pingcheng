@@ -2,11 +2,11 @@
 
 .card {
   background: var(--color-bg-card);
-  border-radius: 16px;
-  padding: 16px;
-  border: 1.5px solid var(--color-warning);
-  box-shadow: var(--shadow-card-default);
-  margin-bottom: 12px;
+  border-radius: 40rpx;
+  padding: 32rpx;
+  border: 3rpx solid var(--color-warning);
+  box-shadow: var(--shadow-card);
+  margin-bottom: 24rpx;
   // 初始态：底部不可见
   transform: translateY(100%);
   opacity: 0;
@@ -37,12 +37,12 @@
 .tagRow {
   display: flex;
   flex-direction: row;
-  margin-bottom: 8px;
+  margin-bottom: 16rpx;
 }
 
 .statusTag {
-  padding: 4px 8px;
-  border-radius: 6px;
+  padding: 8rpx 20rpx;
+  border-radius: 999rpx;
   background: rgba(255, 183, 0, 0.15);
   transition: background 300ms ease;
 }
@@ -52,8 +52,8 @@
 }
 
 .statusTagText {
-  font-size: 20rpx;
-  font-weight: 500;
+  font-size: 24rpx;
+  font-weight: 600;
   color: var(--color-warning);
 }
 
@@ -62,11 +62,11 @@
 }
 
 .description {
-  font-size: 28rpx;
-  color: var(--color-text-primary);
+  font-size: 32rpx;
+  color: var(--color-label-1);
   font-weight: 500;
-  margin-bottom: 12px;
-  line-height: 1.4;
+  margin-bottom: 24rpx;
+  line-height: 1.5;
 }
 
 // 头像碰撞行
@@ -74,16 +74,16 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 12px;
+  gap: 24rpx;
+  margin-bottom: 24rpx;
 }
 
 .avatarLeft,
 .avatarRight {
   flex: 1;
-  background: var(--color-bg-glass);
-  border-radius: 8px;
-  padding: 8px;
+  background: #F5F5F5;
+  border-radius: 20rpx;
+  padding: 16rpx;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -92,43 +92,43 @@
 
 // 碰撞动效：左头像右移+旋转，右头像左移+旋转
 .avatarLeftCollide {
-  transform: translateX(8px) rotate(3deg);
+  transform: translateX(16rpx) rotate(3deg);
 }
 
 .avatarRightCollide {
-  transform: translateX(-8px) rotate(-3deg);
+  transform: translateX(-16rpx) rotate(-3deg);
 }
 
 .avatarName {
-  font-size: 24rpx;
-  color: var(--color-text-primary);
+  font-size: 30rpx;
+  color: var(--color-label-1);
   font-weight: 600;
 }
 
 .vs {
-  font-size: 24rpx;
+  font-size: 28rpx;
   color: var(--color-danger);
   font-weight: 700;
 }
 
 // AI 解决方案区域
 .resolutionArea {
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
-  padding-top: 12px;
+  border-top: 2rpx solid rgba(0, 0, 0, 0.06);
+  padding-top: 24rpx;
 }
 
 .aiLabel {
-  font-size: 20rpx;
-  color: var(--color-accent);
-  font-weight: 500;
-  margin-bottom: 6px;
+  font-size: 24rpx;
+  color: var(--color-primary);
+  font-weight: 600;
+  margin-bottom: 12rpx;
   display: block;
 }
 
 // 打字机效果：clip-path 裁切从右侧展开
 .resolutionText {
-  font-size: 24rpx;
-  color: var(--color-text-secondary);
+  font-size: 28rpx;
+  color: var(--color-label-2);
   line-height: 1.6;
 }
 

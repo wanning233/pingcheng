@@ -1,6 +1,223 @@
-import { View } from '@tarojs/components'
-import React from 'react'
+// src/pages/assistant/index.tsx
+import { View, Text, ScrollView, Input } from '@tarojs/components'
+import Taro, { useLoad, useUnload, useRouter } from '@tarojs/taro'
+import React, { useState, useRef, useCallback } from 'react'
+import ChatBubble from '@/components/business/ChatBubble'
+import ThinkingIndicator from '@/components/business/ThinkingIndicator'
+import RouteDiffCard from '@/components/business/RouteDiffCard'
+import { demoEngine } from '@/utils/mockEngine'
+import { useTripStore } from '@/stores/useTripStore'
+import styles from './index.module.scss'
+
+interface Message {
+  id: string
+  role: 'user' | 'ai'
+  content: string
+  isStreaming?: boolean
+}
+
+const DEFAULT_QUICK_REPLIES = ['排队多久？', '换一家', '修改预算', '提前结束']
+
+const INITIAL_GREETING =
+  '你好！我是你的途中助手。当前是网红鸳鸯锅，预计排队58分钟。需要我帮你查一下附近有没有更好的选择吗？'
+
+function getStopGreeting(stopName: string): string {
+  return `你对「${stopName}」不满意？告诉我原因，我来帮你找替代方案，或者重新规划后面的行程。`
+}
+
+function getStopQuickReplies(stopName: string): string[] {
+  return [`换掉「${stopName}」`, '找附近替代', '调整后续行程', '修改预算']
+}
+
+const QUEUE_REPLY =
+  '刚查了一下，网红鸳鸯锅目前排队大概58分钟，排了37桌。我发现了一个不错的替代方案，你看一下——'
+
+const ACCEPTED_REPLY = '好的！已为你们切换到弄堂里的湖南菜，步行6分钟可以到，预计20:48结束，比截止时间早12分钟，完全没问题！'
+
+const DECLINED_REPLY =
+  '好的，继续原路线。不过要注意，预计会在21:15结束，超出截止时间15分钟，后续行程可能受影响。'
+
+let msgCounter = 0
+const nextId = () => `msg-${++msgCounter}`
 
 export default function AssistantPage() {
-  return <View>assistant</View>
+  const router = useRouter()
+  const stopName = router.params?.stopName ? decodeURIComponent(router.params.stopName) : ''
+
+  const [messages, setMessages] = useState<Message[]>([])
+  const [thinking, setThinking] = useState(false)
+  const [diffVisible, setDiffVisible] = useState(false)
+  const [inputValue, setInputValue] = useState('')
+  const [quickReplies, setQuickReplies] = useState<string[]>(
+    stopName ? getStopQuickReplies(stopName) : DEFAULT_QUICK_REPLIES
+  )
+  const currentStopIndex = useTripStore((s) => s.currentStopIndex)
+  const scrollTopRef = useRef(9999999)
+
+  const addMessage = useCallback((msg: Message) => {
+    setMessages((prev) => [...prev, msg])
+  }, [])
+
+  useLoad(() => {
+    const greeting = stopName ? getStopGreeting(stopName) : INITIAL_GREETING
+    // 400ms after load, AI sends greeting (streaming)
+    demoEngine.schedule(() => {
+      addMessage({
+        id: nextId(),
+        role: 'ai',
+        content: greeting,
+        isStreaming: true,
+      })
+    }, 400)
+  })
+
+  useUnload(() => {
+    demoEngine.destroy()
+  })
+
+  const handleSend = useCallback(
+    (text: string) => {
+      const trimmed = text.trim()
+      if (!trimmed) return
+      setInputValue('')
+
+      // Add user message
+      addMessage({ id: nextId(), role: 'user', content: trimmed })
+
+      const lower = trimmed
+      const isQueueOrSwap = lower.includes('排队') || lower.includes('换') || lower.includes('替代') || lower.includes('调整')
+
+      if (isQueueOrSwap) {
+        // Show thinking for 1200ms, then AI reply, then 400ms later show RouteDiffCard
+        setThinking(true)
+        demoEngine.schedule(() => {
+          setThinking(false)
+          const replyContent = stopName
+            ? `好的，我来帮你替换「${stopName}」。我找到了一个很适合的替代方案，你们看一下——`
+            : QUEUE_REPLY
+          addMessage({
+            id: nextId(),
+            role: 'ai',
+            content: replyContent,
+            isStreaming: true,
+          })
+          demoEngine.schedule(() => {
+            setDiffVisible(true)
+            // After showing diff, restore default quick replies
+            setQuickReplies(DEFAULT_QUICK_REPLIES)
+          }, 400)
+        }, 1200)
+      }
+    },
+    [addMessage]
+  )
+
+  const handleQuickReply = useCallback(
+    (reply: string) => {
+      handleSend(reply)
+    },
+    [handleSend]
+  )
+
+  const handleAccept = useCallback(() => {
+    setDiffVisible(false)
+    demoEngine.schedule(() => {
+      addMessage({
+        id: nextId(),
+        role: 'ai',
+        content: ACCEPTED_REPLY,
+        isStreaming: true,
+      })
+    }, 300)
+  }, [addMessage])
+
+  const handleDecline = useCallback(() => {
+    setDiffVisible(false)
+    demoEngine.schedule(() => {
+      addMessage({
+        id: nextId(),
+        role: 'ai',
+        content: DECLINED_REPLY,
+        isStreaming: true,
+      })
+    }, 300)
+  }, [addMessage])
+
+  return (
+    <View className={styles.page}>
+      {/* Background glow */}
+      <View className={styles.bgGlow} />
+
+      {/* Top bar */}
+      <View className={styles.topBar}>
+        <Text className={styles.topTitle}>途中助手</Text>
+        <View className={styles.tripPill}>
+          <View className={styles.pillDot} />
+          <Text className={styles.pillText}>行程进行中 第{currentStopIndex + 1}站</Text>
+        </View>
+      </View>
+
+      {/* Message list */}
+      <ScrollView
+        scrollY
+        className={styles.messageList}
+        scrollTop={scrollTopRef.current}
+        scrollWithAnimation
+      >
+        <View className={styles.messageInner}>
+          {messages.map((msg) => (
+            <ChatBubble
+              key={msg.id}
+              role={msg.role}
+              content={msg.content}
+              isStreaming={msg.isStreaming}
+            />
+          ))}
+          {thinking && <ThinkingIndicator />}
+          {/* Route Diff Card inline in chat */}
+          <RouteDiffCard
+            visible={diffVisible}
+            onAccept={handleAccept}
+            onDecline={handleDecline}
+          />
+        </View>
+      </ScrollView>
+
+      {/* Frosted glass input area */}
+      <View className={styles.inputArea}>
+        {/* Quick replies */}
+        <ScrollView scrollX className={styles.quickScroll}>
+          <View className={styles.quickRow}>
+            {quickReplies.map((reply) => (
+              <View
+                key={reply}
+                className={styles.quickChip}
+                onClick={() => handleQuickReply(reply)}
+              >
+                <Text className={styles.quickText}>{reply}</Text>
+              </View>
+            ))}
+          </View>
+        </ScrollView>
+
+        {/* Input row */}
+        <View className={styles.inputRow}>
+          <Input
+            className={styles.input}
+            value={inputValue}
+            placeholder="问点什么..."
+            placeholderStyle="color: #4A4A5E"
+            onInput={(e) => setInputValue(e.detail.value)}
+            onConfirm={() => handleSend(inputValue)}
+          />
+          <View
+            className={styles.sendBtn}
+            onClick={() => handleSend(inputValue)}
+          >
+            <Text className={styles.sendIcon}>↑</Text>
+          </View>
+        </View>
+      </View>
+    </View>
+  )
 }

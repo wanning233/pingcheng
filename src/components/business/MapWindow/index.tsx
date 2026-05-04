@@ -1,50 +1,74 @@
 // src/components/business/MapWindow/index.tsx
-import { View, Text } from '@tarojs/components'
+import { View, Text, Map } from '@tarojs/components'
 import styles from './index.module.scss'
 
-// SDK集成标志：npm install @map-component/tmap-miniapp 失败时保持 false
-const USE_TMAP_SDK = false
+// 五角场附近的站点坐标（与 routes.json 对应）
+const FALLBACK_COORDS: Record<string, { lat: number; lng: number }> = {
+  's1': { lat: 31.2990, lng: 121.5120 },
+  's2': { lat: 31.3010, lng: 121.5098 },
+  's3': { lat: 31.3025, lng: 121.5080 },
+  's4': { lat: 31.2975, lng: 121.5135 },
+  's5': { lat: 31.2988, lng: 121.5065 },
+  's6': { lat: 31.2960, lng: 121.5110 },
+  's7': { lat: 31.3005, lng: 121.5140 },
+  's8': { lat: 31.3018, lng: 121.5095 },
+  's9': { lat: 31.3030, lng: 121.5070 },
+}
 
 interface MapWindowProps {
   collapsed: boolean
   routeId: string
-  useSdkMap?: boolean  // 外部可覆盖，默认使用模块级常量
+  useSdkMap?: boolean
   onExpandFullscreen?: () => void
 }
 
-// 静态图回退组件
-function StaticMapView() {
-  return <View className={styles.mapPlaceholder} />
-}
+export default function MapWindow({ collapsed, routeId, onExpandFullscreen }: MapWindowProps) {
+  // 根据 routeId 选对应站点坐标
+  const stopIds: Record<string, string[]> = {
+    'route-1': ['s1', 's2', 's3'],
+    'route-2': ['s4', 's5', 's6'],
+    'route-3': ['s7', 's8', 's9'],
+  }
+  const ids = stopIds[routeId] ?? stopIds['route-1']
+  const coords = ids.map(id => FALLBACK_COORDS[id]).filter(Boolean)
 
-export default function MapWindow({
-  collapsed,
-  routeId,
-  useSdkMap = USE_TMAP_SDK,
-  onExpandFullscreen,
-}: MapWindowProps) {
+  const markers = coords.map((c, i) => ({
+    id: i,
+    latitude: c.lat,
+    longitude: c.lng,
+    width: 24,
+    height: 24,
+    iconPath: '',  // 使用默认图钉
+  }))
+
+  const polyline = coords.length >= 2 ? [{
+    points: coords.map(c => ({ latitude: c.lat, longitude: c.lng })),
+    color: '#FF6B4A',
+    width: 5,
+    arrowLine: true,
+  }] : []
+
+  const centerLat = coords[0]?.lat ?? 31.2990
+  const centerLng = coords[0]?.lng ?? 121.5120
+
   return (
     <View
       className={styles.window}
-      style={{
-        height: collapsed ? '56px' : '33vh',
-        transition: 'height 0.35s cubic-bezier(0.4, 0, 0.2, 1)',
-      }}
+      style={{ height: collapsed ? '112rpx' : '33vh' } as any}
     >
-      {/* 地图主体 */}
-      <View className={styles.mapContent}>
-        <StaticMapView />
-      </View>
+      <Map
+        className={styles.map}
+        latitude={centerLat}
+        longitude={centerLng}
+        scale={15}
+        markers={markers as any}
+        polyline={polyline as any}
+        enableZoom
+        enableScroll={!collapsed}
+        enableRotate={false}
+      />
 
-      {/* 折叠态横向路线缩略 */}
-      {collapsed && (
-        <View className={styles.collapsedBar}>
-          <Text className={styles.collapsedText}>路线预览</Text>
-          <View className={styles.collapsedLine} />
-        </View>
-      )}
-
-      {/* 右上角展开按钮 */}
+      {/* 展开/全屏按钮 */}
       <View className={styles.expandBtn} onClick={onExpandFullscreen}>
         <Text className={styles.expandText}>{collapsed ? '展开' : '全屏'}</Text>
       </View>

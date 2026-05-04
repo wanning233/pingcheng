@@ -1,21 +1,47 @@
 export default defineAppConfig({
   pages: [
     'pages/home/index',
+    'pages/invite/index',
     'pages/preference/index',
     'pages/route-compare/index',
     'pages/invite/landing/index',
+    'pages/map-fullscreen/index',
+    'pages/route-detail/index',
   ],
   subPackages: [
-    { root: 'pages/route-detail', pages: ['index'] },
     { root: 'pages/assistant', pages: ['index'] },
-    { root: 'pages/map-fullscreen', pages: ['index'] },
   ],
   window: {
-    backgroundTextStyle: 'light',
-    navigationBarBackgroundColor: '#0D0D12',
-    navigationBarTitleText: '拼程',
-    navigationBarTextStyle: 'white',
-    backgroundColor: '#0D0D12',
+    backgroundTextStyle: 'dark',
+    navigationBarBackgroundColor: '#EDCFC4',
+    navigationBarTitleText: '',
+    navigationBarTextStyle: 'black',
+    backgroundColor: '#F5EEE9',
+  },
+  tabBar: {
+    color: '#AAAAAA',
+    selectedColor: '#FF6B2B',
+    backgroundColor: '#F5EEE9',
+    borderStyle: 'white',
+    list: [
+      {
+        pagePath: 'pages/home/index',
+        text: '出发',
+        iconPath: 'assets/tab/home.png',
+        selectedIconPath: 'assets/tab/home-active.png',
+      },
+      {
+        pagePath: 'pages/invite/index',
+        text: '邀请',
+        iconPath: 'assets/tab/group.png',
+        selectedIconPath: 'assets/tab/group-active.png',
+      },
+    ],
+  },
+  permission: {
+    'scope.userLocation': {
+      desc: '用于在地图上显示你的当前位置',
+    },
   },
   style: 'v2',
 })

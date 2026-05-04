@@ -1,0 +1,12 @@
+// src/components/animation/RippleOverlay/index.module.scss
+
+.ripple {
+  position: fixed;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: #ff7759;
+  z-index: 9998;
+  pointer-events: none;
+  transform-origin: center center;
+}

@@ -1,0 +1,479 @@
+// OptionIcon.module.scss
+
+.wrap {
+  width: 72rpx;
+  height: 72rpx;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// 默认色 / active 色
+.el        { background: var(--color-label-2); }
+.elActive  { background: var(--color-primary); }
+
+// ════════════════════════════
+// 辣椒
+// ════════════════════════════
+.chiliBody {
+  position: absolute;
+  width: 16rpx;
+  height: 40rpx;
+  border-radius: 8rpx 8rpx 4rpx 14rpx;
+  top: 14rpx;
+  left: 22rpx;
+  transform: rotate(-20deg);
+}
+.chiliTip {
+  position: absolute;
+  width: 8rpx;
+  height: 8rpx;
+  border-radius: 0 0 6rpx 6rpx;
+  bottom: 14rpx;
+  left: 32rpx;
+}
+.chiliStem {
+  position: absolute;
+  width: 4rpx;
+  height: 14rpx;
+  border-radius: 2rpx;
+  top: 8rpx;
+  left: 34rpx;
+  transform: rotate(15deg);
+}
+
+// ════════════════════════════
+// 笑脸
+// ════════════════════════════
+.smileFace {
+  width: 52rpx;
+  height: 52rpx;
+  border-radius: 50%;
+  border: 3rpx solid var(--color-label-2);
+  background: transparent !important;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.elActive.smileFace { border-color: var(--color-primary); }
+
+.smileEye {
+  position: absolute;
+  width: 7rpx;
+  height: 7rpx;
+  border-radius: 50%;
+  top: 16rpx;
+}
+.smileEye:first-child { left: 12rpx; }
+.smileEye:nth-child(2) { right: 12rpx; }
+
+.smileMouth {
+  position: absolute;
+  width: 24rpx;
+  height: 12rpx;
+  border-radius: 0 0 12rpx 12rpx;
+  border: 3rpx solid var(--color-label-2);
+  border-top: none;
+  background: transparent !important;
+  bottom: 11rpx;
+}
+.elActive.smileMouth { border-color: var(--color-primary); }
+
+// ════════════════════════════
+// 禁止圆
+// ════════════════════════════
+.noCircle {
+  position: absolute;
+  width: 48rpx;
+  height: 48rpx;
+  border-radius: 50%;
+  border: 4rpx solid var(--color-label-2);
+  background: transparent !important;
+  top: 12rpx;
+  left: 12rpx;
+}
+.elActive.noCircle { border-color: var(--color-primary); }
+
+.noLine {
+  position: absolute;
+  width: 52rpx;
+  height: 4rpx;
+  border-radius: 2rpx;
+  top: 34rpx;
+  left: 10rpx;
+  transform: rotate(-45deg);
+}
+
+// ════════════════════════════
+// 剪刀手 (peace)
+// ════════════════════════════
+.peaceHand {
+  width: 38rpx;
+  height: 48rpx;
+  border-radius: 8rpx 8rpx 14rpx 14rpx;
+  position: relative;
+  background: transparent !important;
+}
+.peaceFinger1 {
+  position: absolute;
+  width: 10rpx;
+  height: 26rpx;
+  border-radius: 5rpx;
+  top: 0;
+  left: 4rpx;
+}
+.peaceFinger2 {
+  position: absolute;
+  width: 10rpx;
+  height: 26rpx;
+  border-radius: 5rpx;
+  top: 0;
+  right: 4rpx;
+}
+.peaceFinger3 {
+  position: absolute;
+  width: 34rpx;
+  height: 16rpx;
+  border-radius: 0 0 10rpx 10rpx;
+  bottom: 0;
+  left: 2rpx;
+}
+
+// ════════════════════════════
+// 硬币 (预算)
+// ════════════════════════════
+.coinStack {
+  position: relative;
+  width: 40rpx;
+  height: 40rpx;
+}
+.coin {
+  position: absolute;
+  width: 38rpx;
+  height: 38rpx;
+  border-radius: 50%;
+  border: 3rpx solid var(--color-label-2);
+  background: transparent !important;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+.elActive.coin { border-color: var(--color-primary); }
+
+.coinText {
+  font-size: 18rpx;
+  font-weight: 700;
+  color: var(--color-label-2);
+  line-height: 1;
+}
+.coinTextActive { color: var(--color-primary); }
+
+.coinShadow {
+  position: absolute;
+  width: 38rpx;
+  height: 8rpx;
+  border-radius: 0 0 4rpx 4rpx;
+  bottom: -6rpx;
+  left: 0;
+  opacity: 0.4;
+  z-index: 1;
+}
+.coinShadow2 {
+  position: absolute;
+  width: 38rpx;
+  height: 8rpx;
+  border-radius: 0 0 4rpx 4rpx;
+  bottom: -12rpx;
+  left: 0;
+  opacity: 0.2;
+  z-index: 0;
+}
+
+// ════════════════════════════
+// 无限符号
+// ════════════════════════════
+.infinityWrap {
+  position: relative;
+  width: 58rpx;
+  height: 28rpx;
+  background: transparent !important;
+}
+.infinityLeft {
+  position: absolute;
+  width: 24rpx;
+  height: 24rpx;
+  border-radius: 50%;
+  border: 4rpx solid var(--color-label-2);
+  background: transparent !important;
+  top: 2rpx;
+  left: 0;
+}
+.elActive.infinityLeft { border-color: var(--color-primary); }
+.infinityRight {
+  position: absolute;
+  width: 24rpx;
+  height: 24rpx;
+  border-radius: 50%;
+  border: 4rpx solid var(--color-label-2);
+  background: transparent !important;
+  top: 2rpx;
+  right: 0;
+}
+.elActive.infinityRight { border-color: var(--color-primary); }
+
+// ════════════════════════════
+// 闪电 (体力充沛)
+// ════════════════════════════
+.boltBody {
+  width: 0;
+  height: 0;
+  border-left: 18rpx solid transparent;
+  border-right: 10rpx solid transparent;
+  border-top: 40rpx solid var(--color-label-2);
+  position: relative;
+  background: transparent !important;
+  clip-path: polygon(60% 0%, 20% 48%, 55% 48%, 30% 100%, 90% 42%, 52% 42%);
+  width: 36rpx;
+  height: 56rpx;
+  border: none;
+}
+.elActive.boltBody { background: var(--color-primary) !important; }
+
+// ════════════════════════════
+// 行走 (体力一般)
+// ════════════════════════════
+.walkHead {
+  position: absolute;
+  width: 16rpx;
+  height: 16rpx;
+  border-radius: 50%;
+  top: 4rpx;
+  left: 28rpx;
+}
+.walkBody {
+  position: absolute;
+  width: 4rpx;
+  height: 22rpx;
+  border-radius: 2rpx;
+  top: 22rpx;
+  left: 34rpx;
+  transform: rotate(8deg);
+}
+.walkLeg1 {
+  position: absolute;
+  width: 4rpx;
+  height: 20rpx;
+  border-radius: 2rpx;
+  bottom: 6rpx;
+  left: 24rpx;
+  transform: rotate(-15deg);
+}
+.walkLeg2 {
+  position: absolute;
+  width: 4rpx;
+  height: 20rpx;
+  border-radius: 2rpx;
+  bottom: 6rpx;
+  left: 34rpx;
+  transform: rotate(15deg);
+}
+
+// ════════════════════════════
+// 椅子 (少走路)
+// ════════════════════════════
+.chairSeat {
+  position: absolute;
+  width: 44rpx;
+  height: 8rpx;
+  border-radius: 4rpx;
+  top: 32rpx;
+  left: 14rpx;
+}
+.chairBack {
+  position: absolute;
+  width: 8rpx;
+  height: 32rpx;
+  border-radius: 4rpx;
+  top: 8rpx;
+  right: 14rpx;
+}
+.chairLeg1 {
+  position: absolute;
+  width: 6rpx;
+  height: 24rpx;
+  border-radius: 3rpx;
+  bottom: 4rpx;
+  left: 18rpx;
+}
+.chairLeg2 {
+  position: absolute;
+  width: 6rpx;
+  height: 24rpx;
+  border-radius: 3rpx;
+  bottom: 4rpx;
+  right: 18rpx;
+}
+
+// ════════════════════════════
+// 膝盖
+// ════════════════════════════
+.kneeUpper {
+  position: absolute;
+  width: 14rpx;
+  height: 26rpx;
+  border-radius: 7rpx;
+  top: 6rpx;
+  left: 24rpx;
+  transform: rotate(20deg);
+}
+.kneeCap {
+  position: absolute;
+  width: 18rpx;
+  height: 18rpx;
+  border-radius: 50%;
+  top: 26rpx;
+  left: 27rpx;
+}
+.kneeLower {
+  position: absolute;
+  width: 14rpx;
+  height: 24rpx;
+  border-radius: 7rpx;
+  bottom: 4rpx;
+  left: 30rpx;
+  transform: rotate(-20deg);
+}
+
+// ════════════════════════════
+// 相机
+// ════════════════════════════
+.camBody {
+  position: absolute;
+  width: 52rpx;
+  height: 38rpx;
+  border-radius: 10rpx;
+  top: 22rpx;
+  left: 10rpx;
+}
+.camLens {
+  position: absolute;
+  width: 22rpx;
+  height: 22rpx;
+  border-radius: 50%;
+  border: 3rpx solid var(--color-label-2);
+  background: transparent !important;
+  top: 31rpx;
+  left: 25rpx;
+  z-index: 2;
+}
+.elActive.camLens { border-color: var(--color-primary); }
+.camBump {
+  position: absolute;
+  width: 18rpx;
+  height: 10rpx;
+  border-radius: 5rpx 5rpx 0 0;
+  top: 14rpx;
+  left: 18rpx;
+}
+
+// ════════════════════════════
+// 碗筷
+// ════════════════════════════
+.bowlBase {
+  position: absolute;
+  width: 48rpx;
+  height: 22rpx;
+  border-radius: 0 0 24rpx 24rpx;
+  bottom: 10rpx;
+  left: 12rpx;
+}
+.bowlTop {
+  position: absolute;
+  width: 52rpx;
+  height: 8rpx;
+  border-radius: 4rpx;
+  bottom: 30rpx;
+  left: 10rpx;
+  opacity: 0.5;
+}
+.chopstick1 {
+  position: absolute;
+  width: 4rpx;
+  height: 36rpx;
+  border-radius: 2rpx;
+  top: 4rpx;
+  left: 20rpx;
+  transform: rotate(-10deg);
+}
+.chopstick2 {
+  position: absolute;
+  width: 4rpx;
+  height: 36rpx;
+  border-radius: 2rpx;
+  top: 4rpx;
+  right: 20rpx;
+  transform: rotate(10deg);
+}
+
+// ════════════════════════════
+// 云朵
+// ════════════════════════════
+.cloudBody {
+  position: absolute;
+  width: 52rpx;
+  height: 26rpx;
+  border-radius: 13rpx;
+  bottom: 16rpx;
+  left: 10rpx;
+}
+.cloudBump1 {
+  position: absolute;
+  width: 26rpx;
+  height: 26rpx;
+  border-radius: 50%;
+  bottom: 28rpx;
+  left: 12rpx;
+}
+.cloudBump2 {
+  position: absolute;
+  width: 20rpx;
+  height: 20rpx;
+  border-radius: 50%;
+  bottom: 28rpx;
+  right: 14rpx;
+}
+
+// ════════════════════════════
+// 地图折叠
+// ════════════════════════════
+.mapFold {
+  position: absolute;
+  width: 46rpx;
+  height: 42rpx;
+  border-radius: 6rpx;
+  top: 15rpx;
+  left: 13rpx;
+  opacity: 0.3;
+}
+.elActive.mapFold { opacity: 0.25; }
+.mapLine1 {
+  position: absolute;
+  width: 2rpx;
+  height: 42rpx;
+  border-radius: 1rpx;
+  top: 15rpx;
+  left: 29rpx;
+}
+.mapLine2 {
+  position: absolute;
+  width: 46rpx;
+  height: 2rpx;
+  border-radius: 1rpx;
+  top: 34rpx;
+  left: 13rpx;
+}

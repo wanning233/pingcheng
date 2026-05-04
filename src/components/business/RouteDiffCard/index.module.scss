@@ -1,0 +1,316 @@
+// src/components/business/RouteDiffCard/index.module.scss
+
+.card {
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 32rpx;
+  overflow: hidden;
+  box-shadow: 0 4rpx 24rpx rgba(0, 0, 0, 0.08);
+  margin: 0 0 24rpx;
+}
+
+// ── Header (橙色品牌背景) ──────────────────────────
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24rpx 28rpx;
+  background: var(--gradient-brand);
+}
+
+.headerLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 4rpx;
+}
+
+.headerTitle {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: #fff;
+}
+
+.headerSub {
+  font-size: 22rpx;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.headerRight {
+  background: rgba(255, 255, 255, 0.22);
+  border-radius: 999rpx;
+  padding: 8rpx 20rpx;
+}
+
+.timeLabel {
+  font-size: 22rpx;
+  font-weight: 600;
+  color: #fff;
+}
+
+// ── Banner ────────────────────────────────────────
+.bannerGreen {
+  background: rgba(0, 180, 140, 0.08);
+  padding: 16rpx 28rpx;
+  border-left: 4rpx solid #00B48C;
+}
+
+.bannerYellow {
+  background: rgba(255, 170, 0, 0.08);
+  padding: 16rpx 28rpx;
+  border-left: 4rpx solid #FFAA00;
+}
+
+.bannerText {
+  font-size: 26rpx;
+  color: var(--color-label-1);
+  font-weight: 600;
+}
+
+// ── Comparison ────────────────────────────────────
+.comparison {
+  display: flex;
+  flex-direction: row;
+  padding: 28rpx;
+  gap: 0;
+}
+
+.gainSide {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+}
+
+.costSide {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+}
+
+.divider {
+  width: 1rpx;
+  background: rgba(0, 0, 0, 0.08);
+  margin: 0 24rpx;
+  flex-shrink: 0;
+}
+
+.sideLabel {
+  font-size: 22rpx;
+  color: var(--color-label-3);
+  font-weight: 600;
+  letter-spacing: 1rpx;
+  margin-bottom: 4rpx;
+}
+
+.sideItem {
+  display: flex;
+  flex-direction: column;
+  gap: 4rpx;
+}
+
+.sideValue {
+  font-size: 34rpx;
+  font-weight: 700;
+  color: #00B48C;
+  font-variant-numeric: tabular-nums;
+}
+
+.sideValueNeg {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: var(--color-label-3);
+  font-variant-numeric: tabular-nums;
+}
+
+.sideDesc {
+  font-size: 20rpx;
+  color: var(--color-label-4);
+}
+
+// ── Route boxes ───────────────────────────────────
+.routeBox {
+  background: var(--color-bg-base);
+  border-radius: 16rpx;
+  padding: 16rpx 20rpx;
+  margin-top: 8rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 4rpx;
+}
+
+.routeName {
+  font-size: 26rpx;
+  font-weight: 600;
+  color: var(--color-label-1);
+}
+
+.routeMeta {
+  font-size: 22rpx;
+  color: var(--color-label-3);
+}
+
+.routeTime {
+  font-size: 20rpx;
+  color: var(--color-label-4);
+}
+
+// ── AI Rec ────────────────────────────────────────
+.aiRec {
+  background: rgba(255, 107, 43, 0.04);
+  border-top: 1rpx solid rgba(255, 107, 43, 0.10);
+  padding: 20rpx 28rpx;
+}
+
+.aiRecText {
+  font-size: 26rpx;
+  color: var(--color-label-2);
+  line-height: 1.65;
+}
+
+// ── Buttons ───────────────────────────────────────
+.buttons {
+  padding: 20rpx 28rpx 28rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.btnPrimaryFull {
+  background: var(--gradient-brand);
+  border-radius: 999rpx;
+  padding: 28rpx 16rpx;
+  text-align: center;
+  box-shadow: var(--shadow-btn-primary);
+}
+
+.btnAccentFull {
+  background: var(--gradient-brand);
+  border-radius: 999rpx;
+  padding: 28rpx 16rpx;
+  text-align: center;
+  box-shadow: var(--shadow-btn-primary);
+}
+
+.btnHalf {
+  flex: 1;
+  background: rgba(255, 107, 43, 0.08);
+  border-radius: 999rpx;
+  padding: 24rpx 8rpx;
+  text-align: center;
+  border: 1.5rpx solid rgba(255, 107, 43, 0.22);
+}
+
+.btnHalfGhost {
+  flex: 1;
+  background: transparent;
+  border-radius: 999rpx;
+  padding: 24rpx 8rpx;
+  text-align: center;
+  border: 1.5rpx solid rgba(0, 0, 0, 0.10);
+}
+
+.btnGhost {
+  background: transparent;
+  border-radius: 999rpx;
+  padding: 24rpx 16rpx;
+  text-align: center;
+}
+
+.btnText {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #fff;
+}
+
+.btnTextSecondary {
+  font-size: 28rpx;
+  color: var(--color-label-3);
+}
+
+.btnTextDanger {
+  font-size: 26rpx;
+  color: var(--color-label-3);
+}
+
+// ── 通知队友面板 ──────────────────────────────────
+.notifyPanel {
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+  padding: 8rpx 0;
+}
+
+.notifyTitle {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: var(--color-label-1);
+  text-align: center;
+}
+
+.notifyList {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.notifyItem {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.notifyAvatar {
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: 50%;
+  background: rgba(255, 107, 43, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.notifyAvatarText {
+  font-size: 26rpx;
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.notifyName {
+  flex: 1;
+  font-size: 28rpx;
+  color: var(--color-label-1);
+  font-weight: 500;
+}
+
+.notifyDone {
+  background: rgba(0, 180, 140, 0.10);
+  border-radius: 999rpx;
+  padding: 6rpx 20rpx;
+}
+
+.notifyPending {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 999rpx;
+  padding: 6rpx 20rpx;
+}
+
+.notifyStatus {
+  font-size: 22rpx;
+  font-weight: 500;
+  color: var(--color-label-3);
+}
+
+.notifyDone .notifyStatus {
+  color: #00B48C;
+}
+
+.notifyDesc {
+  font-size: 24rpx;
+  color: var(--color-label-3);
+  text-align: center;
+  line-height: 1.6;
+  padding: 0 8rpx;
+}

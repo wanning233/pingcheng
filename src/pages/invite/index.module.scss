@@ -1,0 +1,290 @@
+// src/pages/invite/index.module.scss
+
+.page {
+  min-height: 100vh;
+  background: var(--gradient-bg);
+  padding: 0 40rpx calc(120rpx + env(safe-area-inset-bottom));
+  box-sizing: border-box;
+}
+
+// ══════════════════════════════════
+// 顶部标题
+// ══════════════════════════════════
+.header {
+  padding-top: calc(88rpx + env(safe-area-inset-top, 44rpx));
+  padding-bottom: 48rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+}
+
+.title {
+  font-size: 56rpx;
+  font-weight: 700;
+  color: var(--color-label-1);
+  letter-spacing: -1rpx;
+  line-height: 1.2;
+}
+
+.subtitle {
+  font-size: 28rpx;
+  color: var(--color-label-3);
+  font-weight: 400;
+}
+
+// ══════════════════════════════════
+// 发起新行程卡片
+// ══════════════════════════════════
+.createCard {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 32rpx;
+  padding: 36rpx 32rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 28rpx;
+  margin-bottom: 48rpx;
+  transition: opacity 140ms ease, transform 140ms ease;
+}
+
+.createCard:active {
+  opacity: 0.85;
+  transform: scale(0.985);
+}
+
+.createIconWrap {
+  width: 72rpx;
+  height: 72rpx;
+  border-radius: 50%;
+  background: var(--gradient-brand);
+  flex-shrink: 0;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4rpx 16rpx rgba(255, 107, 43, 0.32);
+}
+
+.createIconH {
+  position: absolute;
+  width: 28rpx;
+  height: 4rpx;
+  background: #fff;
+  border-radius: 2rpx;
+}
+
+.createIconV {
+  position: absolute;
+  width: 4rpx;
+  height: 28rpx;
+  background: #fff;
+  border-radius: 2rpx;
+}
+
+.createInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6rpx;
+}
+
+.createTitle {
+  font-size: 34rpx;
+  font-weight: 600;
+  color: var(--color-label-1);
+  letter-spacing: -0.3rpx;
+}
+
+.createDesc {
+  font-size: 24rpx;
+  color: var(--color-label-3);
+  line-height: 1.5;
+}
+
+.createChevron {
+  font-size: 36rpx;
+  color: var(--color-label-4);
+}
+
+// ══════════════════════════════════
+// 已发出邀请列表
+// ══════════════════════════════════
+.section {}
+
+.sectionTitle {
+  display: block;
+  font-size: 22rpx;
+  font-weight: 600;
+  color: var(--color-label-3);
+  letter-spacing: 2rpx;
+  margin-bottom: 24rpx;
+}
+
+.inviteList {
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+.inviteCard {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 28rpx;
+  padding: 32rpx;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+}
+
+// 状态徽章
+.statusBadge {
+  position: absolute;
+  top: 28rpx;
+  right: 28rpx;
+  padding: 6rpx 18rpx;
+  border-radius: 999rpx;
+}
+
+.statusActive {
+  background: rgba(255, 107, 43, 0.10);
+}
+
+.statusClosed {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.statusText {
+  font-size: 22rpx;
+  font-weight: 500;
+}
+
+.statusActive .statusText {
+  color: var(--color-primary);
+}
+
+.statusClosed .statusText {
+  color: var(--color-label-3);
+}
+
+.inviteName {
+  font-size: 34rpx;
+  font-weight: 600;
+  color: var(--color-label-1);
+  letter-spacing: -0.3rpx;
+  padding-right: 100rpx;
+}
+
+.inviteMeta {
+  font-size: 24rpx;
+  color: var(--color-label-3);
+}
+
+// 人数进度条
+.progressRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16rpx;
+  margin-top: 4rpx;
+}
+
+.progressTrack {
+  flex: 1;
+  height: 6rpx;
+  background: rgba(0, 0, 0, 0.07);
+  border-radius: 999rpx;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: var(--gradient-brand);
+  border-radius: 999rpx;
+}
+
+.progressText {
+  font-size: 22rpx;
+  color: var(--color-label-3);
+  flex-shrink: 0;
+}
+
+// 操作按钮
+.inviteActions {
+  margin-top: 8rpx;
+}
+
+.shareBtn {
+  display: inline-flex;
+  align-items: center;
+  height: 64rpx;
+  padding: 0 32rpx;
+  background: var(--color-btn-secondary-bg);
+  border-radius: 999rpx;
+  transition: opacity 140ms ease;
+}
+
+.shareBtn:active {
+  opacity: 0.75;
+}
+
+.shareBtnText {
+  font-size: 26rpx;
+  font-weight: 500;
+  color: var(--color-btn-secondary-text);
+}
+
+// ══════════════════════════════════
+// 空状态
+// ══════════════════════════════════
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 120rpx;
+  gap: 20rpx;
+}
+
+.emptyIconWrap {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+  background: rgba(255, 107, 43, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8rpx;
+}
+
+.emptyEnvelope {
+  width: 56rpx;
+  height: 44rpx;
+  border-radius: 6rpx;
+  border: 3rpx solid var(--color-primary);
+  position: relative;
+}
+
+.emptyEnvelopeFlap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 22rpx;
+  border-bottom: 3rpx solid var(--color-primary);
+  clip-path: polygon(0 0, 50% 100%, 100% 0);
+}
+
+.emptyTitle {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: var(--color-label-1);
+}
+
+.emptyDesc {
+  font-size: 26rpx;
+  color: var(--color-label-3);
+  text-align: center;
+}

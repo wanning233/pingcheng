@@ -1,7 +1,7 @@
 // src/components/animation/AssemblyAnimation.tsx
 import { useState, useEffect, useRef } from 'react'
 import Taro from '@tarojs/taro'
-import { View, Text, Canvas } from '@tarojs/components'
+import { View, Text } from '@tarojs/components'
 import styles from './AssemblyAnimation.module.scss'
 import { MockEngine, APP_CONFIG } from '../../utils/mockEngine'
 
@@ -22,55 +22,6 @@ export default function AssemblyAnimation() {
   const [pageExiting, setPageExiting] = useState(false)
   const engineRef = useRef<MockEngine | null>(null)
 
-  const drawConnectionLines = () => {
-    const avatarIds = ['assembly-avatar-0', 'assembly-avatar-1', 'assembly-avatar-2', 'assembly-avatar-3']
-    const positions: { x: number; y: number }[] = []
-    let pendingCount = avatarIds.length
-
-    avatarIds.forEach((id, index) => {
-      Taro.createSelectorQuery()
-        .select(`#${id}`)
-        .boundingClientRect((rect: any) => {
-          if (rect) {
-            positions[index] = {
-              x: rect.left + rect.width / 2,
-              y: rect.top + rect.height / 2,
-            }
-          }
-          pendingCount -= 1
-          if (pendingCount === 0) {
-            renderLines(positions)
-          }
-        })
-        .exec()
-    })
-  }
-
-  const renderLines = (positions: { x: number; y: number }[]) => {
-    if (positions.length < 4) return
-    const ctx = Taro.createCanvasContext('assembly-canvas')
-    const pairs: [number, number][] = [[0, 1], [0, 2], [0, 3], [1, 2], [1, 3], [2, 3]]
-
-    pairs.forEach(([i, j], pairIdx) => {
-      setTimeout(() => {
-        const pi = positions[i]
-        const pj = positions[j]
-        if (!pi || !pj) return
-
-        const grad = ctx.createLinearGradient(pi.x, pi.y, pj.x, pj.y)
-        grad.addColorStop(0, 'rgba(255,92,43,0.9)')
-        grad.addColorStop(1, 'rgba(77,110,255,0.9)')
-        ctx.setStrokeStyle(grad as any)
-        ctx.setLineWidth(1.5)
-        ctx.beginPath()
-        ctx.moveTo(pi.x, pi.y)
-        ctx.lineTo(pj.x, pj.y)
-        ctx.stroke()
-        ctx.draw(true)  // keepReserve=true 保留上一帧
-      }, pairIdx * 80)
-    })
-  }
-
   useEffect(() => {
     const engine = new MockEngine({ MOCK_SPEED: APP_CONFIG.MOCK_SPEED })
     engineRef.current = engine
@@ -78,10 +29,9 @@ export default function AssemblyAnimation() {
     // 0ms: 最后一人锁定 — 边框白→绿，scale 弹跳
     setLastAvatarLocked(true)
 
-    // 200ms: 所有头像向中心微移 + Canvas 连接线
+    // 200ms: 所有头像向中心微移
     engine.schedule(() => {
       setAvatarsConverging(true)
-      drawConnectionLines()
     }, 200)
 
     // 600ms: 爆发帧 — 白色冲击波 + 头像弹跳
@@ -113,13 +63,6 @@ export default function AssemblyAnimation() {
 
   return (
     <View className={`${styles.scene} ${pageExiting ? styles.sceneExiting : ''}`}>
-      {/* Canvas 连接线层（置于头像下方） */}
-      <Canvas
-        id="assembly-canvas"
-        canvasId="assembly-canvas"
-        className={styles.canvas}
-      />
-
       {/* 冲击波圆环 */}
       {shockwaveActive && (
         <View className={styles.shockwave} />

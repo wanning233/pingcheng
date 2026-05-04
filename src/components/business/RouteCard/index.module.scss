@@ -1,122 +1,169 @@
 // src/components/business/RouteCard/index.module.scss
+
 .card {
   position: relative;
-  background: var(--color-bg-card);
-  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 40rpx;
   overflow: hidden;
-  box-shadow: var(--shadow-card-default);
+  box-shadow: var(--shadow-card);
   transition:
-    transform 400ms cubic-bezier(0.34, 1.56, 0.64, 1),
-    box-shadow 300ms ease;
+    transform 280ms cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 200ms ease;
+}
+
+.card:active {
+  transform: scale(0.984);
 }
 
 .recommend {
-  box-shadow: var(--shadow-card-recommend);
-  border: 1px solid rgba(77, 110, 255, 0.3);
+  box-shadow:
+    var(--shadow-card),
+    0 0 0 2rpx rgba(255, 107, 74, 0.20);
 }
 
 .selected {
   box-shadow: var(--shadow-card-selected);
-  border: 1px solid rgba(255, 92, 43, 0.5);
+  transform: translateY(-4rpx);
 }
 
-// 顶部4px渐变条
+// 顶部品牌条
 .topStripe {
-  height: 4px;
+  height: 10rpx;
   background: var(--gradient-brand);
 }
 
 .topStripeAi {
-  background: var(--gradient-ai);
+  background: linear-gradient(90deg, #FF6B4A 0%, #FF9A6C 60%, #FFBB55 100%);
 }
 
-// AI推荐角标
+// AI 推荐角标 — 在地图区内右上，高于 overlay
 .badge {
   position: absolute;
-  top: 12px;
-  right: 12px;
-  background: #00C9A7;
+  top: 20rpx;
+  right: 20rpx;
+  z-index: 2;
+  background: var(--color-primary);
   color: #fff;
-  font-size: 18rpx;
-  font-weight: 500;
-  padding: 4rpx 12rpx;
-  border-radius: 8px;
-  line-height: 1.2;
-  z-index: 1;
+  font-size: 22rpx;
+  font-weight: 700;
+  padding: 6rpx 20rpx;
+  border-radius: 999rpx;
+  z-index: 2;
+  box-shadow: 0 4rpx 12rpx rgba(255, 107, 74, 0.40);
 }
 
-// 地图缩略图占位区
+// 地图缩略图
 .mapThumb {
   width: 100%;
-  height: 120px;
-  background: #2A2A38;
+  height: 220rpx;
   position: relative;
-
-  &::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: var(--gradient-mask);
-  }
+  overflow: hidden;
+  background: #E8EEF0;
 }
 
-// 内容区
+.mapEl {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+// 底部渐变遮罩，让地图自然过渡到卡片内容
+.mapOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 50%, rgba(255, 255, 255, 0.90) 100%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+// 卡片正文
 .body {
-  padding: 16px;
+  padding: 28rpx 32rpx 36rpx;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 20rpx;
 }
 
 .name {
   font-size: 36rpx;
-  font-weight: 600;
-  color: var(--color-text-primary);
-  line-height: 1.4;
+  font-weight: 700;
+  color: var(--color-label-1);
+  line-height: 1.3;
+  letter-spacing: -0.5rpx;
 }
 
-// 三项核心数据行
+// 数据行
 .dataRow {
   display: flex;
   flex-direction: row;
-  gap: 24px;
+  align-items: stretch;
 }
 
 .dataItem {
+  flex: 1;
   display: flex;
-  flex-direction: row;
-  align-items: baseline;
-  gap: 2px;
+  flex-direction: column;
+  gap: 4rpx;
+}
+
+.dataItem + .dataItem {
+  padding-left: 28rpx;
+  border-left: 2rpx solid rgba(0, 0, 0, 0.06);
+  margin-left: 28rpx;
 }
 
 .dataValue {
-  font-size: 40rpx;
-  font-weight: 700;
-  color: var(--color-text-primary);
-  line-height: 1.2;
+  font-size: 44rpx;
+  font-weight: 800;
+  color: var(--color-primary);
+  line-height: 1.1;
   font-variant-numeric: tabular-nums;
+  letter-spacing: -1rpx;
 }
 
 .dataUnit {
-  font-size: 24rpx;
+  font-size: 22rpx;
   font-weight: 400;
-  color: var(--color-text-secondary);
-  line-height: 1.2;
+  color: var(--color-label-3);
+  line-height: 1.3;
 }
 
-// 亮点标签横向滚动
+// 底部行
+.cardFooter {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+// 标签
 .tags {
-  white-space: nowrap;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 12rpx;
+  flex: 1;
+}
+
+.detailHint {
+  font-size: 24rpx;
+  font-weight: 500;
+  color: var(--color-primary);
+  flex-shrink: 0;
+  margin-left: 16rpx;
 }
 
 .tag {
-  display: inline-block;
-  background: rgba(255, 255, 255, 0.08);
-  color: var(--color-text-secondary);
-  font-size: 20rpx;
+  display: inline-flex;
+  align-items: center;
+  background: #FFF0E6;
+  color: #FF6B2B;
+  font-size: 24rpx;
   font-weight: 500;
-  padding: 6rpx 16rpx;
-  border-radius: 8px;
-  margin-right: 8px;
-  line-height: 1.4;
+  padding: 8rpx 24rpx;
+  border-radius: 999rpx;
+  line-height: 1.5;
 }

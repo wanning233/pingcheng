@@ -1,69 +1,33 @@
 // src/components/business/MapWindow/index.module.scss
+
 .window {
   position: relative;
   width: 100%;
   overflow: hidden;
-  background: #1A1A28;
-  // height通过行内style + CSS transition控制，不能用display:none
+  background: #E8EEF0;
+  transition: height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.mapContent {
+.map {
   width: 100%;
   height: 100%;
 }
 
-.mapPlaceholder {
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(135deg, #1A1A28, #2A2A3C);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  &::after {
-    content: '地图加载中';
-    color: var(--color-text-disabled);
-    font-size: 24rpx;
-  }
-}
-
-// 折叠态横向路线条
-.collapsedBar {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  padding: 0 16px;
-  background: rgba(13, 13, 18, 0.8);
-  gap: 12px;
-}
-
-.collapsedText {
-  font-size: 24rpx;
-  color: var(--color-text-secondary);
-  flex-shrink: 0;
-}
-
-.collapsedLine {
-  flex: 1;
-  height: 3px;
-  background: linear-gradient(90deg, #FF5C2B, #FFB300, rgba(255, 92, 43, 0.2));
-  border-radius: 2px;
-}
-
-// 右上角展开按钮
+// 展开/全屏按钮
 .expandBtn {
   position: absolute;
-  top: 8px;
-  right: 12px;
-  background: rgba(13, 13, 18, 0.7);
+  top: 16rpx;
+  right: 24rpx;
+  background: rgba(255, 255, 255, 0.90);
   backdrop-filter: blur(8px);
-  padding: 6rpx 16rpx;
-  border-radius: 12px;
+  padding: 10rpx 24rpx;
+  border-radius: 999rpx;
   z-index: 10;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.12);
 }
 
 .expandText {
-  font-size: 22rpx;
-  color: var(--color-text-secondary);
+  font-size: 24rpx;
+  font-weight: 600;
+  color: var(--color-label-1);
 }

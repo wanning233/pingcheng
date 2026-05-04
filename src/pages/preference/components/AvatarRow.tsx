@@ -14,37 +14,14 @@ interface AvatarRowProps {
   currentUserId: string
 }
 
-const AVATAR_SIZE = 40
-const RING_SIZE = AVATAR_SIZE + 8  // 48px total with ring
-
 export default function AvatarRow({ members, currentUserId }: AvatarRowProps) {
   return (
     <View className={styles.row}>
       {members.map((m) => (
         <View key={m.id} className={styles.memberItem}>
           <View className={styles.avatarWrap}>
-            {/* SVG 绿色圆弧（完成者显示） */}
-            {m.done && (
-              <svg
-                className={styles.ringsvg}
-                width={RING_SIZE}
-                height={RING_SIZE}
-                viewBox={`0 0 ${RING_SIZE} ${RING_SIZE}`}
-              >
-                <circle
-                  cx={RING_SIZE / 2}
-                  cy={RING_SIZE / 2}
-                  r={(RING_SIZE - 4) / 2}
-                  fill="none"
-                  stroke="#00C9A7"
-                  strokeWidth="2"
-                  strokeDasharray={`${Math.PI * (RING_SIZE - 4)} 0`}
-                  strokeLinecap="round"
-                  transform={`rotate(-90 ${RING_SIZE / 2} ${RING_SIZE / 2})`}
-                  style={{ transition: 'stroke-dasharray 500ms ease' }}
-                />
-              </svg>
-            )}
+            {/* 绿色圆弧（完成者显示）— 用 CSS border 实现，避免 SVG 在小程序不支持 */}
+            {m.done && <View className={styles.ringCss} />}
             {/* 头像圆 */}
             <View
               className={[

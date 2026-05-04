@@ -1,0 +1,48 @@
+// src/components/business/ChatBubble/index.module.scss
+@import '@/styles/animation.scss';
+
+.aiRow {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  margin-bottom: 20rpx;
+  padding-right: 80rpx;
+}
+
+.aiStripe {
+  display: none;
+}
+
+.aiBubble {
+  background: rgba(255, 255, 255, 0.88);
+  border-radius: 8rpx 32rpx 32rpx 32rpx;
+  padding: 24rpx 28rpx;
+  flex: 1;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.06);
+}
+
+.userRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin-bottom: 20rpx;
+  padding-left: 80rpx;
+}
+
+.userBubble {
+  background: var(--gradient-brand);
+  border-radius: 32rpx 8rpx 32rpx 32rpx;
+  padding: 24rpx 28rpx;
+  max-width: 100%;
+}
+
+.content {
+  font-size: 30rpx;
+  line-height: 1.65;
+  color: var(--color-label-1);
+  display: block;
+}
+
+.contentUser {
+  color: #fff;
+}

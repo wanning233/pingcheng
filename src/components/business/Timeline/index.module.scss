@@ -96,8 +96,8 @@
 
 // 站点卡片
 .stopCard {
-  background: var(--color-bg-card);
-  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.80);
+  border-radius: 28rpx;
   padding: 16px;
   overflow: hidden;
   transition: opacity 200ms ease;
@@ -122,7 +122,7 @@
 .stopName {
   font-size: 36rpx;
   font-weight: 600;
-  color: var(--color-text-primary);
+  color: var(--color-label-1);
   line-height: 1.4;
   display: block;
 }
@@ -130,7 +130,7 @@
 .stopDuration {
   font-size: 24rpx;
   font-weight: 400;
-  color: var(--color-text-secondary);
+  color: var(--color-label-3);
   line-height: 1.5;
   margin-top: 4px;
   display: block;
@@ -154,12 +154,12 @@
 
 .stopTag {
   display: inline-block;
-  background: rgba(255, 255, 255, 0.08);
-  color: var(--color-text-secondary);
+  background: rgba(255, 107, 43, 0.08);
+  color: var(--color-label-3);
   font-size: 20rpx;
   font-weight: 500;
   padding: 6rpx 14rpx;
-  border-radius: 8px;
+  border-radius: 999rpx;
   margin-right: 8px;
 }
 
@@ -174,23 +174,23 @@
 .actionBtn {
   flex: 1;
   height: 64rpx;
-  background: rgba(255, 255, 255, 0.06);
-  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.04);
+  border-radius: 999rpx;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .actionBtnSwap {
-  background: rgba(77, 110, 255, 0.12);
+  background: rgba(255, 107, 43, 0.10);
 }
 
 .actionText {
   font-size: 26rpx;
   font-weight: 500;
-  color: var(--color-text-secondary);
+  color: var(--color-label-2);
 }
 
 .actionTextSwap {
-  color: var(--color-accent);
+  color: var(--color-primary);
 }

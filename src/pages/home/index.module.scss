@@ -1,173 +1,706 @@
 // src/pages/home/index.module.scss
+
+// ══════════════════════════════════
+// 页面基础
+// ══════════════════════════════════
 .page {
   min-height: 100vh;
-  background: var(--color-bg-base);
-  padding: 0 20px 40px;
-  box-sizing: border-box;
+  background: var(--gradient-bg);
   display: flex;
   flex-direction: column;
+  box-sizing: border-box;
+  padding-bottom: calc(140rpx + env(safe-area-inset-bottom));
 }
 
-// 品牌区
-.brandArea {
-  padding-top: 80px;
-  padding-bottom: 40px;
+// ══════════════════════════════════
+// 顶部
+// ══════════════════════════════════
+.top {
+  padding: calc(88rpx + env(safe-area-inset-top, 44rpx)) 48rpx 0;
+}
+
+.brandRow {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 56rpx;
+}
+
+.brandLeft {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 18rpx;
+}
+
+.brandIcon {
+  width: 68rpx;
+  height: 68rpx;
+  background: var(--gradient-brand);
+  border-radius: 18rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.brandIconText {
+  font-size: 30rpx;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1;
 }
 
 .brandName {
-  font-size: 56rpx;
+  font-size: 44rpx;
   font-weight: 700;
-  line-height: 1.2;
-  background: var(--gradient-brand);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--color-label-1);
+  letter-spacing: -0.5rpx;
+  line-height: 1;
 }
 
-.slogan {
-  margin-top: 8px;
-  font-size: 28rpx;
-  color: var(--color-text-secondary);
+// 邀请按钮 — 次要胶囊
+.inviteBtn {
+  height: 60rpx;
+  padding: 0 28rpx;
+  background: var(--color-btn-secondary-bg);
+  border-radius: 999rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-// 输入卡片
-.inputCard {
-  background: var(--color-bg-card);
-  border-radius: 20px;
-  padding: 20px 16px;
-  border: 1.5px solid transparent;
-  transition: border-color 280ms ease, box-shadow 280ms ease;
-  margin-bottom: 20px;
+.inviteBtnText {
+  font-size: 26rpx;
+  font-weight: 500;
+  color: var(--color-btn-secondary-text);
 }
 
-.inputCardFocused {
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px rgba(255, 92, 43, 0.12);
+// 搜索图标 — CSS 放大镜
+.searchIconWrap {
+  width: 34rpx;
+  height: 34rpx;
+  position: relative;
+  flex-shrink: 0;
+  opacity: 0.35;
+}
+.searchIconCircle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 22rpx;
+  height: 22rpx;
+  border: 3rpx solid #1A1A1A;
+  border-radius: 50%;
+}
+.searchIconHandle {
+  position: absolute;
+  bottom: 1rpx;
+  right: 1rpx;
+  width: 11rpx;
+  height: 3rpx;
+  background: #1A1A1A;
+  border-radius: 999rpx;
+  transform: rotate(45deg);
+  transform-origin: right center;
 }
 
-.input {
-  font-size: 28rpx;
-  color: var(--color-text-primary);
-  width: 100%;
+// ══════════════════════════════════
+// param 行图标 — 淡橙圆底 + CSS 线条
+// ══════════════════════════════════
+.iconWrap {
+  width: 56rpx;
+  height: 56rpx;
+  border-radius: 50%;
+  background: rgba(255, 107, 43, 0.10);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 24rpx;
+  flex-shrink: 0;
+  position: relative;
 }
 
-.inputPlaceholder {
-  color: var(--color-text-disabled);
-  font-size: 28rpx;
+// 人数图标：两个小圆头 + 弧形身体
+.iconPersonHead1 {
+  position: absolute;
+  width: 14rpx;
+  height: 14rpx;
+  border-radius: 50%;
+  background: var(--color-primary);
+  top: 10rpx;
+  left: 13rpx;
+}
+.iconPersonHead2 {
+  position: absolute;
+  width: 11rpx;
+  height: 11rpx;
+  border-radius: 50%;
+  background: var(--color-primary);
+  opacity: 0.55;
+  top: 11rpx;
+  right: 11rpx;
+}
+.iconPersonBody {
+  position: absolute;
+  bottom: 9rpx;
+  left: 8rpx;
+  width: 22rpx;
+  height: 11rpx;
+  border: 3rpx solid var(--color-primary);
+  border-bottom: none;
+  border-radius: 22rpx 22rpx 0 0;
 }
 
-// 快捷标签横向滚动
-.tagScroll {
+// 预算图标：圆环 + ¥ 文字
+.iconCoinCircle {
+  width: 32rpx;
+  height: 32rpx;
+  border-radius: 50%;
+  border: 2.5rpx solid var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.iconCoinText {
+  font-size: 18rpx;
+  font-weight: 700;
+  color: var(--color-primary);
+  line-height: 1;
+}
+
+// 时间图标：表盘圆 + 指针
+.iconClock {
+  width: 30rpx;
+  height: 30rpx;
+  border-radius: 50%;
+  border: 2.5rpx solid var(--color-primary);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.iconClockHand {
+  position: absolute;
+  bottom: 50%;
+  left: 50%;
+  width: 2rpx;
+  height: 9rpx;
+  background: var(--color-primary);
+  border-radius: 999rpx;
+  transform-origin: bottom center;
+  transform: translateX(-50%) rotate(-30deg);
+}
+.iconClockHandMin {
+  position: absolute;
+  bottom: 50%;
+  left: 50%;
+  width: 2rpx;
+  height: 11rpx;
+  background: var(--color-primary);
+  border-radius: 999rpx;
+  transform-origin: bottom center;
+  transform: translateX(-50%) rotate(60deg);
+}
+
+// 对话气泡图标
+.iconBubble {
+  width: 32rpx;
+  height: 28rpx;
+  border: 2.5rpx solid var(--color-primary);
+  border-radius: 10rpx 10rpx 10rpx 2rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 4rpx;
+  position: relative;
+  top: -2rpx;
+}
+.iconBubbleDot {
+  width: 4rpx;
+  height: 4rpx;
+  border-radius: 50%;
+  background: var(--color-primary);
+}
+
+// 搜索框
+.searchBar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 999rpx;
+  padding: 26rpx 36rpx;
+  gap: 16rpx;
+  transition: box-shadow 200ms ease;
+}
+
+.searchBarFocused {
+  box-shadow: 0 0 0 4rpx rgba(255, 107, 43, 0.14);
+}
+
+
+.searchInput {
+  flex: 1;
+  font-size: 32rpx;
+  color: var(--color-label-1);
+  background: transparent;
+  min-height: 44rpx;
+  line-height: 1.4;
+}
+
+.searchPlaceholder {
+  color: var(--color-label-4);
+  font-size: 32rpx;
+}
+
+// ══════════════════════════════════
+// 内容区
+// ══════════════════════════════════
+.body {
+  flex: 1;
+  padding: 56rpx 48rpx 0;
+  display: flex;
+  flex-direction: column;
+  gap: 56rpx;
+}
+
+.section {}
+
+// sectionHeader
+.sectionHeader {
+  font-size: 22rpx;
+  font-weight: 600;
+  color: var(--color-label-3);
+  letter-spacing: 2rpx;
+  margin-bottom: 24rpx;
+  display: block;
+}
+
+// ══════════════════════════════════
+// 场景标签
+// ══════════════════════════════════
+.tagRow {
   white-space: nowrap;
-  margin-bottom: 16px;
   display: flex;
   flex-direction: row;
 }
 
 .tag {
-  display: inline-block;
-  padding: 8px 16px;
-  border-radius: 8px;
-  background: var(--color-bg-card);
-  color: var(--color-text-secondary);
-  font-size: 20rpx;
+  display: inline-flex;
+  align-items: center;
+  height: 68rpx;
+  padding: 0 32rpx;
+  border-radius: 999rpx;
+  background: rgba(255, 255, 255, 0.72);
+  color: var(--color-label-2);
+  font-size: 28rpx;
   font-weight: 500;
-  margin-right: 8px;
-  transition: background 200ms ease, color 200ms ease;
+  margin-right: 16rpx;
   flex-shrink: 0;
+  transition: all 150ms ease;
 }
 
 .tagActive {
-  background: var(--color-primary);
-  color: #fff;
+  background: var(--gradient-brand);
+  color: #FFFFFF;
+  font-weight: 600;
 }
 
-// 快捷品类行
-.categoryRow {
-  display: flex;
-  flex-direction: row;
-  gap: 12px;
-  margin-bottom: 24px;
+// ══════════════════════════════════
+// 品类 2×2 — iOS 原生卡片比例
+// ══════════════════════════════════
+.categoryGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20rpx;
 }
 
 .categoryItem {
-  flex: 1;
-  height: 64px;
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 36rpx;
+  aspect-ratio: 1 / 1;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--color-bg-card);
-  border-radius: 12px;
-  font-size: 24rpx;
-  color: var(--color-text-secondary);
-  border: 1.5px solid transparent;
-  transition: border-color 200ms ease, color 200ms ease;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 36rpx;
+  box-sizing: border-box;
+  transition: all 150ms ease;
 }
 
 .categoryItemActive {
-  border-color: var(--color-primary);
-  color: var(--color-primary);
+  background: var(--gradient-brand);
 }
 
-// 三个 Picker
-.pickerRow {
+// ══════════════════════════════════
+// 品类图标 — CSS 线条风格
+// ══════════════════════════════════
+.catIconWrap {
+  width: 64rpx;
+  height: 64rpx;
+  position: relative;
+  flex-shrink: 0;
+}
+
+// 默认色 / active 色
+.catIconEl {
+  background: var(--color-primary);
+}
+.catIconElActive {
+  background: rgba(255, 255, 255, 0.92);
+}
+
+// —— 火锅 ——
+// 锅身：椭圆
+.catIconHotpotPot {
+  position: absolute;
+  width: 44rpx;
+  height: 28rpx;
+  border-radius: 4rpx 4rpx 22rpx 22rpx;
+  top: 20rpx;
+  left: 10rpx;
+}
+// 左腿
+.catIconHotpotLeg1 {
+  position: absolute;
+  width: 4rpx;
+  height: 14rpx;
+  border-radius: 2rpx;
+  bottom: 0;
+  left: 18rpx;
+}
+// 右腿
+.catIconHotpotLeg2 {
+  position: absolute;
+  width: 4rpx;
+  height: 14rpx;
+  border-radius: 2rpx;
+  bottom: 0;
+  right: 18rpx;
+}
+// 左火苗
+.catIconHotpotFlame1 {
+  position: absolute;
+  width: 8rpx;
+  height: 14rpx;
+  border-radius: 8rpx 8rpx 4rpx 4rpx;
+  top: 4rpx;
+  left: 18rpx;
+  opacity: 0.7;
+}
+// 右火苗
+.catIconHotpotFlame2 {
+  position: absolute;
+  width: 8rpx;
+  height: 14rpx;
+  border-radius: 8rpx 8rpx 4rpx 4rpx;
+  top: 4rpx;
+  right: 18rpx;
+  opacity: 0.7;
+}
+
+// —— 奶茶 ——
+// 杯身
+.catIconTeaCup {
+  position: absolute;
+  width: 32rpx;
+  height: 36rpx;
+  border-radius: 4rpx 4rpx 10rpx 10rpx;
+  bottom: 4rpx;
+  left: 16rpx;
+}
+// 穹顶盖
+.catIconTeaDome {
+  position: absolute;
+  width: 38rpx;
+  height: 12rpx;
+  border-radius: 999rpx 999rpx 0 0;
+  top: 12rpx;
+  left: 13rpx;
+}
+// 吸管
+.catIconTeaStraw {
+  position: absolute;
+  width: 4rpx;
+  height: 36rpx;
+  border-radius: 2rpx;
+  top: 4rpx;
+  right: 16rpx;
+  transform: rotate(8deg);
+}
+
+// —— 相机 ——
+// 机身
+.catIconCamBody {
+  position: absolute;
+  width: 48rpx;
+  height: 34rpx;
+  border-radius: 8rpx;
+  top: 22rpx;
+  left: 8rpx;
+}
+// 镜头（用 border 圆环）
+.catIconCamLens {
+  position: absolute;
+  width: 18rpx;
+  height: 18rpx;
+  border-radius: 50%;
+  top: 31rpx;
+  left: 23rpx;
+  // 镜头用反色表示
+  background: transparent !important;
+  border: 3rpx solid var(--color-primary);
+  box-sizing: border-box;
+}
+.categoryItemActive .catIconCamLens {
+  border-color: rgba(255, 255, 255, 0.92) !important;
+}
+// 顶部取景突起
+.catIconCamBump {
+  position: absolute;
+  width: 16rpx;
+  height: 8rpx;
+  border-radius: 4rpx 4rpx 0 0;
+  top: 16rpx;
+  left: 16rpx;
+}
+
+// —— 甜品/蛋糕 ——
+// 底层蛋糕体
+.catIconCakeBase {
+  position: absolute;
+  width: 44rpx;
+  height: 22rpx;
+  border-radius: 4rpx 4rpx 10rpx 10rpx;
+  bottom: 8rpx;
+  left: 10rpx;
+}
+// 顶层奶油
+.catIconCakeTop {
+  position: absolute;
+  width: 32rpx;
+  height: 14rpx;
+  border-radius: 999rpx 999rpx 0 0;
+  bottom: 28rpx;
+  left: 16rpx;
+  opacity: 0.7;
+}
+// 蜡烛
+.catIconCakeCandle {
+  position: absolute;
+  width: 5rpx;
+  height: 14rpx;
+  border-radius: 3rpx;
+  bottom: 40rpx;
+  left: 30rpx;
+}
+
+.catName {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: var(--color-label-1);
+  letter-spacing: -0.3rpx;
+}
+
+.categoryItemActive .catName {
+  color: #FFFFFF;
+}
+
+// ══════════════════════════════════
+// 出行参数
+// ══════════════════════════════════
+.paramCard {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 32rpx;
+  overflow: hidden;
+}
+
+.paramRow {
   display: flex;
   flex-direction: row;
-  gap: 12px;
-  margin-bottom: 32px;
-}
-
-.pickerItem {
-  flex: 1;
-  background: var(--color-bg-card);
-  border-radius: 12px;
-  padding: 12px 8px;
-  display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 4px;
+  padding: 36rpx 40rpx;
+  min-height: 104rpx;
+  box-sizing: border-box;
 }
 
-.pickerLabel {
-  font-size: 20rpx;
-  color: var(--color-text-disabled);
+.paramRow + .paramRow {
+  border-top: 1rpx solid rgba(0, 0, 0, 0.05);
 }
 
-.pickerValue {
+
+.paramLabel {
+  flex: 1;
+  font-size: 32rpx;
+  font-weight: 500;
+  color: var(--color-label-1);
+}
+
+.paramValue {
+  font-size: 32rpx;
+  font-weight: 400;
+  color: var(--color-label-3);
+  margin-right: 8rpx;
+}
+
+.paramChevron {
   font-size: 28rpx;
-  color: var(--color-text-primary);
-  font-weight: 600;
+  color: var(--color-label-4);
 }
 
-// 按钮区
-.btnArea {
-  margin-top: auto;
+// 备注行 — 多行输入，无箭头
+.paramRowNotes {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 32rpx 40rpx;
+  border-top: 1rpx solid rgba(0, 0, 0, 0.05);
+  box-sizing: border-box;
 }
 
-.primaryBtn {
+.notesInput {
+  flex: 1;
+  font-size: 30rpx;
+  color: var(--color-label-1);
+  background: transparent;
+  min-height: 44rpx;
+  line-height: 1.6;
+}
+
+.notesPlaceholder {
+  color: var(--color-label-4);
+  font-size: 30rpx;
+}
+
+// ══════════════════════════════════
+// 底部 CTA
+// ══════════════════════════════════
+.cta {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  padding: 20rpx 48rpx;
+  padding-bottom: calc(20rpx + env(safe-area-inset-bottom));
+  background: rgba(245, 238, 233, 0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.ctaBtn {
   width: 100%;
-  height: 56px;
-  border-radius: 14px;
+  height: 96rpx;
+  border-radius: 999rpx;
   background: var(--gradient-brand);
-  box-shadow: var(--shadow-btn-primary);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 32rpx;
-  font-weight: 600;
-  color: #fff;
-  letter-spacing: 1px;
+  box-shadow: 0 6rpx 24rpx rgba(255, 107, 43, 0.36);
+  transition: opacity 140ms ease, transform 140ms ease;
 }
 
-.secondaryBtn {
-  margin-top: 12px;
+.ctaBtn:active {
+  opacity: 0.85;
+  transform: scale(0.985);
+}
+
+.ctaBtnText {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #FFFFFF;
+  letter-spacing: 2rpx;
+}
+
+// ══════════════════════════════════
+// 弹窗
+// ══════════════════════════════════
+.sheetMask {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.sheet {
+  background: rgba(245, 238, 233, 0.97);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-radius: 40rpx 40rpx 0 0;
+  padding: 0 0 calc(40rpx + env(safe-area-inset-bottom));
+  animation: sheetUp 300ms cubic-bezier(0.32, 0.72, 0, 1) both;
+}
+
+@keyframes sheetUp {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0); }
+}
+
+.sheetHandle {
+  width: 64rpx;
+  height: 6rpx;
+  background: rgba(0, 0, 0, 0.12);
+  border-radius: 999rpx;
+  margin: 24rpx auto 0;
+}
+
+.sheetTitle {
+  display: block;
+  font-size: 26rpx;
+  font-weight: 500;
+  color: var(--color-label-3);
   text-align: center;
-  color: var(--color-text-secondary);
-  font-size: 24rpx;
-  padding: 8px 0;
+  padding: 24rpx 0 16rpx;
+  letter-spacing: 1rpx;
+}
+
+.sheetList {
+  display: flex;
+  flex-direction: column;
+}
+
+.sheetItem {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 40rpx 60rpx;
+  position: relative;
+  border-top: 1rpx solid rgba(0, 0, 0, 0.05);
+}
+
+.sheetItemActive {
+  background: rgba(255, 107, 43, 0.06);
+}
+
+.sheetItemText {
+  font-size: 36rpx;
+  font-weight: 400;
+  color: var(--color-label-1);
+  text-align: center;
+}
+
+.sheetItemTextActive {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.sheetCheck {
+  position: absolute;
+  right: 60rpx;
+  font-size: 28rpx;
+  color: var(--color-primary);
+  font-weight: 700;
 }

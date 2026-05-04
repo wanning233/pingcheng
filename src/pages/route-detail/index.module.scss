@@ -1,14 +1,14 @@
 // src/pages/route-detail/index.module.scss
 .page {
-  min-height: 100vh;
+  height: 100vh;
   background: var(--color-bg-base);
-  position: relative;
+  display: flex;
+  flex-direction: column;
 }
 
-// 滚动区域：top随地图折叠状态动态变化（行内style控制）
 .scrollView {
-  height: 100vh;
-  transition: margin-top 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  flex: 1;
+  overflow: hidden;
 }
 
 .content {

@@ -1,0 +1,9 @@
+// src/components/business/TransitionOverlay/index.module.scss
+
+.overlay {
+  position: fixed;
+  background: var(--color-bg-card);
+  z-index: 9999;
+  pointer-events: none;
+  overflow: hidden;
+}
