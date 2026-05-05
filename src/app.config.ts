@@ -13,15 +13,15 @@ export default defineAppConfig({
   ],
   window: {
     backgroundTextStyle: 'dark',
-    navigationBarBackgroundColor: '#EDCFC4',
+    navigationBarBackgroundColor: '#FAFAFA',
     navigationBarTitleText: '',
     navigationBarTextStyle: 'black',
-    backgroundColor: '#F5EEE9',
+    backgroundColor: '#FAFAFA',
   },
   tabBar: {
     color: '#AAAAAA',
     selectedColor: '#FF6B2B',
-    backgroundColor: '#F5EEE9',
+    backgroundColor: '#FAFAFA',
     borderStyle: 'white',
     list: [
       {

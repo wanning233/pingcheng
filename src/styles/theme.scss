@@ -1,12 +1,16 @@
 // src/styles/theme.scss — Warm Cream × Orange
 
 page, :root {
-  // 背景 — 顶部横向彩色渐变 → 向下淡出至奶白
-  --color-bg-base:    #F5EEE9;
-  --color-bg-card:    rgba(255, 255, 255, 0.72);
+  // 背景 — 双光晕，左上粉玫瑰 + 右上黄橙，向下淡出至纯白
+  --color-bg-base:    #FAFAFA;
+  --color-bg-card:    #FFFFFF;
   --gradient-bg:
-    radial-gradient(ellipse 120% 60% at 50% 0%, #f0cfc0 0%, #ebd2d2 30%, #e1dacf 55%, transparent 75%),
-    #F5EEE9;
+    radial-gradient(ellipse 70% 35% at 15% 22%, rgba(242, 180, 160, 0.55) 0%, transparent 55%),
+    radial-gradient(ellipse 70% 35% at 85% 18%, rgba(245, 210, 150, 0.50) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 25% at 50% 40%, rgba(248, 195, 160, 0.30) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 20% at 90% 45%, rgba(242, 220, 170, 0.25) 0%, transparent 55%),
+    radial-gradient(ellipse 35% 18% at 8% 50%, rgba(238, 175, 155, 0.22) 0%, transparent 55%),
+    #FAFAFA;
 
   // 品牌橙
   --color-primary:    #FF6B2B;

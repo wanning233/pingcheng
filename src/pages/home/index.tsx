@@ -35,32 +35,34 @@ function CatIcon({ icon, active }: { icon: string; active: boolean }) {
   const c = active ? styles.catIconElActive : styles.catIconEl
   if (icon === 'hotpot') return (
     <View className={styles.catIconWrap}>
-      <View className={`${styles.catIconHotpotPot} ${c}`} />
-      <View className={`${styles.catIconHotpotLeg1} ${c}`} />
-      <View className={`${styles.catIconHotpotLeg2} ${c}`} />
-      <View className={`${styles.catIconHotpotFlame1} ${c}`} />
       <View className={`${styles.catIconHotpotFlame2} ${c}`} />
+      <View className={`${styles.catIconHotpotFlame1} ${c}`} />
+      <View className={`${styles.catIconHotpotFlame3} ${c}`} />
+      <View className={`${styles.catIconHotpotRim} ${c}`} />
+      <View className={`${styles.catIconHotpotPot} ${c}`} />
     </View>
   )
   if (icon === 'tea') return (
     <View className={styles.catIconWrap}>
-      <View className={`${styles.catIconTeaCup} ${c}`} />
       <View className={`${styles.catIconTeaStraw} ${c}`} />
       <View className={`${styles.catIconTeaDome} ${c}`} />
+      <View className={`${styles.catIconTeaCup} ${c}`} />
     </View>
   )
   if (icon === 'camera') return (
     <View className={styles.catIconWrap}>
-      <View className={`${styles.catIconCamBody} ${c}`} />
-      <View className={`${styles.catIconCamLens} ${c}`} />
       <View className={`${styles.catIconCamBump} ${c}`} />
+      <View className={`${styles.catIconCamBody} ${c}`} />
+      <View className={styles.catIconCamLens} />
+      <View className={`${styles.catIconCamDot} ${c}`} />
     </View>
   )
   if (icon === 'dessert') return (
     <View className={styles.catIconWrap}>
-      <View className={`${styles.catIconCakeBase} ${c}`} />
-      <View className={`${styles.catIconCakeTop} ${c}`} />
-      <View className={`${styles.catIconCakeCandle} ${c}`} />
+      <View className={`${styles.catIconIceScoop} ${c}`} />
+      <View className={`${styles.catIconIceCone} ${active ? styles.catIconIceConeElActive : styles.catIconIceConeEl}`} />
+      <View className={`${styles.catIconIceLine1} ${c}`} />
+      <View className={`${styles.catIconIceLine2} ${c}`} />
     </View>
   )
   return null
