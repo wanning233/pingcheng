@@ -11,16 +11,16 @@ import logoHorizontal from '../../assets/logo/logo-horizontal.svg'
 const PRESET_TAGS = ['朋友聚会', '情侣约会', '亲子出行', '省钱优先', '少排队']
 
 const QUICK_CATEGORIES = [
-  { id: 'food',      name: '吃喝探店', icon: 'food'      },
-  { id: 'park',      name: '公园遛弯', icon: 'park'      },
-  { id: 'game',      name: '沉浸娱乐', icon: 'game'      },
-  { id: 'culture',   name: '文化打卡', icon: 'culture'   },
-  { id: 'shopping',  name: '逛街购物', icon: 'shopping'  },
-  { id: 'camera',    name: '拍照出片', icon: 'camera'    },
-  { id: 'cafe',      name: '约会休闲', icon: 'cafe'      },
-  { id: 'nightlife', name: '夜生活',   icon: 'nightlife' },
-  { id: 'outdoor',   name: '户外运动', icon: 'outdoor'   },
-  { id: 'family',    name: '亲子出游', icon: 'family'    },
+  { id: 'food', name: '吃喝探店', icon: 'food' },
+  { id: 'park', name: '公园遛弯', icon: 'park' },
+  { id: 'game', name: '沉浸娱乐', icon: 'game' },
+  { id: 'culture', name: '文化打卡', icon: 'culture' },
+  { id: 'shopping', name: '逛街购物', icon: 'shopping' },
+  { id: 'camera', name: '拍照出片', icon: 'camera' },
+  { id: 'cafe', name: '约会休闲', icon: 'cafe' },
+  { id: 'nightlife', name: '夜生活', icon: 'nightlife' },
+  { id: 'outdoor', name: '户外运动', icon: 'outdoor' },
+  { id: 'family', name: '亲子出游', icon: 'family' },
 ]
 
 const PERSON_OPTIONS = ['2人', '3人', '4人', '5人', '6人']
@@ -164,7 +164,7 @@ export default function HomePage() {
                 <View key={tag}
                   className={`${styles.tag} ${active ? styles.tagActive : ''}`}
                   onClick={() => toggleTag(tag)}>
-                  {tag}
+                  <Text className={styles.tagText}>{tag}</Text>
                 </View>
               )
             })}
