@@ -4,14 +4,23 @@ import Taro from '@tarojs/taro'
 import { View, Text, Input, ScrollView } from '@tarojs/components'
 import styles from './index.module.scss'
 import { useSessionStore } from '../../stores/useSessionStore'
+import Icon from '../../components/base/Icon'
 
 const QUICK_TAGS = ['朋友聚会', '情侣约会', '亲子出行', '省钱优先', '少排队']
+
 const QUICK_CATEGORIES = [
-  { name: '火锅', icon: 'hotpot' },
-  { name: '奶茶', icon: 'tea' },
-  { name: '拍照', icon: 'camera' },
-  { name: '甜品', icon: 'dessert' },
+  { id: 'food',      name: '吃喝探店', icon: 'food'      },
+  { id: 'park',      name: '公园遛弯', icon: 'park'      },
+  { id: 'game',      name: '沉浸娱乐', icon: 'game'      },
+  { id: 'culture',   name: '文化打卡', icon: 'culture'   },
+  { id: 'shopping',  name: '逛街购物', icon: 'shopping'  },
+  { id: 'camera',    name: '拍照出片', icon: 'camera'    },
+  { id: 'cafe',      name: '约会休闲', icon: 'cafe'      },
+  { id: 'nightlife', name: '夜生活',   icon: 'nightlife' },
+  { id: 'outdoor',   name: '户外运动', icon: 'outdoor'   },
+  { id: 'family',    name: '亲子出游', icon: 'family'    },
 ]
+
 const PERSON_OPTIONS = ['2人', '3人', '4人', '5人', '6人']
 const PERSON_COUNTS = [2, 3, 4, 5, 6]
 const BUDGET_OPTIONS = ['¥50以内', '¥100以内', '¥150以内', '¥200以内', '不限']
@@ -31,51 +40,10 @@ type SheetConfig = {
   onSelect: (i: number) => void
 }
 
-function CatIcon({ icon, active }: { icon: string; active: boolean }) {
-  const c = active ? styles.catIconElActive : styles.catIconEl
-  if (icon === 'hotpot') return (
-    <View className={styles.catIconWrap}>
-      <View className={`${styles.catIconHotpotFlame2} ${c}`} />
-      <View className={`${styles.catIconHotpotFlame1} ${c}`} />
-      <View className={`${styles.catIconHotpotFlame3} ${c}`} />
-      <View className={`${styles.catIconHotpotHandle1} ${c}`} />
-      <View className={`${styles.catIconHotpotHandle2} ${c}`} />
-      <View className={`${styles.catIconHotpotRim} ${c}`} />
-      <View className={`${styles.catIconHotpotPot} ${c}`} />
-    </View>
-  )
-  if (icon === 'tea') return (
-    <View className={styles.catIconWrap}>
-      <View className={`${styles.catIconTeaStraw} ${c}`} />
-      <View className={`${styles.catIconTeaDome} ${c}`} />
-      <View className={`${styles.catIconTeaLid} ${c}`} />
-      <View className={`${styles.catIconTeaCup} ${c}`} />
-    </View>
-  )
-  if (icon === 'camera') return (
-    <View className={styles.catIconWrap}>
-      <View className={`${styles.catIconCamBump} ${c}`} />
-      <View className={`${styles.catIconCamBody} ${c}`} />
-      <View className={styles.catIconCamLens} />
-      <View className={`${styles.catIconCamDot} ${c}`} />
-    </View>
-  )
-  if (icon === 'dessert') return (
-    <View className={styles.catIconWrap}>
-      <View className={`${styles.catIconIceScoop} ${c}`} />
-      <View className={`${styles.catIconIceCone} ${active ? styles.catIconIceConeElActive : styles.catIconIceConeEl}`} />
-      <View className={`${styles.catIconIceLine1} ${c}`} />
-      <View className={`${styles.catIconIceLine2} ${c}`} />
-    </View>
-  )
-  return null
-}
-
 export default function HomePage() {
   const { area, notes, setSession } = useSessionStore()
   const [focused, setFocused] = useState(false)
-  const [activeTag, setActiveTag] = useState<string | null>(null)
-  const [activeCategory, setActiveCategory] = useState<string | null>(null)
+  const [activeCategories, setActiveCategories] = useState<string[]>([])
   const [personIdx, setPersonIdx] = useState(2)
   const [budgetIdx, setBudgetIdx] = useState(2)
   const [endTimeIdx, setEndTimeIdx] = useState(3)
@@ -86,6 +54,12 @@ export default function HomePage() {
     const t = setInterval(() => setPhIdx(i => (i + 1) % PLACEHOLDERS.length), 3000)
     return () => clearInterval(t)
   }, [])
+
+  const toggleCategory = (id: string) => {
+    setActiveCategories(prev =>
+      prev.includes(id) ? prev.filter(c => c !== id) : [...prev, id]
+    )
+  }
 
   const openSheet = (config: SheetConfig) => setSheet(config)
   const closeSheet = () => setSheet(null)
@@ -123,11 +97,7 @@ export default function HomePage() {
 
         {/* 搜索框 */}
         <View className={`${styles.searchBar} ${focused ? styles.searchBarFocused : ''}`}>
-          {/* 搜索图标 — CSS 圆形放大镜 */}
-          <View className={styles.searchIconWrap}>
-            <View className={styles.searchIconCircle} />
-            <View className={styles.searchIconHandle} />
-          </View>
+          <Icon name="search" size={18} color="rgba(26,26,26,0.3)" />
           <Input
             className={styles.searchInput}
             placeholder={PLACEHOLDERS[phIdx]}
@@ -148,30 +118,46 @@ export default function HomePage() {
           <ScrollView scrollX className={styles.tagRow} enableFlex>
             {QUICK_TAGS.map(tag => (
               <View key={tag}
-                className={`${styles.tag} ${activeTag === tag ? styles.tagActive : ''}`}
-                onClick={() => setActiveTag(activeTag === tag ? null : tag)}>
+                className={styles.tag}
+                onClick={() => Taro.showToast({ title: tag, icon: 'none' })}>
                 {tag}
               </View>
             ))}
           </ScrollView>
         </View>
 
-        {/* 品类 2×2 */}
+        {/* 品类 2×2 网格 */}
         <View className={styles.section}>
           <Text className={styles.sectionHeader}>主题</Text>
           <View className={styles.categoryGrid}>
-            {QUICK_CATEGORIES.map(cat => (
-              <View key={cat.name}
-                className={`${styles.categoryItem} ${activeCategory === cat.name ? styles.categoryItemActive : ''}`}
-                onClick={() => setActiveCategory(activeCategory === cat.name ? null : cat.name)}>
-                <CatIcon icon={cat.icon} active={activeCategory === cat.name} />
-                <Text className={styles.catName}>{cat.name}</Text>
-              </View>
-            ))}
+            {QUICK_CATEGORIES.map(cat => {
+              const active = activeCategories.includes(cat.id)
+              return (
+                <View
+                  key={cat.id}
+                  className={`${styles.categoryItem} ${active ? styles.categoryItemActive : ''}`}
+                  onClick={() => toggleCategory(cat.id)}
+                >
+                  <View className={styles.catIconBg}>
+                    <Icon
+                      name={cat.icon as any}
+                      size={22}
+                      color={active ? '#fff' : 'var(--color-primary)'}
+                    />
+                  </View>
+                  <Text className={styles.catName}>{cat.name}</Text>
+                  {active && (
+                    <View className={styles.catCheck}>
+                      <Icon name="check" size={14} color="#fff" />
+                    </View>
+                  )}
+                </View>
+              )
+            })}
           </View>
         </View>
 
-        {/* 出行参数 — 自定义行，无原生 Picker */}
+        {/* 出行参数 */}
         <View className={styles.section}>
           <Text className={styles.sectionHeader}>出行</Text>
           <View className={styles.paramCard}>
@@ -181,15 +167,12 @@ export default function HomePage() {
               current: personIdx,
               onSelect: (i) => { setPersonIdx(i); closeSheet() },
             })}>
-              {/* 人数图标：两个小圆头 */}
               <View className={styles.iconWrap}>
-                <View className={styles.iconPersonHead1} />
-                <View className={styles.iconPersonHead2} />
-                <View className={styles.iconPersonBody} />
+                <Icon name="people" size={20} color="var(--color-primary)" />
               </View>
               <Text className={styles.paramLabel}>出行人数</Text>
               <Text className={styles.paramValue}>{PERSON_OPTIONS[personIdx]}</Text>
-              <Text className={styles.paramChevron}>›</Text>
+              <Icon name="chevron-right" size={18} color="rgba(26,26,26,0.25)" />
             </View>
             <View className={styles.paramRow} onClick={() => openSheet({
               title: '人均预算',
@@ -197,15 +180,12 @@ export default function HomePage() {
               current: budgetIdx,
               onSelect: (i) => { setBudgetIdx(i); closeSheet() },
             })}>
-              {/* 预算图标：圆形 ¥ 符号 */}
               <View className={styles.iconWrap}>
-                <View className={styles.iconCoinCircle}>
-                  <Text className={styles.iconCoinText}>¥</Text>
-                </View>
+                <Icon name="wallet" size={20} color="var(--color-primary)" />
               </View>
               <Text className={styles.paramLabel}>人均预算</Text>
               <Text className={styles.paramValue}>{BUDGET_OPTIONS[budgetIdx]}</Text>
-              <Text className={styles.paramChevron}>›</Text>
+              <Icon name="chevron-right" size={18} color="rgba(26,26,26,0.25)" />
             </View>
             <View className={styles.paramRow} onClick={() => openSheet({
               title: '结束时间',
@@ -213,25 +193,16 @@ export default function HomePage() {
               current: endTimeIdx,
               onSelect: (i) => { setEndTimeIdx(i); closeSheet() },
             })}>
-              {/* 时间图标：表盘 */}
               <View className={styles.iconWrap}>
-                <View className={styles.iconClock}>
-                  <View className={styles.iconClockHand} />
-                  <View className={styles.iconClockHandMin} />
-                </View>
+                <Icon name="time" size={20} color="var(--color-primary)" />
               </View>
               <Text className={styles.paramLabel}>结束时间</Text>
               <Text className={styles.paramValue}>{ENDTIME_OPTIONS[endTimeIdx]}</Text>
-              <Text className={styles.paramChevron}>›</Text>
+              <Icon name="chevron-right" size={18} color="rgba(26,26,26,0.25)" />
             </View>
             <View className={styles.paramRowNotes}>
-              {/* 备注图标：对话气泡 */}
               <View className={styles.iconWrap}>
-                <View className={styles.iconBubble}>
-                  <View className={styles.iconBubbleDot} />
-                  <View className={styles.iconBubbleDot} />
-                  <View className={styles.iconBubbleDot} />
-                </View>
+                <Icon name="note" size={20} color="var(--color-primary)" />
               </View>
               <Input
                 className={styles.notesInput}
@@ -270,7 +241,9 @@ export default function HomePage() {
                   <Text className={`${styles.sheetItemText} ${i === sheet.current ? styles.sheetItemTextActive : ''}`}>
                     {opt}
                   </Text>
-                  {i === sheet.current && <Text className={styles.sheetCheck}>✓</Text>}
+                  {i === sheet.current && (
+                    <Icon name="check" size={16} color="var(--color-primary)" className={styles.sheetCheck} />
+                  )}
                 </View>
               ))}
             </View>
