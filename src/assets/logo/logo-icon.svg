@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 81 81" width="81" height="81">
+  <!-- 背景：深靛蓝圆角方形 -->
+  <rect width="81" height="81" rx="18" fill="#1A2B6B"/>
+
+  <!-- 三个人（实心圆点），品字形排列 -->
+  <circle cx="24" cy="18" r="6" fill="white"/>
+  <circle cx="40.5" cy="14" r="6" fill="white"/>
+  <circle cx="57" cy="18" r="6" fill="white"/>
+
+  <!-- 三条汇聚线，从三个圆点延伸到汇聚节点 -->
+  <line x1="24" y1="24" x2="40.5" y2="46" stroke="white" stroke-width="4" stroke-linecap="round"/>
+  <line x1="40.5" y1="20" x2="40.5" y2="46" stroke="white" stroke-width="4" stroke-linecap="round"/>
+  <line x1="57" y1="24" x2="40.5" y2="46" stroke="white" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- 汇聚节点 -->
+  <circle cx="40.5" cy="46" r="4.5" fill="white"/>
+
+  <!-- 箭头主干 -->
+  <line x1="40.5" y1="50" x2="40.5" y2="62" stroke="white" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- 箭头头部（实心三角形，朝下表示"出发"） -->
+  <polygon points="40.5,70 32,58 49,58" fill="white"/>
+</svg>

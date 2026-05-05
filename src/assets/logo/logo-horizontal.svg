@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 81" width="280" height="81">
+  <!-- 图形部分（同 icon） -->
+  <rect width="81" height="81" rx="18" fill="#1A2B6B"/>
+  <circle cx="24" cy="18" r="6" fill="white"/>
+  <circle cx="40.5" cy="14" r="6" fill="white"/>
+  <circle cx="57" cy="18" r="6" fill="white"/>
+  <line x1="24" y1="24" x2="40.5" y2="46" stroke="white" stroke-width="4" stroke-linecap="round"/>
+  <line x1="40.5" y1="20" x2="40.5" y2="46" stroke="white" stroke-width="4" stroke-linecap="round"/>
+  <line x1="57" y1="24" x2="40.5" y2="46" stroke="white" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="40.5" cy="46" r="4.5" fill="white"/>
+  <line x1="40.5" y1="50" x2="40.5" y2="62" stroke="white" stroke-width="4" stroke-linecap="round"/>
+  <polygon points="40.5,70 32,58 49,58" fill="white"/>
+
+  <!-- 文字部分 -->
+  <!-- 主标题：拼程 -->
+  <text x="101" y="50" font-family="PingFang SC, Noto Sans SC, sans-serif" font-size="38" font-weight="700" fill="#1A1A1A" letter-spacing="-1">拼程</text>
+  <!-- 副标题：AI出行规划 -->
+  <text x="103" y="68" font-family="PingFang SC, Noto Sans SC, sans-serif" font-size="16" font-weight="400" fill="#AAAAAA" letter-spacing="1">AI出行规划</text>
+</svg>
