@@ -56,7 +56,7 @@ interface IconProps {
   className?: string
 }
 
-export default function Icon({ name, size = 24, color = '#1A1A1A', style, className }: IconProps) {
+export default function Icon({ name, size = 24, color = '#AAAAAA', style, className }: IconProps) {
   const pathD = PATHS[name]
   if (!pathD) return null
 

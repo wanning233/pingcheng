@@ -142,7 +142,7 @@ export default function HomePage() {
                     <Icon
                       name={cat.icon as any}
                       size={22}
-                      color={active ? '#fff' : 'var(--color-primary)'}
+                      color={active ? '#fff' : '#AAAAAA'}
                     />
                   </View>
                   <Text className={styles.catName}>{cat.name}</Text>
@@ -168,7 +168,7 @@ export default function HomePage() {
               onSelect: (i) => { setPersonIdx(i); closeSheet() },
             })}>
               <View className={styles.iconWrap}>
-                <Icon name="people" size={20} color="var(--color-primary)" />
+                <Icon name="people" size={20} color="#AAAAAA" />
               </View>
               <Text className={styles.paramLabel}>出行人数</Text>
               <Text className={styles.paramValue}>{PERSON_OPTIONS[personIdx]}</Text>
@@ -181,7 +181,7 @@ export default function HomePage() {
               onSelect: (i) => { setBudgetIdx(i); closeSheet() },
             })}>
               <View className={styles.iconWrap}>
-                <Icon name="wallet" size={20} color="var(--color-primary)" />
+                <Icon name="wallet" size={20} color="#AAAAAA" />
               </View>
               <Text className={styles.paramLabel}>人均预算</Text>
               <Text className={styles.paramValue}>{BUDGET_OPTIONS[budgetIdx]}</Text>
@@ -194,7 +194,7 @@ export default function HomePage() {
               onSelect: (i) => { setEndTimeIdx(i); closeSheet() },
             })}>
               <View className={styles.iconWrap}>
-                <Icon name="time" size={20} color="var(--color-primary)" />
+                <Icon name="time" size={20} color="#AAAAAA" />
               </View>
               <Text className={styles.paramLabel}>结束时间</Text>
               <Text className={styles.paramValue}>{ENDTIME_OPTIONS[endTimeIdx]}</Text>
@@ -202,7 +202,7 @@ export default function HomePage() {
             </View>
             <View className={styles.paramRowNotes}>
               <View className={styles.iconWrap}>
-                <Icon name="note" size={20} color="var(--color-primary)" />
+                <Icon name="note" size={20} color="#AAAAAA" />
               </View>
               <Input
                 className={styles.notesInput}
