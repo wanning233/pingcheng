@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { View, Text, ScrollView, Map } from '@tarojs/components'
 import Taro from '@tarojs/taro'
 import RouteCard from '@/components/business/RouteCard'
+import Icon from '@/components/base/Icon'
 import { useRouteStore } from '@/stores/useRouteStore'
 import { mockRoutes } from '@/services/mock/routes'
 import styles from './index.module.scss'
@@ -166,8 +167,9 @@ export default function RouteComparePage() {
             <View className={styles.sheetFooter}>
               <View className={styles.sheetBtn} onClick={handleSelectAndEnter}>
                 <Text className={styles.sheetBtnText}>
-                  {selectedRouteId === expandedRouteId ? '进入行程 ›' : '选择并开始 ›'}
+                  {selectedRouteId === expandedRouteId ? '进入行程' : '选择并开始'}
                 </Text>
+                <Icon name="chevron-right" size={18} color="#fff" />
               </View>
             </View>
           </View>

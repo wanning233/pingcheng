@@ -5,6 +5,7 @@ import React, { useState, useRef, useCallback } from 'react'
 import ChatBubble from '@/components/business/ChatBubble'
 import ThinkingIndicator from '@/components/business/ThinkingIndicator'
 import RouteDiffCard from '@/components/business/RouteDiffCard'
+import Icon from '@/components/base/Icon'
 import { demoEngine } from '@/utils/mockEngine'
 import { useTripStore } from '@/stores/useTripStore'
 import styles from './index.module.scss'
@@ -214,7 +215,7 @@ export default function AssistantPage() {
             className={styles.sendBtn}
             onClick={() => handleSend(inputValue)}
           >
-            <Text className={styles.sendIcon}>↑</Text>
+            <Icon name="arrow-left" size={20} color="#fff" style={{ transform: 'rotate(90deg)' }} />
           </View>
         </View>
       </View>
