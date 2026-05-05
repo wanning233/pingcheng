@@ -80,14 +80,12 @@
 // param 行图标背景
 // ══════════════════════════════════
 .iconWrap {
-  width: 60rpx;
-  height: 60rpx;
-  border-radius: 16rpx;
-  background: rgba(0, 0, 0, 0.04);
+  width: 40rpx;
+  height: 40rpx;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-right: 28rpx;
+  margin-right: 20rpx;
   flex-shrink: 0;
 }
 
@@ -210,19 +208,12 @@
 
 // 图标背景圆
 .catIconBg {
-  width: 72rpx;
-  height: 72rpx;
-  border-radius: 50%;
-  background: rgba(0, 0, 0, 0.05);
+  width: 40rpx;
+  height: 40rpx;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  transition: background 150ms ease;
-}
-
-.categoryItemActive .catIconBg {
-  background: rgba(255, 255, 255, 0.22);
 }
 
 // 右下角 check
@@ -240,15 +231,16 @@
 }
 
 .catName {
-  font-size: 30rpx;
-  font-weight: 600;
-  color: var(--color-label-1);
+  font-size: 28rpx;
+  font-weight: 400;
+  color: var(--color-label-2);
   letter-spacing: -0.3rpx;
   flex: 1;
 }
 
 .categoryItemActive .catName {
   color: #FFFFFF;
+  font-weight: 600;
 }
 
 // ══════════════════════════════════
@@ -283,8 +275,8 @@
 .paramLabel {
   flex: 1;
   font-size: 30rpx;
-  font-weight: 500;
-  color: var(--color-label-1);
+  font-weight: 400;
+  color: var(--color-label-2);
 }
 
 .paramValue {
