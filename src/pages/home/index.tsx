@@ -38,6 +38,8 @@ function CatIcon({ icon, active }: { icon: string; active: boolean }) {
       <View className={`${styles.catIconHotpotFlame2} ${c}`} />
       <View className={`${styles.catIconHotpotFlame1} ${c}`} />
       <View className={`${styles.catIconHotpotFlame3} ${c}`} />
+      <View className={`${styles.catIconHotpotHandle1} ${c}`} />
+      <View className={`${styles.catIconHotpotHandle2} ${c}`} />
       <View className={`${styles.catIconHotpotRim} ${c}`} />
       <View className={`${styles.catIconHotpotPot} ${c}`} />
     </View>
@@ -46,6 +48,7 @@ function CatIcon({ icon, active }: { icon: string; active: boolean }) {
     <View className={styles.catIconWrap}>
       <View className={`${styles.catIconTeaStraw} ${c}`} />
       <View className={`${styles.catIconTeaDome} ${c}`} />
+      <View className={`${styles.catIconTeaLid} ${c}`} />
       <View className={`${styles.catIconTeaCup} ${c}`} />
     </View>
   )

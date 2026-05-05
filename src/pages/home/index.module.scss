@@ -321,13 +321,14 @@
 
 .categoryItem {
   background: #FFFFFF;
-  border-radius: 36rpx;
-  aspect-ratio: 1 / 1;
+  border-radius: 28rpx;
+  height: 148rpx;
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: space-between;
-  padding: 36rpx;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0 32rpx;
+  gap: 24rpx;
   box-sizing: border-box;
   box-shadow: 0 2rpx 16rpx rgba(0, 0, 0, 0.07);
   transition: all 150ms ease;
@@ -341,8 +342,8 @@
 // 品类图标 — CSS 线条风格
 // ══════════════════════════════════
 .catIconWrap {
-  width: 64rpx;
-  height: 64rpx;
+  width: 56rpx;
+  height: 56rpx;
   position: relative;
   flex-shrink: 0;
 }
@@ -356,189 +357,212 @@
 }
 
 // —— 火锅 ——
-// 圆形锅身
+// 锅身：下半圆
 .catIconHotpotPot {
   position: absolute;
-  width: 40rpx;
-  height: 26rpx;
-  border-radius: 0 0 20rpx 20rpx;
-  bottom: 12rpx;
-  left: 12rpx;
+  width: 36rpx;
+  height: 20rpx;
+  border-radius: 0 0 18rpx 18rpx;
+  bottom: 8rpx;
+  left: 10rpx;
 }
-// 锅沿（上边横条）
+// 锅沿：横条，比锅身略宽
 .catIconHotpotRim {
   position: absolute;
-  width: 48rpx;
-  height: 6rpx;
+  width: 42rpx;
+  height: 5rpx;
   border-radius: 3rpx;
-  bottom: 34rpx;
-  left: 8rpx;
+  bottom: 26rpx;
+  left: 7rpx;
 }
-// 中间火苗（大）
+// 左把手
+.catIconHotpotHandle1 {
+  position: absolute;
+  width: 7rpx;
+  height: 5rpx;
+  border-radius: 4rpx 4rpx 0 0;
+  bottom: 28rpx;
+  left: 4rpx;
+}
+// 右把手
+.catIconHotpotHandle2 {
+  position: absolute;
+  width: 7rpx;
+  height: 5rpx;
+  border-radius: 4rpx 4rpx 0 0;
+  bottom: 28rpx;
+  right: 4rpx;
+}
+// 中火苗
 .catIconHotpotFlame1 {
   position: absolute;
-  width: 10rpx;
-  height: 18rpx;
-  border-radius: 999rpx 999rpx 4rpx 4rpx;
-  bottom: 42rpx;
-  left: 27rpx;
-  opacity: 0.9;
+  width: 8rpx;
+  height: 14rpx;
+  border-radius: 999rpx 999rpx 3rpx 3rpx;
+  bottom: 33rpx;
+  left: 24rpx;
 }
-// 左火苗（小）
+// 左火苗
 .catIconHotpotFlame2 {
   position: absolute;
-  width: 8rpx;
-  height: 13rpx;
-  border-radius: 999rpx 999rpx 4rpx 4rpx;
-  bottom: 42rpx;
-  left: 17rpx;
-  opacity: 0.65;
+  width: 6rpx;
+  height: 10rpx;
+  border-radius: 999rpx 999rpx 3rpx 3rpx;
+  bottom: 33rpx;
+  left: 15rpx;
+  opacity: 0.6;
 }
-// 右火苗（小）
+// 右火苗
 .catIconHotpotFlame3 {
   position: absolute;
-  width: 8rpx;
-  height: 13rpx;
-  border-radius: 999rpx 999rpx 4rpx 4rpx;
-  bottom: 42rpx;
-  right: 14rpx;
-  opacity: 0.65;
+  width: 6rpx;
+  height: 10rpx;
+  border-radius: 999rpx 999rpx 3rpx 3rpx;
+  bottom: 33rpx;
+  right: 13rpx;
+  opacity: 0.6;
 }
 
 // —— 奶茶 ——
-// 梯形杯身（上窄下宽）
+// 杯身（梯形 clip-path）
 .catIconTeaCup {
   position: absolute;
-  width: 30rpx;
-  height: 34rpx;
-  border-radius: 2rpx 2rpx 10rpx 10rpx;
-  bottom: 6rpx;
-  left: 17rpx;
-  clip-path: polygon(10% 0%, 90% 0%, 100% 100%, 0% 100%);
+  width: 32rpx;
+  height: 28rpx;
+  bottom: 4rpx;
+  left: 12rpx;
+  clip-path: polygon(8% 0%, 92% 0%, 100% 100%, 0% 100%);
 }
-// 圆顶盖
+// 封口盖（扁矩形）
+.catIconTeaLid {
+  position: absolute;
+  width: 36rpx;
+  height: 5rpx;
+  border-radius: 3rpx;
+  bottom: 30rpx;
+  left: 10rpx;
+}
+// 圆顶（半圆）
 .catIconTeaDome {
   position: absolute;
-  width: 40rpx;
-  height: 14rpx;
-  border-radius: 20rpx 20rpx 0 0;
-  bottom: 38rpx;
-  left: 12rpx;
+  width: 28rpx;
+  height: 12rpx;
+  border-radius: 14rpx 14rpx 0 0;
+  bottom: 33rpx;
+  left: 14rpx;
 }
-// 吸管（斜插）
+// 吸管
 .catIconTeaStraw {
   position: absolute;
-  width: 5rpx;
-  height: 32rpx;
-  border-radius: 3rpx;
-  top: 6rpx;
-  right: 18rpx;
-  transform: rotate(12deg);
+  width: 4rpx;
+  height: 28rpx;
+  border-radius: 2rpx;
+  top: 2rpx;
+  right: 14rpx;
+  transform: rotate(10deg);
   transform-origin: bottom center;
 }
 
 // —— 相机 ——
-// 机身（宽矩形）
+// 机身
 .catIconCamBody {
   position: absolute;
-  width: 50rpx;
-  height: 32rpx;
-  border-radius: 8rpx;
-  bottom: 14rpx;
-  left: 7rpx;
+  width: 46rpx;
+  height: 28rpx;
+  border-radius: 7rpx;
+  bottom: 10rpx;
+  left: 5rpx;
 }
-// 取景框突起
+// 取景突起
 .catIconCamBump {
   position: absolute;
-  width: 18rpx;
-  height: 9rpx;
-  border-radius: 5rpx 5rpx 0 0;
-  bottom: 44rpx;
-  left: 12rpx;
+  width: 15rpx;
+  height: 8rpx;
+  border-radius: 4rpx 4rpx 0 0;
+  bottom: 36rpx;
+  left: 10rpx;
 }
-// 镜头外圈（圆环）
+// 镜头外圈
 .catIconCamLens {
   position: absolute;
-  width: 20rpx;
-  height: 20rpx;
+  width: 18rpx;
+  height: 18rpx;
   border-radius: 50%;
-  bottom: 19rpx;
-  left: 22rpx;
+  bottom: 15rpx;
+  left: 19rpx;
   background: transparent !important;
-  border: 3.5rpx solid var(--color-primary);
+  border: 3rpx solid var(--color-primary);
   box-sizing: border-box;
 }
 .categoryItemActive .catIconCamLens {
   border-color: rgba(255, 255, 255, 0.92) !important;
 }
-// 镜头内点
+// 镜头内圆点
 .catIconCamDot {
   position: absolute;
-  width: 8rpx;
-  height: 8rpx;
+  width: 7rpx;
+  height: 7rpx;
   border-radius: 50%;
-  bottom: 25rpx;
-  left: 28rpx;
-  opacity: 0.55;
+  bottom: 20rpx;
+  left: 24rpx;
+  opacity: 0.45;
 }
 
 // —— 甜品/冰淇淋 ——
-// 球形冰球
+// 冰球
 .catIconIceScoop {
   position: absolute;
-  width: 34rpx;
-  height: 34rpx;
+  width: 30rpx;
+  height: 30rpx;
   border-radius: 50%;
-  top: 6rpx;
-  left: 15rpx;
+  top: 4rpx;
+  left: 13rpx;
 }
-// 蛋筒锥体（三角形）
+// 锥体（CSS 三角形）
 .catIconIceCone {
   position: absolute;
   width: 0;
   height: 0;
-  border-left: 16rpx solid transparent;
-  border-right: 16rpx solid transparent;
-  border-top-width: 28rpx;
+  border-left: 14rpx solid transparent;
+  border-right: 14rpx solid transparent;
+  border-top-width: 24rpx;
   border-top-style: solid;
   bottom: 4rpx;
-  left: 16rpx;
+  left: 14rpx;
   background: transparent !important;
-  // border-top-color 由 catIconEl/catIconElActive 控制不了，单独处理
 }
-// 覆盖三角形颜色（active 态）
 .catIconIceConeEl {
   border-top-color: var(--color-primary);
 }
 .catIconIceConeElActive {
   border-top-color: rgba(255, 255, 255, 0.92);
 }
-// 华夫格纹 — 两条横线
+// 华夫纹横线
 .catIconIceLine1 {
   position: absolute;
-  width: 20rpx;
-  height: 3rpx;
+  width: 18rpx;
+  height: 2.5rpx;
   border-radius: 2rpx;
-  bottom: 18rpx;
-  left: 22rpx;
-  transform: rotate(0deg);
-  opacity: 0.45;
+  bottom: 16rpx;
+  left: 19rpx;
+  opacity: 0.40;
 }
 .catIconIceLine2 {
   position: absolute;
-  width: 14rpx;
-  height: 3rpx;
+  width: 12rpx;
+  height: 2.5rpx;
   border-radius: 2rpx;
-  bottom: 10rpx;
-  left: 25rpx;
-  opacity: 0.30;
+  bottom: 9rpx;
+  left: 22rpx;
+  opacity: 0.28;
 }
 
 .catName {
-  font-size: 32rpx;
+  font-size: 30rpx;
   font-weight: 600;
   color: var(--color-label-1);
   letter-spacing: -0.3rpx;
+  flex: 1;
 }
 
 .categoryItemActive .catName {
