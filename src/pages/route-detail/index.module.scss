@@ -20,3 +20,90 @@
 .bottomPad {
   height: calc(80px + env(safe-area-inset-bottom));
 }
+
+// 结束行程触发按钮
+.endTrigger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32rpx 0 8rpx;
+}
+
+.endTriggerText {
+  font-size: 26rpx;
+  color: var(--color-label-4);
+  font-weight: 400;
+}
+
+// 行程结束卡片
+.endCard {
+  background: #FFFFFF;
+  border-radius: 40rpx;
+  padding: 56rpx 40rpx 48rpx;
+  margin: 24rpx 0 8rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12rpx;
+  box-shadow: 0 4rpx 24rpx rgba(0, 0, 0, 0.08);
+}
+
+.endEmoji {
+  font-size: 64rpx;
+  line-height: 1;
+  margin-bottom: 8rpx;
+}
+
+.endTitle {
+  font-size: 40rpx;
+  font-weight: 700;
+  color: var(--color-label-1);
+  text-align: center;
+}
+
+.endSub {
+  font-size: 26rpx;
+  color: var(--color-label-3);
+  text-align: center;
+  margin-bottom: 16rpx;
+}
+
+.endActions {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 20rpx;
+  margin-top: 8rpx;
+}
+
+.endBtnPrimary {
+  flex: 1;
+  height: 88rpx;
+  border-radius: 999rpx;
+  background: var(--gradient-brand);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4rpx 16rpx rgba(255, 107, 43, 0.35);
+}
+
+.endBtnPrimaryText {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #FFFFFF;
+}
+
+.endBtnSecondary {
+  flex: 1;
+  height: 88rpx;
+  border-radius: 999rpx;
+  border: 1.5rpx solid rgba(0, 0, 0, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.endBtnSecondaryText {
+  font-size: 30rpx;
+  color: var(--color-label-2);
+}

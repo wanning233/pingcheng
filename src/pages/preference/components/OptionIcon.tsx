@@ -150,5 +150,105 @@ export default function OptionIcon({ icon, active }: Props) {
     </View>
   )
 
+  // ── 出行时间 ──
+  if (icon === 'early') return (
+    <View className={styles.wrap}>
+      <View className={`${styles.sunArc} ${e}`} />
+      <View className={`${styles.sunRay1} ${e}`} />
+      <View className={`${styles.sunRay2} ${e}`} />
+      <View className={`${styles.sunRay3} ${e}`} />
+      <View className={`${styles.sunRay4} ${e}`} />
+      <View className={`${styles.sunRay5} ${e}`} />
+    </View>
+  )
+
+  if (icon === 'normal-time') return (
+    <View className={styles.wrap}>
+      <View className={`${styles.clockFace} ${e}`}>
+        <View className={`${styles.clockHour} ${e}`} />
+        <View className={`${styles.clockMinute} ${e}`} />
+      </View>
+    </View>
+  )
+
+  if (icon === 'late') return (
+    <View className={styles.wrap}>
+      <View className={`${styles.moonOuter} ${e}`} />
+      <View className={styles.moonMask} />
+    </View>
+  )
+
+  if (icon === 'flex') return (
+    <View className={styles.wrap}>
+      <View className={`${styles.waveLine} ${e}`} />
+      <View className={`${styles.waveLine2} ${e}`} />
+    </View>
+  )
+
+  // ── 购物偏好 ──
+  if (icon === 'no-shop') return (
+    <View className={styles.wrap}>
+      <View className={`${styles.bagBody} ${e}`} />
+      <View className={`${styles.bagHandle} ${e}`} />
+      <View className={`${styles.bagSlash} ${e}`} />
+    </View>
+  )
+
+  if (icon === 'browse') return (
+    <View className={styles.wrap}>
+      <View className={`${styles.eyeOuter} ${e}`} />
+      <View className={`${styles.eyePupil} ${e}`} />
+    </View>
+  )
+
+  if (icon === 'walk-shop') return (
+    <View className={styles.wrap}>
+      <View className={`${styles.bagBody} ${e}`} />
+      <View className={`${styles.bagHandle} ${e}`} />
+    </View>
+  )
+
+  if (icon === 'shop-hard') return (
+    <View className={styles.wrap}>
+      <View className={`${styles.bagBody} ${e}`} />
+      <View className={`${styles.bagHandle} ${e}`} />
+      <View className={`${styles.starDot1} ${e}`} />
+      <View className={`${styles.starDot2} ${e}`} />
+      <View className={`${styles.starDot3} ${e}`} />
+    </View>
+  )
+
+  // ── 饮食限制 ──
+  if (icon === 'no-limit') return (
+    <View className={styles.wrap}>
+      <View className={`${styles.checkShort} ${e}`} />
+      <View className={`${styles.checkLong} ${e}`} />
+    </View>
+  )
+
+  if (icon === 'vegan') return (
+    <View className={styles.wrap}>
+      <View className={`${styles.leafBody} ${e}`} />
+      <View className={`${styles.leafStem} ${e}`} />
+      <View className={`${styles.leafVein} ${e}`} />
+    </View>
+  )
+
+  if (icon === 'allergy') return (
+    <View className={styles.wrap}>
+      <View className={`${styles.exclamDot} ${e}`} />
+      <View className={`${styles.exclamBar} ${e}`} />
+    </View>
+  )
+
+  if (icon === 'no-drink') return (
+    <View className={styles.wrap}>
+      <View className={`${styles.glassBody} ${e}`} />
+      <View className={`${styles.glassStem} ${e}`} />
+      <View className={`${styles.glassBase} ${e}`} />
+      <View className={`${styles.glassSlash} ${e}`} />
+    </View>
+  )
+
   return null
 }

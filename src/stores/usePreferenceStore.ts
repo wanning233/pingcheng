@@ -20,14 +20,17 @@ export interface Conflict {
 interface PreferenceState {
   members: Member[]
   conflicts: Conflict[]
+  answers: Record<string, string>
   setMembers: (members: Member[]) => void
   addConflict: (conflict: Conflict) => void
   resolveConflict: (conflictId: string) => void
+  setAnswers: (answers: Record<string, string>) => void
 }
 
 export const usePreferenceStore = create<PreferenceState>((set) => ({
   members: [],
   conflicts: [],
+  answers: {},
   setMembers: (members) => set({ members }),
   addConflict: (conflict) =>
     set((state) => ({ conflicts: [...state.conflicts, conflict] })),
@@ -37,4 +40,5 @@ export const usePreferenceStore = create<PreferenceState>((set) => ({
         c.id === conflictId ? { ...c, resolved: true } : c
       ),
     })),
+  setAnswers: (answers) => set({ answers }),
 }))

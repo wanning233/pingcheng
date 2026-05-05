@@ -27,36 +27,9 @@
   margin-bottom: 56rpx;
 }
 
-.brandLeft {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 18rpx;
-}
-
-.brandIcon {
-  width: 68rpx;
-  height: 68rpx;
-  background: var(--gradient-brand);
-  border-radius: 18rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.brandIconText {
-  font-size: 30rpx;
-  font-weight: 800;
-  color: #fff;
-  line-height: 1;
-}
-
-.brandName {
-  font-size: 44rpx;
-  font-weight: 700;
-  color: var(--color-label-1);
-  letter-spacing: -0.5rpx;
-  line-height: 1;
+.brandLogo {
+  width: 210rpx;
+  height: 61rpx;
 }
 
 // 邀请按钮 — 次要胶囊
@@ -151,6 +124,7 @@
   white-space: nowrap;
   display: flex;
   flex-direction: row;
+  padding: 4rpx 0 4rpx;
 }
 
 .tag {
@@ -173,6 +147,54 @@
   background: var(--gradient-brand);
   color: #FFFFFF;
   font-weight: 600;
+  box-shadow: 0 2rpx 12rpx rgba(255, 107, 43, 0.35);
+}
+
+// 自定义标签按钮
+.tagAdd {
+  display: inline-flex;
+  align-items: center;
+  gap: 6rpx;
+  height: 68rpx;
+  padding: 0 28rpx;
+  border-radius: 999rpx;
+  border: 1.5rpx dashed rgba(0, 0, 0, 0.18);
+  background: transparent;
+  flex-shrink: 0;
+  margin-right: 16rpx;
+}
+
+.tagAddText {
+  font-size: 26rpx;
+  color: var(--color-label-3);
+  font-weight: 400;
+}
+
+// 自定义标签输入框
+.tagInputWrap {
+  display: inline-flex;
+  align-items: center;
+  height: 68rpx;
+  padding: 0 24rpx;
+  border-radius: 999rpx;
+  background: #FFFFFF;
+  box-shadow: 0 0 0 2rpx rgba(255, 107, 43, 0.5);
+  flex-shrink: 0;
+  margin-right: 16rpx;
+  width: 200rpx;
+}
+
+.tagInput {
+  font-size: 28rpx;
+  color: var(--color-label-1);
+  background: transparent;
+  width: 200rpx;
+  height: 68rpx;
+}
+
+.tagInputPlaceholder {
+  color: var(--color-label-4);
+  font-size: 28rpx;
 }
 
 // ══════════════════════════════════
@@ -433,4 +455,58 @@
   font-size: 28rpx;
   color: var(--color-primary);
   font-weight: 700;
+}
+
+// ══════════════════════════════════
+// 进行中行程卡片
+// ══════════════════════════════════
+.activeTrip {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(255, 107, 43, 0.08);
+  border: 1.5rpx solid rgba(255, 107, 43, 0.22);
+  border-radius: 24rpx;
+  padding: 24rpx 32rpx;
+  margin-bottom: 32rpx;
+  transition: opacity 140ms ease;
+}
+
+.activeTrip:active {
+  opacity: 0.75;
+}
+
+.activeTripLeft {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20rpx;
+}
+
+.activeTripDot {
+  width: 14rpx;
+  height: 14rpx;
+  border-radius: 50%;
+  background: var(--color-primary);
+  box-shadow: 0 0 8rpx rgba(255, 107, 43, 0.6);
+  flex-shrink: 0;
+}
+
+.activeTripInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4rpx;
+}
+
+.activeTripLabel {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: var(--color-primary);
+  line-height: 1.3;
+}
+
+.activeTripSub {
+  font-size: 22rpx;
+  color: rgba(255, 107, 43, 0.65);
 }

@@ -1,15 +1,42 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 81" width="300" height="81">
-  <!-- 图形部分 -->
-  <rect width="81" height="81" rx="18" fill="#1A2B6B"/>
-  <circle cx="24" cy="18" r="6" fill="white"/>
-  <circle cx="40.5" cy="14" r="6" fill="white"/>
-  <circle cx="57" cy="18" r="6" fill="white"/>
-  <line x1="24" y1="24" x2="40.5" y2="46" stroke="white" stroke-width="4" stroke-linecap="round"/>
-  <line x1="40.5" y1="20" x2="40.5" y2="46" stroke="white" stroke-width="4" stroke-linecap="round"/>
-  <line x1="57" y1="24" x2="40.5" y2="46" stroke="white" stroke-width="4" stroke-linecap="round"/>
-  <circle cx="40.5" cy="46" r="4.5" fill="white"/>
-  <line x1="40.5" y1="50" x2="40.5" y2="62" stroke="white" stroke-width="4" stroke-linecap="round"/>
-  <polygon points="40.5,70 32,58 49,58" fill="white"/>
+  <defs>
+    <linearGradient id="orangeGrad" x1="0.5" y1="0" x2="0.5" y2="1">
+      <stop offset="0%" stop-color="#FFBB55"/>
+      <stop offset="100%" stop-color="#FF6B2B"/>
+    </linearGradient>
+  </defs>
+
+  <!-- 背景：白色圆角方形 -->
+  <rect width="81" height="81" rx="18" fill="#FFF8F4"/>
+
+  <!-- 橙子定位针（一体路径） -->
+  <path d="
+    M 40.5 10
+    A 22 22 0 0 1 62.5 32
+    A 22 22 0 0 1 55 50.5
+    L 40.5 72
+    L 26 50.5
+    A 22 22 0 0 1 18.5 32
+    A 22 22 0 0 1 40.5 10
+    Z
+  " fill="url(#orangeGrad)"/>
+
+  <!-- 橙子纹理 -->
+  <path d="M 26 24 Q 33 16 44 18" stroke="rgba(255,255,255,0.50)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <path d="M 22 32 Q 24 22 32 18" stroke="rgba(255,255,255,0.30)" stroke-width="2" fill="none" stroke-linecap="round"/>
+
+  <!-- 叶子 -->
+  <ellipse cx="46" cy="11" rx="5" ry="3" fill="#5DB84A" transform="rotate(-30 46 11)"/>
+  <line x1="40.5" y1="10.5" x2="46" y2="11" stroke="#5DB84A" stroke-width="1.5" stroke-linecap="round"/>
+
+  <!-- 三人汇聚（白色） -->
+  <circle cx="33" cy="26" r="3" fill="white"/>
+  <circle cx="40.5" cy="24" r="3" fill="white"/>
+  <circle cx="48" cy="26" r="3" fill="white"/>
+  <line x1="33" y1="29" x2="40.5" y2="38" stroke="white" stroke-width="2.2" stroke-linecap="round"/>
+  <line x1="40.5" y1="27" x2="40.5" y2="38" stroke="white" stroke-width="2.2" stroke-linecap="round"/>
+  <line x1="48" y1="29" x2="40.5" y2="38" stroke="white" stroke-width="2.2" stroke-linecap="round"/>
+  <circle cx="40.5" cy="38" r="2.5" fill="white"/>
 
   <!-- 中文主标 -->
   <text x="101" y="44" font-family="PingFang SC, Noto Sans SC, sans-serif" font-size="34" font-weight="700" fill="#1A1A1A" letter-spacing="-1">拼程</text>

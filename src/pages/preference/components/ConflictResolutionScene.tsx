@@ -5,6 +5,8 @@ import styles from './ConflictResolutionScene.module.scss'
 import ConflictCard from './ConflictCard'
 import AssemblyAnimation from '../../../components/animation/AssemblyAnimation'
 import { MockEngine, APP_CONFIG } from '../../../utils/mockEngine'
+import { usePreferenceStore } from '../../../stores/usePreferenceStore'
+import { MOCK_MEMBERS } from '../../../mock/preferenceQuestions'
 
 type Phase =
   | 'idle'
@@ -15,33 +17,87 @@ type Phase =
   | 'summary'
   | 'complete'
 
-const CONFLICTS = [
-  {
-    id: 'taste',
-    members: ['王萌', '李婷'],
-    description: '口味冲突：王萌要辣，李婷不吃辣',
-    resolution: '王萌非辣不欢，李婷碰辣绕道走——这对组合我见多了。解法不是妥协，是选鸳鸯锅。两人同桌吃饭，各自美丽。',
-  },
-  {
-    id: 'budget',
-    members: ['林小夏', '陈宇'],
-    description: '预算冲突：夏夏人均150，陈宇只有100',
-    resolution: '夏夏想要精致感，陈宇钱包有话说。找人均¥110-120的区间——环境拿得出手，结账时没人皱眉头。这才叫「都赢」。',
-  },
-  {
-    id: 'energy',
-    members: ['王萌', '李婷'],
-    description: '体力冲突：王萌体力好，李婷膝盖不好',
-    resolution: '规则只有一条：以最弱的那条腿为准。步行≤10分钟、全程有座。王萌不亏，李婷不累，这才是聪明的玩法。',
-  },
-]
+// mock 其他3个成员的答案（固定，模拟冲突场景）
+const MOCK_OTHER_ANSWERS: Record<string, Record<string, string>> = {
+  chenyu:   { meetup_time: 'early', shop: 'no',       energy: 'high',   vibe: 'explore', taboo: 'none',     budget: 'under100' },
+  wangmeng: { meetup_time: 'late',  shop: 'hardcore',  energy: 'high',   vibe: 'photo',   taboo: 'none',     budget: 'under200' },
+  liting:   { meetup_time: 'normal',shop: 'browse',   energy: 'knee',   vibe: 'chill',   taboo: 'no_drink', budget: 'under150' },
+}
+
+type ConflictItem = { id: string; members: string[]; description: string; resolution: string }
+
+// 根据当前用户答案动态生成冲突列表
+function buildConflicts(myAnswers: Record<string, string>): ConflictItem[] {
+  const conflicts: ConflictItem[] = []
+  const myName = MOCK_MEMBERS[0].name // 林小夏
+
+  // 集合时间冲突
+  const myTime = myAnswers['meetup_time']
+  if (myTime === 'early' && MOCK_OTHER_ANSWERS.wangmeng.meetup_time === 'late') {
+    conflicts.push({
+      id: 'meetup_time',
+      members: [myName, '王萌'],
+      description: `集合时间冲突：${myName}想一大早出发，王萌下午才开始`,
+      resolution: '一大早和下午差了半天。折中方案：上午10点集合，早起的人可以提前热身，晚起的也不委屈。',
+    })
+  }
+
+  // 购物意愿冲突
+  const myShop = myAnswers['shop']
+  if ((myShop === 'no' || myShop === 'browse') && MOCK_OTHER_ANSWERS.wangmeng.shop === 'hardcore') {
+    conflicts.push({
+      id: 'shop',
+      members: ['王萌', '陈宇'],
+      description: '逛街冲突：王萌血拼模式，陈宇不想逛',
+      resolution: '行程里安排一个「自由时段」：王萌可以逛，陈宇去附近咖啡坐着等。不强迫，不落单。',
+    })
+  }
+
+  // 体力冲突
+  const myEnergy = myAnswers['energy']
+  if (myEnergy !== 'knee' && MOCK_OTHER_ANSWERS.liting.energy === 'knee') {
+    conflicts.push({
+      id: 'energy',
+      members: ['王萌', '李婷'],
+      description: '体力冲突：王萌体力好，李婷膝盖不好',
+      resolution: '规则只有一条：以最弱的那条腿为准。步行≤10分钟、全程有座。王萌不亏，李婷不累。',
+    })
+  }
+
+  // 预算冲突
+  const myBudget = myAnswers['budget']
+  if (myBudget === 'under200' && MOCK_OTHER_ANSWERS.chenyu.budget === 'under100') {
+    conflicts.push({
+      id: 'budget',
+      members: [myName, '陈宇'],
+      description: `预算冲突：${myName}人均200，陈宇只有100`,
+      resolution: '找人均¥110-120的区间——环境拿得出手，结账时没人皱眉头。这才叫「都赢」。',
+    })
+  }
+
+  // 保底：如果没检测到冲突，用默认一个
+  if (conflicts.length === 0) {
+    conflicts.push({
+      id: 'vibe',
+      members: ['王萌', '李婷'],
+      description: '氛围冲突：王萌想出片，李婷想放松躺平',
+      resolution: '上午去网红打卡点拍照，下午找个安静的咖啡馆坐下来。一个行程，两种心情，都照顾到。',
+    })
+  }
+
+  // 最多取3个
+  return conflicts.slice(0, 3)
+}
 
 export default function ConflictResolutionScene() {
+  const answers = usePreferenceStore(s => s.answers)
+  const conflicts = buildConflicts(answers)
+
   const [phase, setPhase] = useState<Phase>('idle')
-  const [visibleCards, setVisibleCards] = useState<boolean[]>([false, false, false])
-  const [collidingCards, setCollidingCards] = useState<boolean[]>([false, false, false])
-  const [resolvedCards, setResolvedCards] = useState<boolean[]>([false, false, false])
-  const [showResolutionText, setShowResolutionText] = useState<boolean[]>([false, false, false])
+  const [visibleCards, setVisibleCards] = useState<boolean[]>(() => Array(conflicts.length).fill(false))
+  const [collidingCards, setCollidingCards] = useState<boolean[]>(() => Array(conflicts.length).fill(false))
+  const [resolvedCards, setResolvedCards] = useState<boolean[]>(() => Array(conflicts.length).fill(false))
+  const [showResolutionText, setShowResolutionText] = useState<boolean[]>(() => Array(conflicts.length).fill(false))
   const [showSummary, setShowSummary] = useState(false)
   const [showAssembly, setShowAssembly] = useState(false)
   const engineRef = useRef<MockEngine | null>(null)
@@ -138,7 +194,7 @@ export default function ConflictResolutionScene() {
       <View
         className={`${styles.cardsArea} ${showSummary ? styles.cardsAreaSummary : ''}`}
       >
-        {CONFLICTS.map((conflict, idx) => (
+        {conflicts.map((conflict, idx) => (
           <ConflictCard
             key={conflict.id}
             conflict={conflict}
@@ -152,8 +208,8 @@ export default function ConflictResolutionScene() {
 
       {/* 汇总视图（三卡片收缩后从底部推入） */}
       <View className={`${styles.summaryView} ${showSummary ? styles.summaryViewVisible : ''}`}>
-        <Text className={styles.summaryTitle}>3个冲突已全部化解</Text>
-        {CONFLICTS.map((c) => (
+        <Text className={styles.summaryTitle}>{conflicts.length}个冲突已全部化解</Text>
+        {conflicts.map((c) => (
           <View key={c.id} className={styles.summaryItem}>
             <Text className={styles.summaryCheck}>✓</Text>
             <Text className={styles.summaryText}>{c.description}</Text>

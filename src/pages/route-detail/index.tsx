@@ -1,5 +1,5 @@
 // src/pages/route-detail/index.tsx
-import { View, ScrollView } from '@tarojs/components'
+import { View, ScrollView, Text } from '@tarojs/components'
 import Taro, { useRouter } from '@tarojs/taro'
 import { useState, useCallback } from 'react'
 import MapWindow from '@/components/business/MapWindow'
@@ -55,6 +55,7 @@ export default function RouteDetailPage() {
 
   const [mapCollapsed, setMapCollapsed] = useState(false)
   const [swapStop, setSwapStop] = useState<{ name: string; alternatives: AlternativeStop[] } | null>(null)
+  const [tripEnded, setTripEnded] = useState(false)
 
   const handleScroll = useCallback((e: any) => {
     const scrollTop = e.detail?.scrollTop ?? 0
@@ -110,6 +111,35 @@ export default function RouteDetailPage() {
             onGetTicket={(stop) => Taro.showToast({ title: `取号：${stop.name}`, icon: 'none' })}
             onSwap={handleSwap}
           />
+          {/* 行程结束卡片 */}
+          {tripEnded ? (
+            <View className={styles.endCard}>
+              <Text className={styles.endEmoji}>🎉</Text>
+              <Text className={styles.endTitle}>今天玩得怎么样？</Text>
+              <Text className={styles.endSub}>和朋友一起记录这次行程</Text>
+              <View className={styles.endActions}>
+                <View
+                  className={styles.endBtnPrimary}
+                  onClick={() => {
+                    // 清除当前行程，回首页发起新行程
+                    Taro.reLaunch({ url: '/pages/home/index' })
+                  }}
+                >
+                  <Text className={styles.endBtnPrimaryText}>再来一次</Text>
+                </View>
+                <View
+                  className={styles.endBtnSecondary}
+                  onClick={() => Taro.showToast({ title: '分享功能即将上线', icon: 'none' })}
+                >
+                  <Text className={styles.endBtnSecondaryText}>分享给朋友</Text>
+                </View>
+              </View>
+            </View>
+          ) : (
+            <View className={styles.endTrigger} onClick={() => setTripEnded(true)}>
+              <Text className={styles.endTriggerText}>结束行程</Text>
+            </View>
+          )}
           <View className={styles.bottomPad} />
         </View>
       </ScrollView>

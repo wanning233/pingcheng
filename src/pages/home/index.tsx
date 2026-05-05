@@ -1,12 +1,14 @@
 // src/pages/home/index.tsx
 import { useState, useEffect } from 'react'
 import Taro from '@tarojs/taro'
-import { View, Text, Input, ScrollView } from '@tarojs/components'
+import { View, Text, Input, ScrollView, Image } from '@tarojs/components'
 import styles from './index.module.scss'
 import { useSessionStore } from '../../stores/useSessionStore'
+import { useRouteStore } from '../../stores/useRouteStore'
 import Icon from '../../components/base/Icon'
+import logoHorizontal from '../../assets/logo/logo-horizontal.svg'
 
-const QUICK_TAGS = ['朋友聚会', '情侣约会', '亲子出行', '省钱优先', '少排队']
+const PRESET_TAGS = ['朋友聚会', '情侣约会', '亲子出行', '省钱优先', '少排队']
 
 const QUICK_CATEGORIES = [
   { id: 'food',      name: '吃喝探店', icon: 'food'      },
@@ -42,8 +44,13 @@ type SheetConfig = {
 
 export default function HomePage() {
   const { area, notes, setSession } = useSessionStore()
+  const selectedRouteId = useRouteStore(s => s.selectedRouteId)
   const [focused, setFocused] = useState(false)
+  const [activeTags, setActiveTags] = useState<string[]>([])
+  const [customTags, setCustomTags] = useState<string[]>([])
   const [activeCategories, setActiveCategories] = useState<string[]>([])
+  const [showTagInput, setShowTagInput] = useState(false)
+  const [tagInputVal, setTagInputVal] = useState('')
   const [personIdx, setPersonIdx] = useState(2)
   const [budgetIdx, setBudgetIdx] = useState(2)
   const [endTimeIdx, setEndTimeIdx] = useState(3)
@@ -54,6 +61,21 @@ export default function HomePage() {
     const t = setInterval(() => setPhIdx(i => (i + 1) % PLACEHOLDERS.length), 3000)
     return () => clearInterval(t)
   }, [])
+
+  const toggleTag = (tag: string) => {
+    setActiveTags(prev =>
+      prev.includes(tag) ? prev.filter(t => t !== tag) : [...prev, tag]
+    )
+  }
+
+  const confirmCustomTag = () => {
+    const val = tagInputVal.trim()
+    if (!val) { setShowTagInput(false); return }
+    if (!customTags.includes(val)) setCustomTags(prev => [...prev, val])
+    setActiveTags(prev => prev.includes(val) ? prev : [...prev, val])
+    setTagInputVal('')
+    setShowTagInput(false)
+  }
 
   const toggleCategory = (id: string) => {
     setActiveCategories(prev =>
@@ -69,12 +91,16 @@ export default function HomePage() {
       Taro.showToast({ title: '请输入目的地或活动', icon: 'none' })
       return
     }
+    const code = Math.random().toString(36).slice(2, 8).toUpperCase()
     setSession({
       peopleCount: PERSON_COUNTS[personIdx],
       budgetPerPerson: BUDGET_VALUES[budgetIdx],
       endTime: ENDTIME_OPTIONS[endTimeIdx],
+      sceneTags: activeTags,
+      categories: activeCategories,
+      inviteCode: code,
     })
-    Taro.navigateTo({ url: '/pages/preference/index' })
+    Taro.switchTab({ url: '/pages/invite/index' })
   }
 
   return (
@@ -83,17 +109,33 @@ export default function HomePage() {
       <View className={styles.top}>
         {/* 品牌行 */}
         <View className={styles.brandRow}>
-          <View className={styles.brandLeft}>
-            <View className={styles.brandIcon}>
-              <Text className={styles.brandIconText}>拼</Text>
-            </View>
-            <Text className={styles.brandName}>拼程</Text>
-          </View>
+          <Image
+            className={styles.brandLogo}
+            src={logoHorizontal}
+            mode="aspectFit"
+          />
           <View className={styles.inviteBtn}
-            onClick={() => Taro.navigateTo({ url: '/pages/invite/landing/index' })}>
+            onClick={() => Taro.switchTab({ url: '/pages/invite/index' })}>
             <Text className={styles.inviteBtnText}>邀请朋友</Text>
           </View>
         </View>
+
+        {/* 进行中行程卡片 */}
+        {selectedRouteId && (
+          <View
+            className={styles.activeTrip}
+            onClick={() => Taro.navigateTo({ url: `/pages/route-detail/index?routeId=${selectedRouteId}` })}
+          >
+            <View className={styles.activeTripLeft}>
+              <View className={styles.activeTripDot} />
+              <View className={styles.activeTripInfo}>
+                <Text className={styles.activeTripLabel}>行程进行中</Text>
+                <Text className={styles.activeTripSub}>点击回到当前行程</Text>
+              </View>
+            </View>
+            <Icon name="chevron-right" size={18} color="var(--color-primary)" />
+          </View>
+        )}
 
         {/* 搜索框 */}
         <View className={`${styles.searchBar} ${focused ? styles.searchBarFocused : ''}`}>
@@ -116,13 +158,37 @@ export default function HomePage() {
         <View className={styles.section}>
           <Text className={styles.sectionHeader}>场景</Text>
           <ScrollView scrollX className={styles.tagRow} enableFlex>
-            {QUICK_TAGS.map(tag => (
-              <View key={tag}
-                className={styles.tag}
-                onClick={() => Taro.showToast({ title: tag, icon: 'none' })}>
-                {tag}
+            {[...PRESET_TAGS, ...customTags].map(tag => {
+              const active = activeTags.includes(tag)
+              return (
+                <View key={tag}
+                  className={`${styles.tag} ${active ? styles.tagActive : ''}`}
+                  onClick={() => toggleTag(tag)}>
+                  {tag}
+                </View>
+              )
+            })}
+            {/* 自定义入口 */}
+            {showTagInput ? (
+              <View className={styles.tagInputWrap}>
+                <Input
+                  className={styles.tagInput}
+                  value={tagInputVal}
+                  onInput={e => setTagInputVal(e.detail.value)}
+                  onConfirm={confirmCustomTag}
+                  onBlur={confirmCustomTag}
+                  focus
+                  maxlength={10}
+                  placeholder="输入场景"
+                  placeholderClass={styles.tagInputPlaceholder}
+                />
               </View>
-            ))}
+            ) : (
+              <View className={styles.tagAdd} onClick={() => setShowTagInput(true)}>
+                <Icon name="add" size={14} color="var(--color-label-3)" />
+                <Text className={styles.tagAddText}>自定义</Text>
+              </View>
+            )}
           </ScrollView>
         </View>
 

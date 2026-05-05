@@ -9,6 +9,9 @@ interface SessionState {
   budgetPerPerson: number
   peopleCount: number
   notes: string
+  sceneTags: string[]
+  categories: string[]
+  inviteCode: string
   setSession: (patch: Partial<Omit<SessionState, 'setSession'>>) => void
 }
 
@@ -20,5 +23,8 @@ export const useSessionStore = create<SessionState>((set) => ({
   budgetPerPerson: 120,
   peopleCount: 4,
   notes: '',
+  sceneTags: [],
+  categories: [],
+  inviteCode: '',
   setSession: (patch) => set((state) => ({ ...state, ...patch })),
 }))

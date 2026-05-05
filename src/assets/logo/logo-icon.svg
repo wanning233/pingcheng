@@ -1,23 +1,46 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 81 81" width="81" height="81">
-  <!-- 背景：深靛蓝圆角方形 -->
-  <rect width="81" height="81" rx="18" fill="#1A2B6B"/>
+  <defs>
+    <linearGradient id="orangeGrad" x1="0.5" y1="0" x2="0.5" y2="1">
+      <stop offset="0%" stop-color="#FFBB55"/>
+      <stop offset="100%" stop-color="#FF6B2B"/>
+    </linearGradient>
+  </defs>
 
-  <!-- 三个人（实心圆点），品字形排列 -->
-  <circle cx="24" cy="18" r="6" fill="white"/>
-  <circle cx="40.5" cy="14" r="6" fill="white"/>
-  <circle cx="57" cy="18" r="6" fill="white"/>
+  <!-- 背景 -->
+  <rect width="81" height="81" rx="18" fill="#FFF8F4"/>
 
-  <!-- 三条汇聚线，从三个圆点延伸到汇聚节点 -->
-  <line x1="24" y1="24" x2="40.5" y2="46" stroke="white" stroke-width="4" stroke-linecap="round"/>
-  <line x1="40.5" y1="20" x2="40.5" y2="46" stroke="white" stroke-width="4" stroke-linecap="round"/>
-  <line x1="57" y1="24" x2="40.5" y2="46" stroke="white" stroke-width="4" stroke-linecap="round"/>
+  <!--
+    定位针一体路径：
+    圆心 (40.5, 32)，半径 22
+    圆底切线两端约：左 (22.3, 42)，右 (58.7, 42)
+    然后汇聚到针尖 (40.5, 72)
+    用 arc + lineto 画出完整轮廓
+  -->
+  <path d="
+    M 40.5 10
+    A 22 22 0 0 1 62.5 32
+    A 22 22 0 0 1 55 50.5
+    L 40.5 72
+    L 26 50.5
+    A 22 22 0 0 1 18.5 32
+    A 22 22 0 0 1 40.5 10
+    Z
+  " fill="url(#orangeGrad)"/>
 
-  <!-- 汇聚节点 -->
-  <circle cx="40.5" cy="46" r="4.5" fill="white"/>
+  <!-- 橙子高光弧线 -->
+  <path d="M 26 24 Q 33 16 44 18" stroke="rgba(255,255,255,0.50)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <path d="M 22 32 Q 24 22 32 18" stroke="rgba(255,255,255,0.30)" stroke-width="2" fill="none" stroke-linecap="round"/>
 
-  <!-- 箭头主干 -->
-  <line x1="40.5" y1="50" x2="40.5" y2="62" stroke="white" stroke-width="4" stroke-linecap="round"/>
+  <!-- 叶子 -->
+  <ellipse cx="46" cy="11" rx="5" ry="3" fill="#5DB84A" transform="rotate(-30 46 11)"/>
+  <line x1="40.5" y1="10.5" x2="46" y2="11" stroke="#5DB84A" stroke-width="1.5" stroke-linecap="round"/>
 
-  <!-- 箭头头部（实心三角形，朝下表示"出发"） -->
-  <polygon points="40.5,70 32,58 49,58" fill="white"/>
+  <!-- 三人汇聚（白色） -->
+  <circle cx="33" cy="26" r="3" fill="white"/>
+  <circle cx="40.5" cy="24" r="3" fill="white"/>
+  <circle cx="48" cy="26" r="3" fill="white"/>
+  <line x1="33" y1="29" x2="40.5" y2="38" stroke="white" stroke-width="2.2" stroke-linecap="round"/>
+  <line x1="40.5" y1="27" x2="40.5" y2="38" stroke="white" stroke-width="2.2" stroke-linecap="round"/>
+  <line x1="48" y1="29" x2="40.5" y2="38" stroke="white" stroke-width="2.2" stroke-linecap="round"/>
+  <circle cx="40.5" cy="38" r="2.5" fill="white"/>
 </svg>

@@ -2,6 +2,7 @@
 import { View, Text } from '@tarojs/components'
 import Taro from '@tarojs/taro'
 import styles from './index.module.scss'
+import { useSessionStore } from '../../stores/useSessionStore'
 
 const MOCK_SENT_INVITES = [
   {
@@ -25,8 +26,12 @@ const MOCK_SENT_INVITES = [
 ]
 
 export default function InvitePage() {
+  const inviteCode = useSessionStore(s => s.inviteCode)
+  const isNewTrip = !!inviteCode
+  const tripCode = inviteCode
+
   const handleCreate = () => {
-    Taro.navigateTo({ url: '/pages/home/index' })
+    Taro.switchTab({ url: '/pages/home/index' })
   }
 
   const handleShare = (invite: typeof MOCK_SENT_INVITES[0]) => {
@@ -41,6 +46,23 @@ export default function InvitePage() {
         <Text className={styles.title}>邀请</Text>
         <Text className={styles.subtitle}>叫上朋友，一起出发</Text>
       </View>
+
+      {/* 新行程卡片 */}
+      {isNewTrip && (
+        <View className={styles.newTripCard}>
+          <Text className={styles.newTripTitle}>行程已创建 🎉</Text>
+          <Text className={styles.newTripCode}>邀请码：{tripCode}</Text>
+          <Text className={styles.newTripHint}>分享给朋友，等大家加入后一起填偏好</Text>
+          <View className={styles.newTripActions}>
+            <View className={styles.shareBtn} onClick={() => Taro.showShareMenu({ withShareTicket: true })}>
+              <Text className={styles.shareBtnText}>分享邀请</Text>
+            </View>
+            <View className={styles.fillPrefBtn} onClick={() => Taro.navigateTo({ url: '/pages/preference/index' })}>
+              <Text className={styles.fillPrefBtnText}>我先填偏好</Text>
+            </View>
+          </View>
+        </View>
+      )}
 
       {/* 发起邀请 CTA */}
       <View className={styles.createCard} onClick={handleCreate}>

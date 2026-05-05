@@ -166,6 +166,25 @@ export default function AssistantPage() {
         scrollWithAnimation
       >
         <View className={styles.messageInner}>
+          {/* AI capability hint card */}
+          <View className={styles.capabilityCard}>
+            <Text className={styles.capabilityTitle}>我能帮你做这些 ⚡</Text>
+            <View className={styles.capabilityList}>
+              {[
+                '查实时排队时间',
+                '换一个更合适的地方',
+                '调整后续行程安排',
+                '修改预算或结束时间',
+                '解答任何途中问题',
+              ].map(item => (
+                <View key={item} className={styles.capabilityItem}>
+                  <View className={styles.capabilityDot} />
+                  <Text className={styles.capabilityText}>{item}</Text>
+                </View>
+              ))}
+            </View>
+          </View>
+
           {messages.map((msg) => (
             <ChatBubble
               key={msg.id}

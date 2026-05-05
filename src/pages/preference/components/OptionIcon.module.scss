@@ -477,3 +477,347 @@
   top: 34rpx;
   left: 13rpx;
 }
+
+// ════════════════════════════
+// 日出 (early)
+// ════════════════════════════
+.sunArc {
+  position: absolute;
+  width: 36rpx;
+  height: 18rpx;
+  border-radius: 18rpx 18rpx 0 0;
+  border: 4rpx solid var(--color-label-2);
+  border-bottom: none;
+  background: transparent !important;
+  bottom: 14rpx;
+  left: 18rpx;
+}
+.elActive.sunArc { border-color: var(--color-primary); }
+// horizon line
+.sunRay1 {
+  position: absolute;
+  width: 52rpx;
+  height: 3rpx;
+  border-radius: 2rpx;
+  bottom: 14rpx;
+  left: 10rpx;
+}
+// rays above
+.sunRay2 {
+  position: absolute;
+  width: 3rpx;
+  height: 10rpx;
+  border-radius: 2rpx;
+  top: 6rpx;
+  left: 34rpx;
+}
+.sunRay3 {
+  position: absolute;
+  width: 3rpx;
+  height: 10rpx;
+  border-radius: 2rpx;
+  top: 8rpx;
+  left: 20rpx;
+  transform: rotate(-30deg);
+}
+.sunRay4 {
+  position: absolute;
+  width: 3rpx;
+  height: 10rpx;
+  border-radius: 2rpx;
+  top: 8rpx;
+  right: 14rpx;
+  transform: rotate(30deg);
+}
+.sunRay5 {
+  position: absolute;
+  width: 10rpx;
+  height: 3rpx;
+  border-radius: 2rpx;
+  top: 18rpx;
+  left: 8rpx;
+}
+
+// ════════════════════════════
+// 时钟 (normal-time)
+// ════════════════════════════
+.clockFace {
+  width: 52rpx;
+  height: 52rpx;
+  border-radius: 50%;
+  border: 4rpx solid var(--color-label-2);
+  background: transparent !important;
+  position: relative;
+}
+.elActive.clockFace { border-color: var(--color-primary); }
+// hour hand pointing ~10 o'clock
+.clockHour {
+  position: absolute;
+  width: 4rpx;
+  height: 16rpx;
+  border-radius: 2rpx;
+  bottom: 50%;
+  left: 50%;
+  transform-origin: bottom center;
+  transform: translateX(-50%) rotate(-60deg);
+}
+// minute hand pointing ~12
+.clockMinute {
+  position: absolute;
+  width: 3rpx;
+  height: 18rpx;
+  border-radius: 2rpx;
+  bottom: 50%;
+  left: 50%;
+  transform-origin: bottom center;
+  transform: translateX(-50%) rotate(0deg);
+}
+
+// ════════════════════════════
+// 月牙 (late)
+// ════════════════════════════
+.moonOuter {
+  position: absolute;
+  width: 42rpx;
+  height: 42rpx;
+  border-radius: 50%;
+  top: 15rpx;
+  left: 15rpx;
+}
+.moonMask {
+  position: absolute;
+  width: 34rpx;
+  height: 34rpx;
+  border-radius: 50%;
+  background: var(--color-bg, #fff);
+  top: 14rpx;
+  left: 22rpx;
+}
+
+// ════════════════════════════
+// 随意波浪 (flex)
+// ════════════════════════════
+.waveLine {
+  position: absolute;
+  width: 50rpx;
+  height: 8rpx;
+  border-radius: 0 4rpx 4rpx 0;
+  border-bottom: 4rpx solid var(--color-label-2);
+  border-right: 4rpx solid var(--color-label-2);
+  background: transparent !important;
+  top: 22rpx;
+  left: 8rpx;
+  transform: scaleX(1);
+}
+.elActive.waveLine { border-color: var(--color-primary); }
+.waveLine2 {
+  position: absolute;
+  width: 50rpx;
+  height: 8rpx;
+  border-radius: 4rpx 0 0 4rpx;
+  border-top: 4rpx solid var(--color-label-2);
+  border-left: 4rpx solid var(--color-label-2);
+  background: transparent !important;
+  top: 38rpx;
+  left: 14rpx;
+}
+.elActive.waveLine2 { border-color: var(--color-primary); }
+
+// ════════════════════════════
+// 购物袋 shared (no-shop / walk-shop / shop-hard)
+// ════════════════════════════
+.bagBody {
+  position: absolute;
+  width: 40rpx;
+  height: 34rpx;
+  border-radius: 4rpx 4rpx 8rpx 8rpx;
+  bottom: 10rpx;
+  left: 16rpx;
+}
+.bagHandle {
+  position: absolute;
+  width: 20rpx;
+  height: 14rpx;
+  border-radius: 10rpx 10rpx 0 0;
+  border: 4rpx solid var(--color-label-2);
+  border-bottom: none;
+  background: transparent !important;
+  top: 14rpx;
+  left: 26rpx;
+}
+.elActive.bagHandle { border-color: var(--color-primary); }
+
+// 斜线穿过购物袋 (no-shop)
+.bagSlash {
+  position: absolute;
+  width: 56rpx;
+  height: 4rpx;
+  border-radius: 2rpx;
+  top: 34rpx;
+  left: 8rpx;
+  transform: rotate(-45deg);
+}
+
+// 小星星点 (shop-hard)
+.starDot1 {
+  position: absolute;
+  width: 6rpx;
+  height: 6rpx;
+  border-radius: 50%;
+  top: 8rpx;
+  left: 10rpx;
+}
+.starDot2 {
+  position: absolute;
+  width: 5rpx;
+  height: 5rpx;
+  border-radius: 50%;
+  top: 12rpx;
+  right: 10rpx;
+}
+.starDot3 {
+  position: absolute;
+  width: 4rpx;
+  height: 4rpx;
+  border-radius: 50%;
+  top: 4rpx;
+  left: 30rpx;
+}
+
+// ════════════════════════════
+// 眼睛 (browse)
+// ════════════════════════════
+.eyeOuter {
+  position: absolute;
+  width: 52rpx;
+  height: 28rpx;
+  border-radius: 50%;
+  border: 4rpx solid var(--color-label-2);
+  background: transparent !important;
+  top: 22rpx;
+  left: 10rpx;
+}
+.elActive.eyeOuter { border-color: var(--color-primary); }
+.eyePupil {
+  position: absolute;
+  width: 16rpx;
+  height: 16rpx;
+  border-radius: 50%;
+  top: 28rpx;
+  left: 28rpx;
+}
+
+// ════════════════════════════
+// 对勾 (no-limit)
+// ════════════════════════════
+.checkShort {
+  position: absolute;
+  width: 16rpx;
+  height: 4rpx;
+  border-radius: 2rpx;
+  bottom: 22rpx;
+  left: 14rpx;
+  transform: rotate(45deg);
+}
+.checkLong {
+  position: absolute;
+  width: 30rpx;
+  height: 4rpx;
+  border-radius: 2rpx;
+  bottom: 28rpx;
+  left: 24rpx;
+  transform: rotate(-45deg);
+}
+
+// ════════════════════════════
+// 叶子 (vegan)
+// ════════════════════════════
+.leafBody {
+  position: absolute;
+  width: 36rpx;
+  height: 36rpx;
+  border-radius: 0 50% 0 50%;
+  top: 10rpx;
+  left: 18rpx;
+  transform: rotate(-45deg);
+}
+.leafStem {
+  position: absolute;
+  width: 4rpx;
+  height: 22rpx;
+  border-radius: 2rpx;
+  bottom: 8rpx;
+  left: 34rpx;
+  transform: rotate(10deg);
+}
+.leafVein {
+  position: absolute;
+  width: 22rpx;
+  height: 3rpx;
+  border-radius: 2rpx;
+  top: 32rpx;
+  left: 22rpx;
+  transform: rotate(-45deg);
+  opacity: 0.5;
+}
+
+// ════════════════════════════
+// 感叹号 (allergy)
+// ════════════════════════════
+.exclamBar {
+  position: absolute;
+  width: 8rpx;
+  height: 32rpx;
+  border-radius: 4rpx;
+  top: 8rpx;
+  left: 32rpx;
+}
+.exclamDot {
+  position: absolute;
+  width: 8rpx;
+  height: 8rpx;
+  border-radius: 50%;
+  bottom: 10rpx;
+  left: 32rpx;
+}
+
+// ════════════════════════════
+// 酒杯 + 斜线 (no-drink)
+// ════════════════════════════
+.glassBody {
+  position: absolute;
+  width: 32rpx;
+  height: 22rpx;
+  border-radius: 0 0 16rpx 16rpx;
+  border: 4rpx solid var(--color-label-2);
+  border-top: none;
+  background: transparent !important;
+  top: 10rpx;
+  left: 20rpx;
+}
+.elActive.glassBody { border-color: var(--color-primary); }
+.glassStem {
+  position: absolute;
+  width: 4rpx;
+  height: 14rpx;
+  border-radius: 2rpx;
+  top: 32rpx;
+  left: 34rpx;
+}
+.glassBase {
+  position: absolute;
+  width: 24rpx;
+  height: 4rpx;
+  border-radius: 2rpx;
+  bottom: 10rpx;
+  left: 24rpx;
+}
+.glassSlash {
+  position: absolute;
+  width: 56rpx;
+  height: 4rpx;
+  border-radius: 2rpx;
+  top: 34rpx;
+  left: 8rpx;
+  transform: rotate(-45deg);
+}

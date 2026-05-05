@@ -64,6 +64,12 @@ export default function InviteLandingPage() {
   }
 
   const joinedRatio = `${invite.joinedCount}/${invite.maxPeople}`
+  const remaining = invite.maxPeople - invite.joinedCount
+  const urgencyText = remaining === 1
+    ? '还差最后1个名额！'
+    : remaining <= 2
+    ? `还差 ${remaining} 个名额`
+    : `${invite.joinedCount}/${invite.maxPeople} 人已加入`
 
   return (
     <View className={styles.page}>
@@ -105,8 +111,8 @@ export default function InviteLandingPage() {
           </View>
           <View className={styles.metaItem}>
             <Text className={styles.metaIcon}>👥</Text>
-            <Text className={styles.metaText}>
-              {joinedRatio} 已加入
+            <Text className={`${styles.metaText} ${remaining <= 2 ? styles.metaTextUrgent : ''}`}>
+              {urgencyText}
             </Text>
           </View>
         </View>
@@ -119,7 +125,9 @@ export default function InviteLandingPage() {
               style={{ width: `${(invite.joinedCount / invite.maxPeople) * 100}%` } as any}
             />
           </View>
-          <Text className={styles.progressLabel}>{joinedRatio}</Text>
+          <Text className={`${styles.progressLabel} ${remaining <= 2 ? styles.progressLabelUrgent : ''}`}>
+            {urgencyText}
+          </Text>
         </View>
 
         {/* Message from initiator */}

@@ -1,17 +1,19 @@
 // src/pages/preference/index.tsx
 import { useState, useCallback } from 'react'
 import Taro from '@tarojs/taro'
-import { View } from '@tarojs/components'
+import { View, Textarea } from '@tarojs/components'
 import styles from './index.module.scss'
 import AvatarRow from './components/AvatarRow'
 import QuestionCard from './components/QuestionCard'
 import { PREFERENCE_QUESTIONS, MOCK_MEMBERS } from '../../mock/preferenceQuestions'
 import ConflictBar from './components/ConflictBar'
 import ConflictResolutionScene from './components/ConflictResolutionScene'
+import { usePreferenceStore } from '../../stores/usePreferenceStore'
 
 const CURRENT_USER_ID = 'linxiaxia'
 
 export default function PreferencePage() {
+  const setAnswersToStore = usePreferenceStore(s => s.setAnswers)
   const [answers, setAnswers] = useState<Record<string, string>>({})
   const [currentQuestionIdx, setCurrentQuestionIdx] = useState(0)
   const [membersDone] = useState<string[]>(['linxiaxia'])
@@ -31,6 +33,7 @@ export default function PreferencePage() {
         setCurrentQuestionIdx(prev => prev + 1)
       } else {
         // 所有题目完成，触发冲突协商流程
+        setAnswersToStore({ ...answers, [currentQ.id]: optionId })
         setShowConflict(true)
         setTimeout(() => {
           setShowConflict(false)
@@ -39,6 +42,14 @@ export default function PreferencePage() {
       }
     }, 200)
   }, [currentQ, currentQuestionIdx])
+
+  const handleFreetextDone = useCallback(() => {
+    setShowConflict(true)
+    setTimeout(() => {
+      setShowConflict(false)
+      setShowResolution(true)
+    }, 1500)
+  }, [])
 
   const handleProgressTap = (idx: number) => {
     if (idx <= currentQuestionIdx) {
@@ -66,6 +77,13 @@ export default function PreferencePage() {
         currentUserId={CURRENT_USER_ID}
       />
 
+      {/* 团队进度文字 */}
+      <View className={styles.progressHint}>
+        {membersDone.length < MOCK_MEMBERS.length
+          ? `已有 ${membersDone.length} 人填完，还差 ${MOCK_MEMBERS.length - membersDone.length} 人`
+          : '大家都填完啦 🎉'}
+      </View>
+
       {/* 进度点击区 */}
       <View className={styles.progressDots}>
         {PREFERENCE_QUESTIONS.map((_, idx) => (
@@ -83,13 +101,24 @@ export default function PreferencePage() {
 
       {/* 答题卡 */}
       <View className={styles.cardArea}>
-        {currentQ && (
+        {currentQ && currentQ.options.length === 0 ? (
+          <View className={styles.freetextCard}>
+            <View className={styles.freetextTitle}>{currentQ.question}</View>
+            <Textarea
+              className={styles.freetextInput}
+              placeholder="随便写，比如「想去798」「不想爬山」"
+              value={answers['freetext'] ?? ''}
+              onInput={e => setAnswers(prev => ({ ...prev, freetext: e.detail.value }))}
+            />
+            <View className={styles.freetextBtn} onClick={handleFreetextDone}>完成</View>
+          </View>
+        ) : currentQ ? (
           <QuestionCard
             question={currentQ}
             selected={selectedAnswer}
             onSelect={handleSelect}
           />
-        )}
+        ) : null}
       </View>
 
       {/* 底部冲突预警条 */}

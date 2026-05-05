@@ -5,6 +5,7 @@ import Taro from '@tarojs/taro'
 import RouteCard from '@/components/business/RouteCard'
 import Icon from '@/components/base/Icon'
 import { useRouteStore } from '@/stores/useRouteStore'
+import { useSessionStore } from '@/stores/useSessionStore'
 import { mockRoutes } from '@/services/mock/routes'
 import styles from './index.module.scss'
 
@@ -29,6 +30,7 @@ const ROUTE_STOPS: Record<string, string[]> = {
 export default function RouteComparePage() {
   const selectedRouteId = useRouteStore(s => s.selectedRouteId)
   const selectRoute = useRouteStore(s => s.selectRoute)
+  const { area, peopleCount, endTime } = useSessionStore(s => s)
 
   const [expandedRouteId, setExpandedRouteId] = useState<string | null>(null)
   const expandedRoute = expandedRouteId ? mockRoutes.find(r => r.id === expandedRouteId) : null
@@ -63,7 +65,7 @@ export default function RouteComparePage() {
     <View className={styles.page}>
       <View className={styles.header}>
         <Text className={styles.title}>为你们生成了3条路线</Text>
-        <Text className={styles.subtitle}>五角场出发 · 4人成行 · 下午出游</Text>
+        <Text className={styles.subtitle}>{`${area || '出发地'} · ${peopleCount}人成行 · ${endTime}前结束`}</Text>
       </View>
 
       <View className={styles.list}>
