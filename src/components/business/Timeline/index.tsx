@@ -18,7 +18,7 @@ interface TimelineProps {
   stops: Stop[]
   onNavigate?: (stop: Stop) => void
   onGetTicket?: (stop: Stop) => void
-  onSwap?: (stop: Stop) => void
+  onSwap?: (stop: Stop, index: number) => void
 }
 
 function StopCard({ stop, onNavigate, onGetTicket, onSwap }: {
@@ -125,7 +125,7 @@ export default function Timeline({ stops, onNavigate, onGetTicket, onSwap }: Tim
               stop={stop}
               onNavigate={onNavigate}
               onGetTicket={onGetTicket}
-              onSwap={onSwap}
+              onSwap={(s) => onSwap?.(s, index)}
             />
           </View>
         </View>

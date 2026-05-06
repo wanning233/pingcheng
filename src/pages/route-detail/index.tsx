@@ -1,7 +1,7 @@
 // src/pages/route-detail/index.tsx
 import { View, ScrollView, Text } from '@tarojs/components'
 import Taro, { useRouter } from '@tarojs/taro'
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect, useRef } from 'react'
 import MapWindow from '@/components/business/MapWindow'
 import Timeline from '@/components/business/Timeline'
 import PlanBSheet from '@/components/business/PlanBSheet'
@@ -54,30 +54,132 @@ export default function RouteDetailPage() {
   const route = getRouteDetailMock(routeId)
 
   const [mapCollapsed, setMapCollapsed] = useState(false)
-  const [swapStop, setSwapStop] = useState<{ name: string; alternatives: AlternativeStop[] } | null>(null)
+  const [swapStop, setSwapStop] = useState<{ name: string; index: number; alternatives: AlternativeStop[] } | null>(null)
   const [tripEnded, setTripEnded] = useState(false)
+  // 用于存储修改后的站点列表
+  const [modifiedStops, setModifiedStops] = useState<any[]>([])
+
+  // 防抖计时器引用
+  const scrollTimerRef = useRef<number | null>(null)
+
+  // 确保 modifiedStops 正确初始化
+  useEffect(() => {
+    if (route?.stops && modifiedStops.length === 0) {
+      setModifiedStops(route.stops)
+    }
+  }, [route, modifiedStops.length])
 
   const handleScroll = useCallback((e: any) => {
+    // 行程结束后不再响应滚动事件
+    if (tripEnded) return
+
+    // 清除之前的防抖计时器
+    if (scrollTimerRef.current) {
+      clearTimeout(scrollTimerRef.current)
+    }
+
     const scrollTop = e.detail?.scrollTop ?? 0
-    setMapCollapsed(scrollTop > 60)
-  }, [])
+
+    // 使用防抖，避免频繁触发状态更新导致地图不停放大缩小
+    scrollTimerRef.current = window.setTimeout(() => {
+      const shouldCollapse = scrollTop > 60
+      if (shouldCollapse !== mapCollapsed) {
+        setMapCollapsed(shouldCollapse)
+      }
+    }, 100)
+  }, [tripEnded, mapCollapsed])
 
   const handleExpandFullscreen = () => {
     Taro.navigateTo({ url: `/pages/map-fullscreen/index?routeId=${routeId}` })
   }
 
-  const handleNavigate = () => {
-    Taro.showToast({ title: '打开导航', icon: 'none' })
+  const [navigating, setNavigating] = useState(false)
+
+  const handleNavigate = (stop?: any) => {
+    const targetStop = stop || modifiedStops.find((s: any) => s.status === 'current')
+
+    if (!targetStop) {
+      Taro.showToast({ title: '没有找到导航目标', icon: 'none' })
+      return
+    }
+
+    setNavigating(true)
+
+    // 检查是否在开发者工具中（无法调用真实导航）
+    Taro.getSystemInfo({
+      success: (res) => {
+        // 在开发者工具中显示模拟导航
+        if (res.platform === 'devtools') {
+          setNavigating(false)
+          Taro.showModal({
+            title: '导航模拟',
+            content: `正在导航到「${targetStop.name}」\n\n📍 地址：上海市杨浦区\n🚶 预计步行时间：${targetStop.walkMinutes || 10}分钟\n⏱️ 停留时间：${targetStop.stayMinutes}分钟`,
+            showCancel: false,
+            confirmText: '开始导航',
+          })
+          return
+        }
+
+        // 真机环境：调用真实导航
+        Taro.openLocation({
+          latitude: 31.2304,
+          longitude: 121.4737,
+          name: targetStop.name,
+          address: '上海市杨浦区',
+          scale: 18,
+          success: () => {
+            Taro.showToast({ title: `正在导航到「${targetStop.name}」`, icon: 'success' })
+          },
+          fail: (err) => {
+            console.error('导航失败:', err)
+            setNavigating(false)
+            Taro.showModal({
+              title: '导航提示',
+              content: `正在为您导航到「${targetStop.name}」，预计步行${targetStop.walkMinutes || 10}分钟`,
+              showCancel: false,
+            })
+          },
+          complete: () => {
+            setNavigating(false)
+          }
+        })
+      },
+      fail: () => {
+        // 获取系统信息失败，使用降级方案
+        setNavigating(false)
+        Taro.showModal({
+          title: '导航提示',
+          content: `正在为您导航到「${targetStop.name}」，预计步行${targetStop.walkMinutes || 10}分钟`,
+          showCancel: false,
+        })
+      }
+    })
   }
 
-  const handleSwap = useCallback((stop: any) => {
-    setSwapStop({ name: stop.name, alternatives: getAlternatives(stop.name) })
+  const handleSwap = useCallback((stop: any, index: number) => {
+    setSwapStop({ name: stop.name, index, alternatives: getAlternatives(stop.name) })
   }, [])
 
   const handleSelectAlt = useCallback((alt: AlternativeStop) => {
+    if (swapStop === null) return
+
+    // 使用索引进行替换，避免名称匹配问题
+    const newStops = [...modifiedStops]
+    const originalStop = newStops[swapStop.index]
+
+    newStops[swapStop.index] = {
+      ...originalStop,
+      id: alt.id,
+      name: alt.name,
+      tags: [alt.category.split(' · ')[0] || '其他'],
+      walkMinutes: alt.walkMinutes,
+      stayMinutes: originalStop?.stayMinutes || 60,
+    }
+
+    setModifiedStops(newStops)
     setSwapStop(null)
     Taro.showToast({ title: `已换成「${alt.name}」`, icon: 'success' })
-  }, [])
+  }, [swapStop, modifiedStops])
 
   const handleCallAI = (stopName?: string) => {
     const params = stopName
@@ -106,8 +208,8 @@ export default function RouteDetailPage() {
       >
         <View className={styles.content}>
           <Timeline
-            stops={route.stops as any}
-            onNavigate={handleNavigate}
+            stops={modifiedStops}
+            onNavigate={(stop) => handleNavigate(stop)}
             onGetTicket={(stop) => Taro.showToast({ title: `取号：${stop.name}`, icon: 'none' })}
             onSwap={handleSwap}
           />
