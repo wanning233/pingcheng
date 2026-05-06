@@ -8,7 +8,8 @@
 
 .scrollView {
   flex: 1;
-  overflow: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .content {

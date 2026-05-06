@@ -24,9 +24,12 @@ export default function PlanBSheet({ visible, onNavigate, onCallAI }: PlanBSheet
       </View>
 
       {/* 右侧主按钮：导航到下一站 */}
-      <View className={styles.mainBtn} onClick={onNavigate}>
-        <Text className={styles.mainBtnText}>导航到下一站</Text>
-      </View>
+        <View className={styles.mainBtn} onClick={onNavigate}>
+          <View className={styles.mainBtnContent}>
+            <Text className={styles.mainBtnText}>导航到下一站</Text>
+            <Text className={styles.mainBtnSub}>开启步行导航</Text>
+          </View>
+        </View>
     </View>
   )
 }

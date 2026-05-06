@@ -1,5 +1,6 @@
 // src/components/business/MapWindow/index.tsx
 import { View, Text, Map } from '@tarojs/components'
+import { useState } from 'react'
 import styles from './index.module.scss'
 
 // 五角场附近的站点坐标（与 routes.json 对应）
@@ -23,6 +24,10 @@ interface MapWindowProps {
 }
 
 export default function MapWindow({ collapsed, routeId, onExpandFullscreen }: MapWindowProps) {
+  // 保存用户设置的缩放级别，折叠时保存，展开时恢复
+  const [userScale, setUserScale] = useState(15)
+  const [currentScale, setCurrentScale] = useState(15)
+
   // 根据 routeId 选对应站点坐标
   const stopIds: Record<string, string[]> = {
     'route-1': ['s1', 's2', 's3'],
@@ -51,6 +56,17 @@ export default function MapWindow({ collapsed, routeId, onExpandFullscreen }: Ma
   const centerLat = coords[0]?.lat ?? 31.2990
   const centerLng = coords[0]?.lng ?? 121.5120
 
+  // 监听地图区域变化，保存用户的缩放级别
+  const handleRegionChange = (e: any) => {
+    if (e.type === 'end' && e.detail && e.detail.scale) {
+      setUserScale(e.detail.scale)
+      setCurrentScale(e.detail.scale)
+    }
+  }
+
+  // 折叠时保存缩放级别，展开时恢复
+  const scale = collapsed ? userScale : currentScale
+
   return (
     <View
       className={styles.window}
@@ -60,12 +76,15 @@ export default function MapWindow({ collapsed, routeId, onExpandFullscreen }: Ma
         className={styles.map}
         latitude={centerLat}
         longitude={centerLng}
-        scale={15}
+        scale={scale}
         markers={markers as any}
         polyline={polyline as any}
-        enableZoom
+        enableZoom={!collapsed}
         enableScroll={!collapsed}
         enableRotate={false}
+        enableOverlooking={false}
+        enableCompass={false}
+        onRegionChange={handleRegionChange}
       />
 
       {/* 展开/全屏按钮 */}
