@@ -10,17 +10,48 @@ import logoHorizontal from '../../assets/logo/logo-horizontal.svg'
 
 const PRESET_TAGS = ['朋友聚会', '情侣约会', '亲子出行', '省钱优先', '少排队']
 
-const QUICK_CATEGORIES = [
+// 场景 → 推荐主题映射
+const SCENE_THEMES: Record<string, { id: string; name: string; icon: string }[]> = {
+  朋友聚会: [
+    { id: 'food', name: '吃喝探店', icon: 'food' },
+    { id: 'game', name: '沉浸娱乐', icon: 'game' },
+    { id: 'nightlife', name: '夜生活', icon: 'nightlife' },
+    { id: 'camera', name: '拍照出片', icon: 'camera' },
+  ],
+  情侣约会: [
+    { id: 'cafe', name: '约会休闲', icon: 'cafe' },
+    { id: 'culture', name: '文化打卡', icon: 'culture' },
+    { id: 'camera', name: '拍照出片', icon: 'camera' },
+    { id: 'park', name: '公园遛弯', icon: 'park' },
+  ],
+  亲子出行: [
+    { id: 'family', name: '亲子出游', icon: 'family' },
+    { id: 'park', name: '公园遛弯', icon: 'park' },
+    { id: 'culture', name: '文化打卡', icon: 'culture' },
+    { id: 'food', name: '吃喝探店', icon: 'food' },
+  ],
+  省钱优先: [
+    { id: 'park', name: '公园遛弯', icon: 'park' },
+    { id: 'food', name: '吃喝探店', icon: 'food' },
+    { id: 'culture', name: '文化打卡', icon: 'culture' },
+    { id: 'camera', name: '拍照出片', icon: 'camera' },
+  ],
+  少排队: [
+    { id: 'outdoor', name: '户外运动', icon: 'outdoor' },
+    { id: 'park', name: '公园遛弯', icon: 'park' },
+    { id: 'cafe', name: '约会休闲', icon: 'cafe' },
+    { id: 'shopping', name: '逛街购物', icon: 'shopping' },
+  ],
+}
+
+// 默认主题（无场景时使用）
+const DEFAULT_THEMES = [
   { id: 'food', name: '吃喝探店', icon: 'food' },
   { id: 'park', name: '公园遛弯', icon: 'park' },
   { id: 'game', name: '沉浸娱乐', icon: 'game' },
   { id: 'culture', name: '文化打卡', icon: 'culture' },
   { id: 'shopping', name: '逛街购物', icon: 'shopping' },
   { id: 'camera', name: '拍照出片', icon: 'camera' },
-  { id: 'cafe', name: '约会休闲', icon: 'cafe' },
-  { id: 'nightlife', name: '夜生活', icon: 'nightlife' },
-  { id: 'outdoor', name: '户外运动', icon: 'outdoor' },
-  { id: 'family', name: '亲子出游', icon: 'family' },
 ]
 
 const PERSON_OPTIONS = ['2人', '3人', '4人', '5人', '6人']
@@ -56,6 +87,9 @@ export default function HomePage() {
   const [endTimeIdx, setEndTimeIdx] = useState(3)
   const [phIdx, setPhIdx] = useState(0)
   const [sheet, setSheet] = useState<SheetConfig | null>(null)
+  const [showThemeSheet, setShowThemeSheet] = useState(false)
+  const [themeSheetScene, setThemeSheetScene] = useState('')
+  const [pendingThemes, setPendingThemes] = useState<string[]>([])
 
   useEffect(() => {
     const t = setInterval(() => setPhIdx(i => (i + 1) % PLACEHOLDERS.length), 3000)
@@ -63,9 +97,24 @@ export default function HomePage() {
   }, [])
 
   const toggleTag = (tag: string) => {
+    const isAdding = !activeTags.includes(tag)
     setActiveTags(prev =>
       prev.includes(tag) ? prev.filter(t => t !== tag) : [...prev, tag]
     )
+    // 选中场景时弹出主题追问
+    if (isAdding) {
+      const themes = SCENE_THEMES[tag] ?? DEFAULT_THEMES
+      setPendingThemes([])
+      setThemeSheetScene(tag)
+      setShowThemeSheet(true)
+      // 预填当前已选主题中属于该场景的项
+      setActiveCategories(prev => {
+        const ids = themes.map(t => t.id)
+        // 保留已有的且属于本场景的选项作为默认勾选
+        setPendingThemes(prev.filter(id => ids.includes(id)))
+        return prev
+      })
+    }
   }
 
   const confirmCustomTag = () => {
@@ -81,6 +130,22 @@ export default function HomePage() {
     setActiveCategories(prev =>
       prev.includes(id) ? prev.filter(c => c !== id) : [...prev, id]
     )
+  }
+
+  const togglePendingTheme = (id: string) => {
+    setPendingThemes(prev =>
+      prev.includes(id) ? prev.filter(t => t !== id) : [...prev, id]
+    )
+  }
+
+  const confirmThemeSheet = () => {
+    // 合并：保留其他场景已选的主题 + 本次选择
+    setActiveCategories(prev => {
+      const currentSceneIds = (SCENE_THEMES[themeSheetScene] ?? DEFAULT_THEMES).map(t => t.id)
+      const others = prev.filter(id => !currentSceneIds.includes(id))
+      return [...others, ...pendingThemes]
+    })
+    setShowThemeSheet(false)
   }
 
   const openSheet = (config: SheetConfig) => setSheet(config)
@@ -192,36 +257,26 @@ export default function HomePage() {
           </ScrollView>
         </View>
 
-        {/* 品类 2×2 网格 */}
-        <View className={styles.section}>
-          <Text className={styles.sectionHeader}>主题</Text>
-          <View className={styles.categoryGrid}>
-            {QUICK_CATEGORIES.map(cat => {
-              const active = activeCategories.includes(cat.id)
-              return (
-                <View
-                  key={cat.id}
-                  className={`${styles.categoryItem} ${active ? styles.categoryItemActive : ''}`}
-                  onClick={() => toggleCategory(cat.id)}
-                >
-                  <View className={styles.catIconBg}>
-                    <Icon
-                      name={cat.icon as any}
-                      size={22}
-                      color={active ? '#fff' : '#AAAAAA'}
-                    />
+        {/* 已选主题标签（仅有选中项时展示） */}
+        {activeCategories.length > 0 && (
+          <View className={styles.section}>
+            <Text className={styles.sectionHeader}>主题偏好</Text>
+            <ScrollView scrollX className={styles.tagRow} enableFlex>
+              {activeCategories.map(id => {
+                const allThemes = Object.values(SCENE_THEMES).flat().concat(DEFAULT_THEMES)
+                const cat = allThemes.find(t => t.id === id)
+                if (!cat) return null
+                return (
+                  <View key={id}
+                    className={`${styles.tag} ${styles.tagActive}`}
+                    onClick={() => toggleCategory(id)}>
+                    <Text className={styles.tagText}>{cat.name}</Text>
                   </View>
-                  <Text className={styles.catName}>{cat.name}</Text>
-                  {active && (
-                    <View className={styles.catCheck}>
-                      <Icon name="check" size={14} color="#fff" />
-                    </View>
-                  )}
-                </View>
-              )
-            })}
+                )
+              })}
+            </ScrollView>
           </View>
-        </View>
+        )}
 
         {/* 出行参数 */}
         <View className={styles.section}>
@@ -290,6 +345,41 @@ export default function HomePage() {
           <Text className={styles.ctaBtnText}>立即规划</Text>
         </View>
       </View>
+
+      {/* 主题追问弹窗 */}
+      {showThemeSheet && (
+        <View className={styles.sheetMask} onClick={confirmThemeSheet}>
+          <View className={styles.sheet} onClick={e => e.stopPropagation()}>
+            <View className={styles.sheetHandle} />
+            <Text className={styles.sheetTitle}>主要玩什么？</Text>
+            <View className={styles.themeGrid}>
+              {(SCENE_THEMES[themeSheetScene] ?? DEFAULT_THEMES).map(cat => {
+                const active = pendingThemes.includes(cat.id)
+                return (
+                  <View
+                    key={cat.id}
+                    className={`${styles.themeItem} ${active ? styles.themeItemActive : ''}`}
+                    onClick={() => togglePendingTheme(cat.id)}
+                  >
+                    <Icon name={cat.icon as any} size={24} color={active ? '#fff' : '#AAAAAA'} />
+                    <Text className={styles.themeItemName}>{cat.name}</Text>
+                    {active && (
+                      <View className={styles.catCheck}>
+                        <Icon name="check" size={12} color="#fff" />
+                      </View>
+                    )}
+                  </View>
+                )
+              })}
+            </View>
+            <View className={styles.themeConfirmBtn} onClick={confirmThemeSheet}>
+              <Text className={styles.themeConfirmText}>
+                {pendingThemes.length > 0 ? `确定（${pendingThemes.length}项）` : '跳过'}
+              </Text>
+            </View>
+          </View>
+        </View>
+      )}
 
       {/* 自定义选择弹窗 */}
       {sheet && (

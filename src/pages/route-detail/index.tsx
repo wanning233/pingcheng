@@ -213,44 +213,45 @@ export default function RouteDetailPage() {
             onGetTicket={(stop) => Taro.showToast({ title: `取号：${stop.name}`, icon: 'none' })}
             onSwap={handleSwap}
           />
-          {/* 行程结束卡片 */}
-          {tripEnded ? (
-            <View className={styles.endCard}>
-              <Text className={styles.endEmoji}>🎉</Text>
-              <Text className={styles.endTitle}>今天玩得怎么样？</Text>
-              <Text className={styles.endSub}>和朋友一起记录这次行程</Text>
-              <View className={styles.endActions}>
-                <View
-                  className={styles.endBtnPrimary}
-                  onClick={() => {
-                    // 清除当前行程，回首页发起新行程
-                    Taro.reLaunch({ url: '/pages/home/index' })
-                  }}
-                >
-                  <Text className={styles.endBtnPrimaryText}>再来一次</Text>
-                </View>
-                <View
-                  className={styles.endBtnSecondary}
-                  onClick={() => Taro.showToast({ title: '分享功能即将上线', icon: 'none' })}
-                >
-                  <Text className={styles.endBtnSecondaryText}>分享给朋友</Text>
-                </View>
-              </View>
-            </View>
-          ) : (
-            <View className={styles.endTrigger} onClick={() => setTripEnded(true)}>
-              <Text className={styles.endTriggerText}>结束行程</Text>
-            </View>
-          )}
+          <View className={styles.endTrigger} onClick={() => setTripEnded(true)}>
+            <Text className={styles.endTriggerText}>结束行程</Text>
+          </View>
           <View className={styles.bottomPad} />
         </View>
       </ScrollView>
 
       <PlanBSheet
-        visible
+        visible={!tripEnded}
         onNavigate={handleNavigate}
         onCallAI={() => handleCallAI()}
       />
+
+      {/* 行程结束弹窗 */}
+      {tripEnded && (
+        <View className={styles.endOverlay}>
+          <View className={styles.endOverlayBg} />
+          <View className={styles.endSheet}>
+            <View className={styles.endSheetHandle} />
+            <Text className={styles.endEmoji}>🎉</Text>
+            <Text className={styles.endTitle}>今天玩得怎么样？</Text>
+            <Text className={styles.endSub}>和朋友一起记录这次行程</Text>
+            <View className={styles.endActions}>
+              <View
+                className={styles.endBtnPrimary}
+                onClick={() => Taro.reLaunch({ url: '/pages/home/index' })}
+              >
+                <Text className={styles.endBtnPrimaryText}>再来一次</Text>
+              </View>
+              <View
+                className={styles.endBtnSecondary}
+                onClick={() => Taro.showToast({ title: '分享功能即将上线', icon: 'none' })}
+              >
+                <Text className={styles.endBtnSecondaryText}>分享给朋友</Text>
+              </View>
+            </View>
+          </View>
+        </View>
+      )}
 
       {/* Swap stop sheet (Plan B) */}
       <SwapStopSheet
