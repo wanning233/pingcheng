@@ -122,9 +122,12 @@
 // ══════════════════════════════════
 .tagRow {
   white-space: nowrap;
+}
+
+.tagRowInner {
   display: flex;
   flex-direction: row;
-  padding: 4rpx 0 4rpx;
+  padding: 4rpx 0;
 }
 
 .tag {

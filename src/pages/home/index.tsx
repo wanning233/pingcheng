@@ -223,6 +223,7 @@ export default function HomePage() {
         <View className={styles.section}>
           <Text className={styles.sectionHeader}>场景</Text>
           <ScrollView scrollX className={styles.tagRow} enableFlex>
+            <View className={styles.tagRowInner}>
             {[...PRESET_TAGS, ...customTags].map(tag => {
               const active = activeTags.includes(tag)
               return (
@@ -254,6 +255,7 @@ export default function HomePage() {
                 <Text className={styles.tagAddText}>自定义</Text>
               </View>
             )}
+            </View>
           </ScrollView>
         </View>
 
@@ -262,6 +264,7 @@ export default function HomePage() {
           <View className={styles.section}>
             <Text className={styles.sectionHeader}>主题偏好</Text>
             <ScrollView scrollX className={styles.tagRow} enableFlex>
+              <View className={styles.tagRowInner}>
               {activeCategories.map(id => {
                 const allThemes = Object.values(SCENE_THEMES).flat().concat(DEFAULT_THEMES)
                 const cat = allThemes.find(t => t.id === id)
@@ -274,6 +277,7 @@ export default function HomePage() {
                   </View>
                 )
               })}
+              </View>
             </ScrollView>
           </View>
         )}
