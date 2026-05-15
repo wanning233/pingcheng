@@ -40,7 +40,8 @@ export const useUserStore = create<UserState>((set) => ({
   restoreFromStorage: () => {
     try {
       const data = Taro.getStorageSync(STORAGE_KEY) as UserInfo | ''
-      if (data && data.userId) {
+      const EXPIRE_MS = 30 * 24 * 60 * 60 * 1000
+      if (data && data.userId && Date.now() - data.loginTime < EXPIRE_MS) {
         set({
           userId: data.userId,
           nickName: data.nickName,

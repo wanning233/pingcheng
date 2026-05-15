@@ -11,6 +11,7 @@ import { Image } from '@tarojs/components'
 import LoginSheet from '../../components/business/LoginSheet'
 import { useUserStore } from '../../stores/useUserStore'
 
+const DEFAULT_AVATAR = 'https://thirdwx.qlogo.cn/mmopen/vi_32/POgEwh4mIHO4nibH0KlMECNjjGxQUq24ZEaGT4poC6icRiccVGKSyXwibcPq4BWmiaIaKx9EV8vj5A52KKQCS3ekPlFg/132'
 const PRESET_TAGS = ['朋友聚会', '情侣约会', '亲子出行', '省钱优先', '少排队']
 
 // 场景 → 推荐主题映射
@@ -183,7 +184,7 @@ export default function HomePage() {
             <Text className={styles.pageTitle}>今天去哪儿？</Text>
             {isLoggedIn ? (
               <Image
-                src={avatarUrl || 'https://thirdwx.qlogo.cn/mmopen/vi_32/POgEwh4mIHO4nibH0KlMECNjjGxQUq24ZEaGT4poC6icRiccVGKSyXwibcPq4BWmiaIaKx9EV8vj5A52KKQCS3ekPlFg/132'}
+                src={avatarUrl || DEFAULT_AVATAR}
                 className={styles.userAvatar}
                 onClick={() => setShowInviteSheet(true)}
               />
