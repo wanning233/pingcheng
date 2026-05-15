@@ -29,7 +29,11 @@ export const useUserStore = create<UserState>((set) => ({
 
   setUser: (info) => {
     const data: UserInfo = { ...info, loginTime: Date.now() }
-    Taro.setStorageSync(STORAGE_KEY, data)
+    try {
+      Taro.setStorageSync(STORAGE_KEY, data)
+    } catch (e) {
+      console.error('[useUserStore] setUser storage error:', e)
+    }
     set({ ...info, isLoggedIn: true })
   },
 
@@ -44,11 +48,17 @@ export const useUserStore = create<UserState>((set) => ({
           isLoggedIn: true,
         })
       }
-    } catch (_) {}
+    } catch (e) {
+      console.error('[useUserStore] restoreFromStorage error:', e)
+    }
   },
 
   clearUser: () => {
-    Taro.removeStorageSync(STORAGE_KEY)
+    try {
+      Taro.removeStorageSync(STORAGE_KEY)
+    } catch (e) {
+      console.error('[useUserStore] clearUser storage error:', e)
+    }
     set({ userId: '', nickName: '', avatarUrl: '', isLoggedIn: false })
   },
 }))
