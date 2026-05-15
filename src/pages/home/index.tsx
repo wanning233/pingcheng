@@ -1,5 +1,5 @@
 // src/pages/home/index.tsx
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import Taro from '@tarojs/taro'
 import { View, Text, Input, ScrollView } from '@tarojs/components'
 import cx from 'classnames'
@@ -152,7 +152,11 @@ export default function HomePage() {
     doPlan()
   }
 
-  const doPlan = () => {
+  const doPlan = useCallback(() => {
+    if (!area.trim()) {
+      Taro.showToast({ title: '请输入目的地或活动', icon: 'none' })
+      return
+    }
     const code = Math.random().toString(36).slice(2, 8).toUpperCase()
     setSession({
       peopleCount: PERSON_COUNTS[personIdx],
@@ -167,7 +171,7 @@ export default function HomePage() {
       setPlanning(false)
       Taro.navigateTo({ url: '/pages/route-compare/index' })
     }, 1800)
-  }
+  }, [area, personIdx, budgetIdx, endTimeIdx, activeTags, activeCategories, setSession])
 
   return (
     <View className={styles.page}>
@@ -179,7 +183,7 @@ export default function HomePage() {
             <Text className={styles.pageTitle}>今天去哪儿？</Text>
             {isLoggedIn ? (
               <Image
-                src={avatarUrl}
+                src={avatarUrl || 'https://thirdwx.qlogo.cn/mmopen/vi_32/POgEwh4mIHO4nibH0KlMECNjjGxQUq24ZEaGT4poC6icRiccVGKSyXwibcPq4BWmiaIaKx9EV8vj5A52KKQCS3ekPlFg/132'}
                 className={styles.userAvatar}
                 onClick={() => setShowInviteSheet(true)}
               />
@@ -418,8 +422,12 @@ export default function HomePage() {
         <LoginSheet
           onClose={() => { setShowLogin(false); setPendingAction(null) }}
           onSuccess={() => {
-            if (pendingAction === 'plan') doPlan()
-            if (pendingAction === 'invite') setShowInviteSheet(true)
+            // 明确在 onSuccess 执行时读取 pendingAction，不依赖 onClose 调用顺序
+            const action = pendingAction
+            setShowLogin(false)
+            setPendingAction(null)
+            if (action === 'plan') doPlan()
+            if (action === 'invite') setShowInviteSheet(true)
           }}
         />
       )}
