@@ -68,3 +68,8 @@
   text-align: center;
   padding-bottom: 8rpx;
 }
+
+// 重置 Taro Button 默认样式
+.loginBtn::after {
+  border: none;
+}
