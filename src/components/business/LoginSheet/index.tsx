@@ -37,8 +37,8 @@ export default function LoginSheet({ onClose, onSuccess }: Props) {
       onSuccess?.()
       onClose()
     } catch (e: any) {
-      // 用户主动取消授权，静默处理
-      if (e?.errMsg && !e.errMsg.includes('cancel')) {
+      const isCancelled = e?.errMsg?.includes('cancel')
+      if (!isCancelled) {
         console.error('[LoginSheet] handleLogin error:', e)
         Taro.showToast({ title: '登录失败，请重试', icon: 'none' })
       }
