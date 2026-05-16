@@ -68,7 +68,7 @@ type SheetConfig = {
 }
 
 export default function HomePage() {
-  const { area, notes, setSession } = useSessionStore()
+  const { area, notes, inviteCode, setSession } = useSessionStore()
   const selectedRouteId = useRouteStore(s => s.selectedRouteId)
   const { isLoggedIn, avatarUrl } = useUserStore()
   const [showLogin, setShowLogin] = useState(false)
@@ -403,9 +403,9 @@ export default function HomePage() {
               <Text className={styles.inviteDesc}>分享邀请码给朋友，大家填完偏好后 AI 帮你们协调路线</Text>
               <View className={styles.inviteCodeRow}>
                 <Text className={styles.inviteCodeLabel}>邀请码</Text>
-                <Text className={styles.inviteCodeValue}>—</Text>
+                <Text className={styles.inviteCodeValue}>{inviteCode || '—'}</Text>
               </View>
-              <Text className={styles.inviteHint}>先规划行程，生成后即可邀请</Text>
+              {!inviteCode && <Text className={styles.inviteHint}>先规划行程，生成后即可邀请</Text>}
             </View>
             <View className={styles.inviteFooter}>
               <View className={styles.inviteBtn2} onClick={() => {
