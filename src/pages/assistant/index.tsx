@@ -109,10 +109,21 @@ export default function AssistantPage() {
           })
           demoEngine.schedule(() => {
             setDiffVisible(true)
-            // After showing diff, restore default quick replies
             setQuickReplies(DEFAULT_QUICK_REPLIES)
           }, 400)
         }, 1200)
+      } else {
+        // 兜底回复：用户说的话没匹配到关键词，给引导性回应
+        setThinking(true)
+        demoEngine.schedule(() => {
+          setThinking(false)
+          addMessage({
+            id: nextId(),
+            role: 'ai',
+            content: '我没太明白你的意思，你是想换个地方，还是调整一下后面的行程安排？',
+            isStreaming: true,
+          })
+        }, 800)
       }
     },
     [addMessage]
