@@ -48,8 +48,8 @@ const SCENE_THEMES: Record<string, { id: string; name: string; icon: string }[]>
   ],
 }
 
-const PERSON_OPTIONS = ['2人', '3人', '4人', '5人', '6人']
-const PERSON_COUNTS = [2, 3, 4, 5, 6]
+const PERSON_OPTIONS = ['1人', '2人', '3人', '4人', '5人', '6人']
+const PERSON_COUNTS = [1, 2, 3, 4, 5, 6]
 const BUDGET_OPTIONS = ['¥50以内', '¥100以内', '¥150以内', '¥200以内', '不限']
 const BUDGET_VALUES = [50, 100, 150, 200, 999]
 const ENDTIME_OPTIONS = ['18:00', '19:00', '20:00', '21:00', '22:00', '23:00']
