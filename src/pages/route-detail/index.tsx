@@ -235,7 +235,7 @@ export default function RouteDetailPage() {
             <View className={styles.endActions}>
               <View
                 className={styles.endBtnPrimary}
-                onClick={() => Taro.navigateBack({ delta: 10 })}
+                onClick={() => Taro.reLaunch({ url: '/pages/home/index' })}
               >
                 <Text className={styles.endBtnPrimaryText}>再来一次</Text>
               </View>
