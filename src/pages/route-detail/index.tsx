@@ -121,9 +121,11 @@ export default function RouteDetailPage() {
         }
 
         // 真机环境：调用真实导航
+        const lat = targetStop.coord?.lat ?? 31.2304
+        const lng = targetStop.coord?.lng ?? 121.4737
         Taro.openLocation({
-          latitude: 31.2304,
-          longitude: 121.4737,
+          latitude: lat,
+          longitude: lng,
           name: targetStop.name,
           address: '上海市杨浦区',
           scale: 18,
