@@ -44,6 +44,58 @@ export const mockRoutes = [
   },
 ]
 
+// 根据用户偏好对路线排序，模拟 AI 个性化推荐
+export function getPersonalizedRoutes(params: {
+  sceneTags: string[]
+  categories: string[]
+  budgetPerPerson: number
+}) {
+  const { sceneTags, categories, budgetPerPerson } = params
+
+  // 场景/主题 → 偏好路线 id 映射
+  const preferMap: Record<string, string[]> = {
+    朋友聚会: ['route-3', 'route-1', 'route-2'],
+    情侣约会: ['route-1', 'route-3', 'route-2'],
+    亲子出行: ['route-1', 'route-2', 'route-3'],
+    省钱优先: ['route-2', 'route-1', 'route-3'],
+    少排队:   ['route-1', 'route-2', 'route-3'],
+    // categories
+    food:      ['route-3', 'route-1', 'route-2'],
+    game:      ['route-3', 'route-1', 'route-2'],
+    nightlife: ['route-3', 'route-1', 'route-2'],
+    camera:    ['route-3', 'route-1', 'route-2'],
+    cafe:      ['route-1', 'route-3', 'route-2'],
+    culture:   ['route-2', 'route-1', 'route-3'],
+    park:      ['route-1', 'route-2', 'route-3'],
+    outdoor:   ['route-1', 'route-2', 'route-3'],
+    family:    ['route-2', 'route-1', 'route-3'],
+    shopping:  ['route-3', 'route-2', 'route-1'],
+  }
+
+  // 计算每条路线的偏好得分（分数越高越靠前）
+  const scoreMap: Record<string, number> = { 'route-1': 0, 'route-2': 0, 'route-3': 0 }
+  const keys = [...sceneTags, ...categories]
+  keys.forEach(key => {
+    const order = preferMap[key]
+    if (order) {
+      order.forEach((id, i) => {
+        scoreMap[id] = (scoreMap[id] ?? 0) + (3 - i)
+      })
+    }
+  })
+
+  // 预算过滤：预算偏低时提高 route-2（省钱线）得分
+  if (budgetPerPerson < 100) {
+    scoreMap['route-2'] += 3
+    scoreMap['route-3'] -= 2
+  }
+
+  const sorted = [...mockRoutes].sort((a, b) => (scoreMap[b.id] ?? 0) - (scoreMap[a.id] ?? 0))
+
+  // 得分最高的标记为 AI 推荐
+  return sorted.map((r, i) => ({ ...r, isAiRecommended: i === 0 }))
+}
+
 // 将stops补充status字段（供详情页时间轴使用）
 export function getRouteDetailMock(routeId: string) {
   const route = mockRoutes.find(r => r.id === routeId)

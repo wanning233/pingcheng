@@ -1,12 +1,12 @@
 // src/pages/route-compare/index.tsx
 import { useState } from 'react'
-import { View, Text, ScrollView, Map } from '@tarojs/components'
+import { View, Text, ScrollView, Map, Button } from '@tarojs/components'
 import Taro from '@tarojs/taro'
 import RouteCard from '@/components/business/RouteCard'
 import Icon from '@/components/base/Icon'
 import { useRouteStore } from '@/stores/useRouteStore'
 import { useSessionStore } from '@/stores/useSessionStore'
-import { mockRoutes } from '@/services/mock/routes'
+import { getPersonalizedRoutes } from '@/services/mock/routes'
 import styles from './index.module.scss'
 
 const STOP_COORDS: Record<string, { lat: number; lng: number }> = {
@@ -30,10 +30,11 @@ const ROUTE_STOPS: Record<string, string[]> = {
 export default function RouteComparePage() {
   const selectedRouteId = useRouteStore(s => s.selectedRouteId)
   const selectRoute = useRouteStore(s => s.selectRoute)
-  const { area, peopleCount, endTime } = useSessionStore(s => s)
+  const { area, peopleCount, endTime, budgetPerPerson, sceneTags, categories } = useSessionStore(s => s)
+  const routes = getPersonalizedRoutes({ sceneTags, categories, budgetPerPerson })
 
   const [expandedRouteId, setExpandedRouteId] = useState<string | null>(null)
-  const expandedRoute = expandedRouteId ? mockRoutes.find(r => r.id === expandedRouteId) : null
+  const expandedRoute = expandedRouteId ? routes.find(r => r.id === expandedRouteId) : null
 
   const sheetMapData = expandedRoute ? (() => {
     const ids = ROUTE_STOPS[expandedRoute.id] ?? []
@@ -64,12 +65,24 @@ export default function RouteComparePage() {
   return (
     <View className={styles.page}>
       <View className={styles.header}>
-        <Text className={styles.title}>为你们生成了3条路线</Text>
+        <Text className={styles.titleSmall}>为你们生成了</Text>
+        <Text className={styles.titleBig}>3 条路线</Text>
         <Text className={styles.subtitle}>{`${area || '出发地'} · ${peopleCount}人成行 · ${endTime}前结束`}</Text>
       </View>
 
+      {/* 邀请好友一起选 */}
+      <View className={styles.inviteBanner}>
+        <View className={styles.inviteBannerLeft}>
+          <Text className={styles.inviteBannerTitle}>叫好友一起来选</Text>
+          <Text className={styles.inviteBannerSub}>分享路线，大家投票决定去哪</Text>
+        </View>
+        <Button className={styles.inviteBannerBtn} openType="share">
+          <Text className={styles.inviteBannerBtnText}>分享</Text>
+        </Button>
+      </View>
+
       <View className={styles.list}>
-        {mockRoutes.map((route, i) => (
+        {routes.map((route, i) => (
           <View
             key={route.id}
             className={styles.cardWrap}
