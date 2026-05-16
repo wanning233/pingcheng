@@ -43,16 +43,29 @@ interface RouteState {
   routes: Route[]
   selectedRouteId: string | null
   transitionRect: DOMRect | null
+  // 行程中用户换站后的站点列表，route-detail 和 assistant 共享
+  modifiedStops: Stop[]
   setRoutes: (routes: Route[]) => void
   selectRoute: (routeId: string) => void
   setTransitionRect: (rect: DOMRect | null) => void
+  setModifiedStops: (stops: Stop[]) => void
+  swapStop: (index: number, replacement: Partial<Stop>) => void
 }
 
 export const useRouteStore = create<RouteState>((set) => ({
   routes: [],
   selectedRouteId: null,
   transitionRect: null,
+  modifiedStops: [],
   setRoutes: (routes) => set({ routes }),
   selectRoute: (routeId) => set({ selectedRouteId: routeId }),
   setTransitionRect: (rect) => set({ transitionRect: rect }),
+  setModifiedStops: (stops) => set({ modifiedStops: stops }),
+  swapStop: (index, replacement) => set((state) => {
+    const newStops = [...state.modifiedStops]
+    if (newStops[index]) {
+      newStops[index] = { ...newStops[index], ...replacement }
+    }
+    return { modifiedStops: newStops }
+  }),
 }))

@@ -7,6 +7,7 @@ import Timeline from '@/components/business/Timeline'
 import PlanBSheet from '@/components/business/PlanBSheet'
 import SwapStopSheet, { AlternativeStop } from '@/components/business/SwapStopSheet'
 import { getRouteDetailMock } from '@/services/mock/routes'
+import { useRouteStore } from '@/stores/useRouteStore'
 import styles from './index.module.scss'
 
 const USE_TMAP_SDK = false
@@ -53,11 +54,10 @@ export default function RouteDetailPage() {
   const routeId = router.params.routeId || 'route-3'
   const route = getRouteDetailMock(routeId)
 
+  const { modifiedStops, setModifiedStops, swapStop: swapStopInStore } = useRouteStore()
   const [mapCollapsed, setMapCollapsed] = useState(false)
   const [swapStop, setSwapStop] = useState<{ name: string; index: number; alternatives: AlternativeStop[] } | null>(null)
   const [tripEnded, setTripEnded] = useState(false)
-  // 用于存储修改后的站点列表
-  const [modifiedStops, setModifiedStops] = useState<any[]>([])
 
   // 防抖计时器引用
   const scrollTimerRef = useRef<number | null>(null)
@@ -67,7 +67,7 @@ export default function RouteDetailPage() {
     if (route?.stops && modifiedStops.length === 0) {
       setModifiedStops(route.stops)
     }
-  }, [route, modifiedStops.length])
+  }, [route, modifiedStops.length, setModifiedStops])
 
   const handleScroll = useCallback((e: any) => {
     // 行程结束后不再响应滚动事件
@@ -163,23 +163,18 @@ export default function RouteDetailPage() {
   const handleSelectAlt = useCallback((alt: AlternativeStop) => {
     if (swapStop === null) return
 
-    // 使用索引进行替换，避免名称匹配问题
-    const newStops = [...modifiedStops]
-    const originalStop = newStops[swapStop.index]
-
-    newStops[swapStop.index] = {
-      ...originalStop,
+    const originalStop = modifiedStops[swapStop.index]
+    swapStopInStore(swapStop.index, {
       id: alt.id,
       name: alt.name,
       tags: [alt.category.split(' · ')[0] || '其他'],
       walkMinutes: alt.walkMinutes,
       stayMinutes: originalStop?.stayMinutes || 60,
-    }
+    } as any)
 
-    setModifiedStops(newStops)
     setSwapStop(null)
     Taro.showToast({ title: `已换成「${alt.name}」`, icon: 'success' })
-  }, [swapStop, modifiedStops])
+  }, [swapStop, modifiedStops, swapStopInStore])
 
   const handleCallAI = (stopName?: string) => {
     const params = stopName
@@ -238,7 +233,7 @@ export default function RouteDetailPage() {
             <View className={styles.endActions}>
               <View
                 className={styles.endBtnPrimary}
-                onClick={() => Taro.reLaunch({ url: '/pages/home/index' })}
+                onClick={() => Taro.navigateBack({ delta: 10 })}
               >
                 <Text className={styles.endBtnPrimaryText}>再来一次</Text>
               </View>

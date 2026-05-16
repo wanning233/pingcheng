@@ -2,12 +2,14 @@
 import { View, Text, ScrollView, Input } from '@tarojs/components'
 import Taro, { useLoad, useUnload, useRouter } from '@tarojs/taro'
 import React, { useState, useRef, useCallback } from 'react'
+import cx from 'classnames'
 import ChatBubble from '@/components/business/ChatBubble'
 import ThinkingIndicator from '@/components/business/ThinkingIndicator'
 import RouteDiffCard from '@/components/business/RouteDiffCard'
 import Icon from '@/components/base/Icon'
 import { demoEngine } from '@/utils/mockEngine'
 import { useTripStore } from '@/stores/useTripStore'
+import { useRouteStore } from '@/stores/useRouteStore'
 import styles from './index.module.scss'
 
 interface Message {
@@ -48,11 +50,14 @@ export default function AssistantPage() {
   const [messages, setMessages] = useState<Message[]>([])
   const [thinking, setThinking] = useState(false)
   const [diffVisible, setDiffVisible] = useState(false)
+  const [showViewRoute, setShowViewRoute] = useState(false)
   const [inputValue, setInputValue] = useState('')
   const [quickReplies, setQuickReplies] = useState<string[]>(
     stopName ? getStopQuickReplies(stopName) : DEFAULT_QUICK_REPLIES
   )
   const currentStopIndex = useTripStore((s) => s.currentStopIndex)
+  const swapStopInStore = useRouteStore((s) => s.swapStop)
+  const modifiedStops = useRouteStore((s) => s.modifiedStops)
   const scrollTopRef = useRef(9999999)
 
   const addMessage = useCallback((msg: Message) => {
@@ -122,6 +127,14 @@ export default function AssistantPage() {
 
   const handleAccept = useCallback(() => {
     setDiffVisible(false)
+    // 同步换站结果到全局 store，route-detail 页面 navigateBack 后能看到更新
+    if (currentStopIndex >= 0 && modifiedStops[currentStopIndex]) {
+      swapStopInStore(currentStopIndex, {
+        name: '弄堂里的湖南菜',
+        tags: ['湖南菜'],
+        estimatedQueueMinutes: 5,
+      } as any)
+    }
     demoEngine.schedule(() => {
       addMessage({
         id: nextId(),
@@ -129,8 +142,9 @@ export default function AssistantPage() {
         content: ACCEPTED_REPLY,
         isStreaming: true,
       })
+      setShowViewRoute(true)
     }, 300)
-  }, [addMessage])
+  }, [addMessage, currentStopIndex, modifiedStops, swapStopInStore])
 
   const handleDecline = useCallback(() => {
     setDiffVisible(false)
@@ -146,9 +160,6 @@ export default function AssistantPage() {
 
   return (
     <View className={styles.page}>
-      {/* Background glow */}
-      <View className={styles.bgGlow} />
-
       {/* Top bar */}
       <View className={styles.topBar}>
         <Text className={styles.topTitle}>途中助手</Text>
@@ -168,7 +179,7 @@ export default function AssistantPage() {
         <View className={styles.messageInner}>
           {/* AI capability hint card */}
           <View className={styles.capabilityCard}>
-            <Text className={styles.capabilityTitle}>我能帮你做这些 ⚡</Text>
+            <Text className={styles.capabilityTitle}>我能帮你</Text>
             <View className={styles.capabilityList}>
               {[
                 '查实时排队时间',
@@ -176,9 +187,11 @@ export default function AssistantPage() {
                 '调整后续行程安排',
                 '修改预算或结束时间',
                 '解答任何途中问题',
-              ].map(item => (
-                <View key={item} className={styles.capabilityItem}>
-                  <View className={styles.capabilityDot} />
+              ].map((item, index, arr) => (
+                <View
+                  key={item}
+                  className={cx(styles.capabilityItem, index === arr.length - 1 && styles.capabilityItemLast)}
+                >
                   <Text className={styles.capabilityText}>{item}</Text>
                 </View>
               ))}
@@ -200,6 +213,12 @@ export default function AssistantPage() {
             onAccept={handleAccept}
             onDecline={handleDecline}
           />
+          {/* 接受换站后：回到路线的入口 */}
+          {showViewRoute && (
+            <View className={styles.viewRouteBtn} onClick={() => Taro.navigateBack()}>
+              <Text className={styles.viewRouteBtnText}>查看更新后的路线 →</Text>
+            </View>
+          )}
         </View>
       </ScrollView>
 
@@ -234,7 +253,7 @@ export default function AssistantPage() {
             className={styles.sendBtn}
             onClick={() => handleSend(inputValue)}
           >
-            <Icon name="arrow-left" size={20} color="#fff" style={{ transform: 'rotate(90deg)' }} />
+            <Icon name="arrow-left" size={24} color="#fff" style={{ transform: 'rotate(90deg)' }} />
           </View>
         </View>
       </View>
