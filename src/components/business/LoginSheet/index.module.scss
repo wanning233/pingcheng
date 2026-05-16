@@ -42,10 +42,59 @@
   font-size: 28rpx;
   color: #888888;
   text-align: center;
-  margin-bottom: 48rpx;
+  margin-bottom: 40rpx;
 }
 
-.loginBtn {
+// 头像选择按钮
+.avatarBtn {
+  width: 120rpx;
+  height: 140rpx;
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 32rpx;
+  padding: 0;
+}
+
+.avatarBtn::after {
+  border: none;
+}
+
+.avatarImg {
+  width: 96rpx;
+  height: 96rpx;
+  border-radius: 50%;
+  border: 1.5rpx solid rgba(0, 0, 0, 0.10);
+  margin-bottom: 8rpx;
+}
+
+.avatarHint {
+  font-size: 20rpx;
+  color: rgba(17, 17, 17, 0.40);
+  text-align: center;
+}
+
+// 昵称输入
+.nickInput {
+  width: 100%;
+  height: 88rpx;
+  background: #F7F7F8;
+  border-radius: 16rpx;
+  padding: 0 28rpx;
+  font-size: 30rpx;
+  color: #111111;
+  box-sizing: border-box;
+  margin-bottom: 24rpx;
+}
+
+.nickPlaceholder {
+  color: rgba(17, 17, 17, 0.30);
+}
+
+// 确认按钮
+.confirmBtn {
   width: 100%;
   height: 96rpx;
   background: #111111;
@@ -56,7 +105,11 @@
   margin-bottom: 24rpx;
 }
 
-.loginBtnText {
+.confirmBtn::after {
+  border: none;
+}
+
+.confirmBtnText {
   font-size: 32rpx;
   font-weight: 600;
   color: #FFFFFF;
@@ -67,9 +120,4 @@
   color: rgba(17, 17, 17, 0.30);
   text-align: center;
   padding-bottom: 8rpx;
-}
-
-// 重置 Taro Button 默认样式
-.loginBtn::after {
-  border: none;
 }

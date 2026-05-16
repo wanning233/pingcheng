@@ -50,17 +50,8 @@ export default function InviteLandingPage() {
 
   const handleJoin = () => {
     setJoining(true)
-    // wx.getUserProfile → navigate to preference
-    Taro.getUserProfile({
-      desc: '用于展示你的头像和昵称',
-      success: () => {
-        Taro.navigateTo({ url: '/pages/preference/index' })
-      },
-      fail: () => {
-        setJoining(false)
-        Taro.showToast({ title: '需要授权才能加入', icon: 'none' })
-      },
-    })
+    // 直接跳转偏好问卷，登录授权在 preference 页面内处理
+    Taro.navigateTo({ url: '/pages/preference/index' })
   }
 
   const joinedRatio = `${invite.joinedCount}/${invite.maxPeople}`
