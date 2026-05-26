@@ -12,7 +12,7 @@ import LoginSheet from '../../components/business/LoginSheet'
 import { useUserStore } from '../../stores/useUserStore'
 
 const DEFAULT_AVATAR = 'https://thirdwx.qlogo.cn/mmopen/vi_32/POgEwh4mIHO4nibH0KlMECNjjGxQUq24ZEaGT4poC6icRiccVGKSyXwibcPq4BWmiaIaKx9EV8vj5A52KKQCS3ekPlFg/132'
-const PRESET_TAGS = ['朋友聚会', '情侣约会', '亲子出行', '省钱优先', '少排队']
+const PRESET_TAGS = ['朋友聚会', '情侣约会', '亲子出行', '少排队']
 
 // 场景 → 推荐主题映射
 const SCENE_THEMES: Record<string, { id: string; name: string; icon: string }[]> = {
@@ -34,12 +34,6 @@ const SCENE_THEMES: Record<string, { id: string; name: string; icon: string }[]>
     { id: 'culture', name: '文化打卡', icon: 'culture' },
     { id: 'food', name: '吃喝探店', icon: 'food' },
   ],
-  省钱优先: [
-    { id: 'park', name: '公园遛弯', icon: 'park' },
-    { id: 'food', name: '吃喝探店', icon: 'food' },
-    { id: 'culture', name: '文化打卡', icon: 'culture' },
-    { id: 'camera', name: '拍照出片', icon: 'camera' },
-  ],
   少排队: [
     { id: 'outdoor', name: '户外运动', icon: 'outdoor' },
     { id: 'park', name: '公园遛弯', icon: 'park' },
@@ -50,9 +44,8 @@ const SCENE_THEMES: Record<string, { id: string; name: string; icon: string }[]>
 
 const PERSON_OPTIONS = ['1人', '2人', '3人', '4人', '5人', '6人']
 const PERSON_COUNTS = [1, 2, 3, 4, 5, 6]
-const BUDGET_OPTIONS = ['¥50以内', '¥100以内', '¥150以内', '¥200以内', '不限']
-const BUDGET_VALUES = [50, 100, 150, 200, 999]
-const ENDTIME_OPTIONS = ['18:00', '19:00', '20:00', '21:00', '22:00', '23:00']
+const STARTTIME_OPTIONS = ['08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00']
+const ENDTIME_OPTIONS = ['10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00']
 const PLACEHOLDERS = [
   '五角场吃火锅，顺便拍照',
   '陆家嘴下午茶，再逛街',
@@ -80,8 +73,9 @@ export default function HomePage() {
   const [showTagInput, setShowTagInput] = useState(false)
   const [tagInputVal, setTagInputVal] = useState('')
   const [personIdx, setPersonIdx] = useState(2)
-  const [budgetIdx, setBudgetIdx] = useState(2)
-  const [endTimeIdx, setEndTimeIdx] = useState(3)
+  const [budgetInput, setBudgetInput] = useState('')
+  const [startTimeIdx, setStartTimeIdx] = useState(2)
+  const [endTimeIdx, setEndTimeIdx] = useState(11)
   const [phIdx, setPhIdx] = useState(0)
   const [sheet, setSheet] = useState<SheetConfig | null>(null)
   const [showThemeSheet, setShowThemeSheet] = useState(false)
@@ -161,7 +155,8 @@ export default function HomePage() {
     const code = Math.random().toString(36).slice(2, 8).toUpperCase()
     setSession({
       peopleCount: PERSON_COUNTS[personIdx],
-      budgetPerPerson: BUDGET_VALUES[budgetIdx],
+      budgetPerPerson: budgetInput ? parseInt(budgetInput, 10) : 999,
+      startTime: STARTTIME_OPTIONS[startTimeIdx],
       endTime: ENDTIME_OPTIONS[endTimeIdx],
       sceneTags: activeTags,
       categories: activeCategories,
@@ -170,9 +165,9 @@ export default function HomePage() {
     setPlanning(true)
     setTimeout(() => {
       setPlanning(false)
-      Taro.navigateTo({ url: '/pages/route-compare/index' })
+      Taro.navigateTo({ url: '/pages/ai-questions/index' })
     }, 1800)
-  }, [area, personIdx, budgetIdx, endTimeIdx, activeTags, activeCategories, setSession])
+  }, [area, personIdx, budgetInput, startTimeIdx, endTimeIdx, activeTags, activeCategories, setSession])
 
   return (
     <View className={styles.page}>
@@ -287,14 +282,28 @@ export default function HomePage() {
               <Text className={styles.paramValue}>{PERSON_OPTIONS[personIdx]}</Text>
               <Icon name="chevron-right" size={18} color="rgba(26,26,26,0.25)" />
             </View>
-            <View className={styles.paramRow} onClick={() => openSheet({
-              title: '人均预算',
-              options: BUDGET_OPTIONS,
-              current: budgetIdx,
-              onSelect: (i) => { setBudgetIdx(i); closeSheet() },
-            })}>
+            <View className={styles.paramRow}>
               <Text className={styles.paramLabel}>人均预算</Text>
-              <Text className={styles.paramValue}>{BUDGET_OPTIONS[budgetIdx]}</Text>
+              <View className={styles.budgetInputWrap}>
+                <Input
+                  className={styles.budgetInput}
+                  type="number"
+                  value={budgetInput}
+                  placeholder="不限"
+                  placeholderClass={styles.budgetPlaceholder}
+                  onInput={e => setBudgetInput(e.detail.value)}
+                />
+                {budgetInput ? <Text className={styles.budgetUnit}>元/人</Text> : null}
+              </View>
+            </View>
+            <View className={styles.paramRow} onClick={() => openSheet({
+              title: '开始时间',
+              options: STARTTIME_OPTIONS,
+              current: startTimeIdx,
+              onSelect: (i) => { setStartTimeIdx(i); closeSheet() },
+            })}>
+              <Text className={styles.paramLabel}>开始时间</Text>
+              <Text className={styles.paramValue}>{STARTTIME_OPTIONS[startTimeIdx]}</Text>
               <Icon name="chevron-right" size={18} color="rgba(26,26,26,0.25)" />
             </View>
             <View className={styles.paramRow} onClick={() => openSheet({
@@ -373,7 +382,7 @@ export default function HomePage() {
           <View className={styles.sheet} onClick={e => e.stopPropagation()}>
             <View className={styles.sheetHandle} />
             <Text className={styles.sheetTitle}>{sheet.title}</Text>
-            <View className={styles.sheetList}>
+            <ScrollView scrollY className={styles.sheetList}>
               {sheet.options.map((opt, i) => (
                 <View
                   key={opt}
@@ -388,7 +397,7 @@ export default function HomePage() {
                   )}
                 </View>
               ))}
-            </View>
+            </ScrollView>
           </View>
         </View>
       )}

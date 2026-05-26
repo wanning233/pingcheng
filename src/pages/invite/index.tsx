@@ -31,7 +31,7 @@ export default function InvitePage() {
   const tripCode = inviteCode
 
   const handleCreate = () => {
-    Taro.switchTab({ url: '/pages/home/index' })
+    Taro.navigateBack()
   }
 
   // const handleShare = (invite: typeof MOCK_SENT_INVITES[0]) => {

@@ -1,16 +1,10 @@
 // src/styles/theme.scss — Warm Cream × Orange
 
 page, :root {
-  // 背景 — 双光晕，左上粉玫瑰 + 右上黄橙，向下淡出至纯白
-  --color-bg-base:    #FAFAFA;
+  // 背景 — 纯白
+  --color-bg-base:    #FFFFFF;
   --color-bg-card:    #FFFFFF;
-  --gradient-bg:
-    radial-gradient(ellipse 70% 35% at 15% 22%, rgba(242, 180, 160, 0.55) 0%, transparent 55%),
-    radial-gradient(ellipse 70% 35% at 85% 18%, rgba(245, 210, 150, 0.50) 0%, transparent 55%),
-    radial-gradient(ellipse 50% 25% at 50% 40%, rgba(248, 195, 160, 0.30) 0%, transparent 60%),
-    radial-gradient(ellipse 40% 20% at 90% 45%, rgba(242, 220, 170, 0.25) 0%, transparent 55%),
-    radial-gradient(ellipse 35% 18% at 8% 50%, rgba(238, 175, 155, 0.22) 0%, transparent 55%),
-    #FAFAFA;
+  --gradient-bg:      #FFFFFF;
 
   // 品牌橙
   --color-primary:    #FF6B2B;
@@ -29,15 +23,15 @@ page, :root {
   --color-text-disabled:  rgba(26, 26, 26, 0.25);
   --color-success:  #34C759;
 
-  // 渐变 — 橙色主渐变（左浅黄橙 → 右深橙，模仿截图CTA按钮）
-  --gradient-brand: linear-gradient(to right, #FFBB55 0%, #FF6B2B 100%);
+  // 主按钮色 — 纯黑
+  --gradient-brand: #111111;
   // 次要按钮色
-  --color-btn-secondary-bg:   #FFF0E6;
-  --color-btn-secondary-text: #FF6B2B;
+  --color-btn-secondary-bg:   #FFFFFF;
+  --color-btn-secondary-text: #111111;
   // 图标圆形背景
   --color-icon-circle-solid:  #FF7A30;
   --color-icon-circle-ghost:  rgba(255, 107, 43, 0.12);
-  --gradient-mask:  linear-gradient(180deg, transparent 0%, rgba(245,238,233,0.95) 100%);
+  --gradient-mask:  linear-gradient(180deg, transparent 0%, rgba(255,255,255,0.95) 100%);
 
   // 圆角
   --radius-pill:    999px;
@@ -62,18 +56,15 @@ page, :root {
 
   // 阴影 — 极轻，暖色调
   --shadow-card:
-    0 2px 12px rgba(0, 0, 0, 0.06);
+    0 1px 4px rgba(0, 0, 0, 0.06);
 
   --shadow-card-raised:
-    0 6px 24px rgba(0, 0, 0, 0.09);
+    0 2px 8px rgba(0, 0, 0, 0.08);
 
   --shadow-card-selected:
-    0 4px 20px rgba(255, 107, 43, 0.22),
-    0 1px 6px rgba(255, 107, 43, 0.14);
+    0 0 0 2px #111111;
 
-  --shadow-btn:
-    0 4px 16px rgba(255, 107, 43, 0.38),
-    0 1px 4px rgba(255, 107, 43, 0.18);
+  --shadow-btn: none;
 
   --shadow-floating:
     0 -1px 0 rgba(0, 0, 0, 0.04),

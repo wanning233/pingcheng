@@ -8,9 +8,10 @@
   z-index: 100;
   padding: 24rpx 40rpx;
   padding-bottom: calc(24rpx + env(safe-area-inset-bottom));
-  background: rgba(245, 238, 233, 0.92);
-  backdrop-filter: blur(24px) saturate(180%);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  background: rgba(255, 255, 255, 0.95);
+  border-top: 1px solid #EFEFEF;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
 }
 
 .btn {
@@ -21,7 +22,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 6rpx 24rpx rgba(255, 107, 43, 0.36);
   transition: opacity 140ms ease, transform 140ms ease;
 }
 

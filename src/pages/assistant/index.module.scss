@@ -4,14 +4,10 @@
   display: flex;
   flex-direction: column;
   height: 100vh;
-  background: var(--gradient-bg);
+  background: #FFFFFF;
   position: relative;
   overflow: hidden;
   box-sizing: border-box;
-}
-
-.bgGlow {
-  display: none;
 }
 
 .topBar {
@@ -21,8 +17,10 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 20px;
-  padding-top: calc(12px + env(safe-area-inset-top));
+  padding: 24rpx 40rpx;
+  padding-top: calc(24rpx + env(safe-area-inset-top));
+  border-bottom: 1px solid #EFEFEF;
+  background: #FFFFFF;
 }
 
 .topTitle {
@@ -37,8 +35,8 @@
   flex-direction: row;
   align-items: center;
   gap: 6px;
-  background: rgba(255, 107, 43, 0.10);
-  border: 1px solid rgba(255, 107, 43, 0.25);
+  background: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.12);
   border-radius: 20px;
   padding: 5px 12px;
 }
@@ -48,12 +46,11 @@
   height: 7px;
   border-radius: 50%;
   background: var(--color-primary);
-  box-shadow: 0 0 6px rgba(255, 107, 43, 0.6);
 }
 
 .pillText {
   font-size: 22rpx;
-  color: var(--color-primary);
+  color: var(--color-label-2);
   font-weight: 500;
 }
 
@@ -65,45 +62,43 @@
 }
 
 .messageInner {
-  padding: 16px 20px;
-  padding-bottom: 20px;
+  padding: 32rpx 40rpx;
+  padding-bottom: 40rpx;
 }
 
 .inputArea {
   position: relative;
   z-index: 10;
-  background: rgba(245, 238, 233, 0.96);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-top: 1rpx solid rgba(255, 107, 43, 0.10);
-  padding: 20rpx 28rpx;
+  background: #FFFFFF;
+  border-top: 1px solid #EFEFEF;
+  padding: 20rpx 40rpx;
   padding-bottom: calc(20rpx + env(safe-area-inset-bottom, 34px));
   flex-shrink: 0;
 }
 
 .quickScroll {
-  margin-bottom: 10px;
+  margin-bottom: 20rpx;
   white-space: nowrap;
 }
 
 .quickRow {
   display: flex;
   flex-direction: row;
-  gap: 8px;
-  padding: 2px 0;
+  gap: 12rpx;
+  padding: 4rpx 0;
 }
 
 .quickChip {
-  background: rgba(255, 255, 255, 0.85);
-  border: 1.5rpx solid rgba(255, 107, 43, 0.22);
+  background: #F5F5F7;
+  border: 1.5rpx solid rgba(0, 0, 0, 0.18);
   border-radius: 999rpx;
-  padding: 12rpx 28rpx;
+  padding: 14rpx 28rpx;
   flex-shrink: 0;
 }
 
 .quickText {
-  font-size: 26rpx;
-  color: var(--color-primary);
+  font-size: 28rpx;
+  color: #444444;
   white-space: nowrap;
   font-weight: 500;
 }
@@ -113,24 +108,23 @@
   flex-direction: row;
   align-items: center;
   gap: 12rpx;
-  background: rgba(255, 255, 255, 0.88);
+  background: #EDEDEF;
   border-radius: 999rpx;
-  padding: 0 8rpx 0 32rpx;
-  border: 1.5rpx solid rgba(255, 107, 43, 0.18);
+  padding: 8rpx 8rpx 8rpx 28rpx;
   min-height: 88rpx;
 }
 
 .input {
   flex: 1;
-  height: 88rpx;
+  height: 72rpx;
   font-size: 30rpx;
   color: var(--color-label-1);
   background: transparent;
 }
 
 .sendBtn {
-  width: 72rpx;
-  height: 72rpx;
+  width: 80rpx;
+  height: 80rpx;
   border-radius: 50%;
   background: var(--gradient-brand);
   display: flex;
@@ -140,48 +134,64 @@
   box-shadow: var(--shadow-btn-primary);
 }
 
+.viewRouteBtn {
+  margin-top: 16rpx;
+  padding: 28rpx 32rpx;
+  background: #111111;
+  border-radius: 24rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeUp 300ms ease both;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16rpx); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.viewRouteBtnText {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #FFFFFF;
+  letter-spacing: 0.5rpx;
+}
+
 .capabilityCard {
-  background: rgba(255, 255, 255, 0.75);
-  border-radius: 28rpx;
+  background: #FFFFFF;
+  border-radius: 20rpx;
   padding: 32rpx 36rpx;
-  margin-bottom: 24px;
-  border: 1.5rpx solid rgba(255, 107, 43, 0.12);
+  margin-bottom: 48rpx;
+  border: 1rpx solid rgba(0, 0, 0, 0.08);
 }
 
 .capabilityTitle {
-  font-size: 26rpx;
+  font-size: 22rpx;
   font-weight: 600;
-  color: var(--color-label-2);
+  color: #888888;
   display: block;
-  margin-bottom: 20rpx;
-  letter-spacing: 0.5rpx;
+  margin-bottom: 16rpx;
 }
 
 .capabilityList {
   display: flex;
   flex-direction: column;
-  gap: 14rpx;
 }
 
 .capabilityItem {
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 14rpx;
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid #EFEFEF;
 }
 
-.capabilityDot {
-  width: 8rpx;
-  height: 8rpx;
-  border-radius: 50%;
-  background: var(--color-primary);
-  flex-shrink: 0;
-  opacity: 0.7;
+.capabilityItemLast {
+  border-bottom: none;
 }
 
 .capabilityText {
-  font-size: 26rpx;
-  color: var(--color-label-2);
+  font-size: 28rpx;
+  color: #333333;
   line-height: 1.5;
 }
-

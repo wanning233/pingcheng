@@ -2,7 +2,6 @@
 import { View, Text, Map } from '@tarojs/components'
 import cx from 'classnames'
 import styles from './index.module.scss'
-import { useRouteStore } from '@/stores/useRouteStore'
 
 const STOP_COORDS: Record<string, { lat: number; lng: number }> = {
   's1': { lat: 31.2990, lng: 121.5120 },
@@ -30,6 +29,7 @@ interface RouteData {
   walkDistanceM: number
   highlights: string[]
   isAiRecommended?: boolean
+  stops?: { id: string }[]
 }
 
 interface RouteCardProps {
@@ -39,53 +39,29 @@ interface RouteCardProps {
   onExpand?: (id: string) => void
 }
 
-function DataItem({ value, unit, label }: { value: string | number; unit: string; label?: string }) {
-  return (
-    <View className={styles.dataItem}>
-      <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'baseline', gap: '2px' }}>
-        <Text className={styles.dataValue}>{value}</Text>
-        <Text className={styles.dataUnit}>{unit}</Text>
-      </View>
-      {label && <Text className={styles.dataUnit}>{label}</Text>}
-    </View>
-  )
-}
-
-function Tag({ children }: { children: string }) {
-  return <Text className={styles.tag}>{children}</Text>
-}
-
-export default function RouteCard({ route, isSelected = false, visibleIndex, onExpand }: RouteCardProps) {
+export default function RouteCard({ route, isSelected = false, onExpand }: RouteCardProps) {
   const isRecommended = !!route.isAiRecommended
+  const stopCount = route.stops?.length ?? ROUTE_STOPS[route.id]?.length ?? 3
 
   const stopIds = ROUTE_STOPS[route.id] ?? []
   const coords = stopIds.map(id => STOP_COORDS[id]).filter(Boolean)
   const markers = coords.map((c, i) => ({ id: i, latitude: c.lat, longitude: c.lng, width: 20, height: 20 }))
   const polyline = coords.length >= 2 ? [{
     points: coords.map(c => ({ latitude: c.lat, longitude: c.lng })),
-    color: '#FF6B2B',
+    color: '#111111',
     width: 4,
     arrowLine: true,
   }] : []
   const centerLat = coords[0]?.lat ?? 31.2990
   const centerLng = coords[0]?.lng ?? 121.5120
 
-  const handleTap = () => {
-    onExpand?.(route.id)
-  }
-
   return (
     <View
       id={`route-card-${route.id}`}
-      className={cx(
-        styles.card,
-        isRecommended && styles.recommend,
-        isSelected && styles.selected
-      )}
-      onClick={handleTap}
-      style={{ transform: isRecommended ? 'scale(1.02)' : 'scale(1)' }}
+      className={cx(styles.card, isSelected && styles.selected)}
+      onClick={() => onExpand?.(route.id)}
     >
-      {/* 地图缩略图 — 真实 Map */}
+      {/* 地图缩略图 */}
       <View className={styles.mapThumb}>
         <Map
           className={styles.mapEl}
@@ -99,22 +75,37 @@ export default function RouteCard({ route, isSelected = false, visibleIndex, onE
           enableRotate={false}
           style={{ width: '100%', height: '100%', display: 'block' }}
         />
-        <View className={styles.mapOverlay} />
-        {isRecommended && <View className={styles.badge}>AI推荐</View>}
+        {isRecommended && <View className={styles.badge}>AI 推荐</View>}
       </View>
-      {/* 卡片内容区 */}
+
+      {/* 卡片内容 */}
       <View className={styles.body}>
         <Text className={styles.name}>{route.name}</Text>
+        <Text className={styles.subTitle}>{stopCount} 个站点</Text>
+
+        {/* 数据三列 */}
         <View className={styles.dataRow}>
-          <DataItem value={route.budgetPerPerson} unit="¥" label="人均" />
-          <DataItem value={(route.totalMinutes / 60).toFixed(1)} unit="h" label="时长" />
-          <DataItem value={route.walkDistanceM} unit="m" label="步行" />
-        </View>
-        <View className={styles.cardFooter}>
-          <View className={styles.tags}>
-            {route.highlights.map(t => <Tag key={t}>{t}</Tag>)}
+          <View className={styles.dataItem}>
+            <Text className={styles.dataValue}>{route.budgetPerPerson}</Text>
+            <Text className={styles.dataUnit}>元 / 人均</Text>
           </View>
-          <Text className={styles.detailHint}>{isSelected ? '✓ 已选择' : '查看详情 ›'}</Text>
+          <View className={styles.dataDivider} />
+          <View className={styles.dataItem}>
+            <Text className={styles.dataValue}>{(route.totalMinutes / 60).toFixed(1)}</Text>
+            <Text className={styles.dataUnit}>小时 / 时长</Text>
+          </View>
+          <View className={styles.dataDivider} />
+          <View className={styles.dataItem}>
+            <Text className={styles.dataValue}>{route.walkDistanceM}</Text>
+            <Text className={styles.dataUnit}>米 / 步行</Text>
+          </View>
+        </View>
+
+        {/* 标签 */}
+        <View className={styles.tags}>
+          {route.highlights.map(t => (
+            <Text key={t} className={styles.tag}>{t}</Text>
+          ))}
         </View>
       </View>
     </View>

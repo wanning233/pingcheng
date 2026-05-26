@@ -54,7 +54,7 @@ export default function AssemblyAnimation() {
       setPageExiting(true)
       // 300ms 后跳转（等吸入动效完成）
       setTimeout(() => {
-        Taro.redirectTo({ url: '/pages/route-compare/index' })
+        Taro.navigateTo({ url: '/pages/route-compare/index' })
       }, 300)
     }, 1650)
 

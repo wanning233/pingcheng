@@ -57,7 +57,6 @@ export function getPersonalizedRoutes(params: {
     朋友聚会: ['route-3', 'route-1', 'route-2'],
     情侣约会: ['route-1', 'route-3', 'route-2'],
     亲子出行: ['route-1', 'route-2', 'route-3'],
-    省钱优先: ['route-2', 'route-1', 'route-3'],
     少排队:   ['route-1', 'route-2', 'route-3'],
     // categories
     food:      ['route-3', 'route-1', 'route-2'],

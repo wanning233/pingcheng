@@ -1,8 +1,11 @@
 export default defineAppConfig({
+  entryPagePath: 'pages/home/index',
   pages: [
     'pages/home/index',
     'pages/invite/index',
     'pages/preference/index',
+    'pages/ai-questions/index',
+    'pages/ai-prompt-preview/index',
     'pages/route-compare/index',
     'pages/invite/landing/index',
     'pages/map-fullscreen/index',
@@ -13,30 +16,10 @@ export default defineAppConfig({
   ],
   window: {
     backgroundTextStyle: 'dark',
-    navigationBarBackgroundColor: '#FAFAFA',
+    navigationBarBackgroundColor: '#FFFFFF',
     navigationBarTitleText: '',
     navigationBarTextStyle: 'black',
-    backgroundColor: '#FAFAFA',
-  },
-  tabBar: {
-    color: '#AAAAAA',
-    selectedColor: '#FF6B2B',
-    backgroundColor: '#FAFAFA',
-    borderStyle: 'white',
-    list: [
-      {
-        pagePath: 'pages/home/index',
-        text: '出发',
-        iconPath: 'assets/tab/home.png',
-        selectedIconPath: 'assets/tab/home-active.png',
-      },
-      {
-        pagePath: 'pages/invite/index',
-        text: '邀请',
-        iconPath: 'assets/tab/group.png',
-        selectedIconPath: 'assets/tab/group-active.png',
-      },
-    ],
+    backgroundColor: '#FFFFFF',
   },
   permission: {
     'scope.userLocation': {
