@@ -3,10 +3,10 @@ import { View, Text } from '@tarojs/components'
 import React, { useState, useEffect } from 'react'
 import styles from './index.module.scss'
 import routeDiffData from '@/services/mock/routeDiff.json'
+import { ReplanDiff } from '@/services/api'
 
 type TimeStatus = 'safe' | 'overtime' | 'rescued'
 
-// Mock teammates
 const TEAMMATES = ['小林', '阿珠', '老王']
 
 interface RouteDiffCardProps {
@@ -14,27 +14,64 @@ interface RouteDiffCardProps {
   visible?: boolean
   onAccept?: () => void
   onDecline?: () => void
+  /** 真实 replan diff；传入时忽略 mock 数据 */
+  replanDiff?: ReplanDiff
+  /** 新路线名称，用于按钮文案 */
+  newRouteName?: string
+  /** 同行人昵称列表，用于通知动画 */
+  teammates?: string[]
 }
 
 const STATUS_HEADER_COLOR: Record<TimeStatus, string> = {
   safe: '#00C9A7',
   overtime: '#FFB800',
-  rescued: '#FF5C2B',
+  rescued: '#111111',
 }
 
 export default function RouteDiffCard({
-  timeStatus = routeDiffData.timeStatus as TimeStatus,
+  timeStatus,
   visible = false,
   onAccept,
   onDecline,
+  replanDiff,
+  newRouteName,
+  teammates,
 }: RouteDiffCardProps) {
   const [cardVisible, setCardVisible] = useState(false)
   const [leftVisible, setLeftVisible] = useState(false)
   const [rightVisible, setRightVisible] = useState(false)
   const [buttonsVisible, setButtonsVisible] = useState(false)
-  // notifying: show "已通知队友" state after accept
   const [notifying, setNotifying] = useState(false)
   const [notifiedCount, setNotifiedCount] = useState(0)
+
+  // 用真实数据或回退到 mock
+  const isReal = !!replanDiff
+  const toName = isReal
+    ? (replanDiff!.replaced?.[0]?.to_name ?? newRouteName ?? '新地点')
+    : routeDiffData.planBStop.name
+  const fromName = isReal
+    ? (replanDiff!.replaced?.[0]?.from_name ?? '当前站点')
+    : routeDiffData.currentStop.name
+  const aiRec = isReal ? replanDiff!.summary : routeDiffData.aiRecommendation
+  const benefitItems = isReal
+    ? replanDiff!.benefits.slice(0, 3)
+    : [
+        { label: '时间节省', value: `+${routeDiffData.gains.savedMinutes}分钟` },
+        { label: '人均节省', value: `-¥${routeDiffData.gains.savedPricePerPerson}` },
+      ]
+  const tradeoffItems = isReal
+    ? replanDiff!.tradeoffs.slice(0, 3)
+    : [
+        { label: '评分变化', value: `-${routeDiffData.costs.ratingDrop}★` },
+        { label: '步行增加', value: `+${routeDiffData.costs.extraWalkMeters}米` },
+      ]
+  const resolvedTimeStatus: TimeStatus =
+    timeStatus ??
+    (isReal
+      ? replanDiff!.saved_minutes > 0 ? 'rescued' : (replanDiff!.budget_change <= 0 ? 'safe' : 'safe')
+      : routeDiffData.timeStatus as TimeStatus)
+  const notifyList = teammates?.length ? teammates : TEAMMATES
+  const savedMinutes = isReal ? replanDiff!.saved_minutes : routeDiffData.gains.savedMinutes
 
   useEffect(() => {
     if (!visible) {
@@ -56,27 +93,23 @@ export default function RouteDiffCard({
     }
   }, [visible])
 
-  // Handle accept: notify teammates one by one, then call onAccept
   const handleAccept = () => {
     setNotifying(true)
     setNotifiedCount(0)
-    TEAMMATES.forEach((_, i) => {
+    notifyList.forEach((_, i) => {
       setTimeout(() => {
         setNotifiedCount(i + 1)
-        if (i === TEAMMATES.length - 1) {
-          // All notified — wait 800ms then complete
+        if (i === notifyList.length - 1) {
           setTimeout(() => onAccept?.(), 800)
         }
       }, (i + 1) * 600)
     })
   }
 
-  const data = routeDiffData
-  const headerColor = STATUS_HEADER_COLOR[timeStatus]
-
-  const isRescued = timeStatus === 'rescued'
-  const isOvertime = timeStatus === 'overtime'
-  const isSafe = timeStatus === 'safe'
+  const headerColor = STATUS_HEADER_COLOR[resolvedTimeStatus]
+  const isRescued = resolvedTimeStatus === 'rescued'
+  const isOvertime = resolvedTimeStatus === 'overtime'
+  const isSafe = resolvedTimeStatus === 'safe'
 
   return (
     <View
@@ -107,7 +140,7 @@ export default function RouteDiffCard({
       {/* Banner */}
       {isRescued && (
         <View className={styles.bannerGreen}>
-          <Text className={styles.bannerText}>换了能准时！节省 {data.gains.savedMinutes} 分钟</Text>
+          <Text className={styles.bannerText}>换了能准时！节省 {savedMinutes} 分钟</Text>
         </View>
       )}
       {isOvertime && (
@@ -128,20 +161,14 @@ export default function RouteDiffCard({
           } as any}
         >
           <Text className={styles.sideLabel}>得到</Text>
-          <View className={styles.sideItem}>
-            <Text className={styles.sideValue}>+{data.gains.savedMinutes}分钟</Text>
-            <Text className={styles.sideDesc}>时间节省</Text>
-          </View>
-          <View className={styles.sideItem}>
-            <Text className={styles.sideValue}>-¥{data.gains.savedPricePerPerson}/人</Text>
-            <Text className={styles.sideDesc}>人均节省</Text>
-          </View>
+          {benefitItems.map((item, i) => (
+            <View key={i} className={styles.sideItem}>
+              <Text className={styles.sideValue}>{item.value}</Text>
+              <Text className={styles.sideDesc}>{item.label}</Text>
+            </View>
+          ))}
           <View className={styles.routeBox}>
-            <Text className={styles.routeName}>{data.planBStop.name}</Text>
-            <Text className={styles.routeMeta}>
-              ★{data.planBStop.rating} · 等位{data.planBStop.estimatedQueueMinutes}分钟
-            </Text>
-            <Text className={styles.routeTime}>预计 {data.planBStop.estimatedEndTime} 结束</Text>
+            <Text className={styles.routeName}>{toName}</Text>
           </View>
         </View>
 
@@ -157,27 +184,21 @@ export default function RouteDiffCard({
           } as any}
         >
           <Text className={styles.sideLabel}>失去</Text>
-          <View className={styles.sideItem}>
-            <Text className={styles.sideValueNeg}>-{data.costs.ratingDrop}★</Text>
-            <Text className={styles.sideDesc}>评分下降</Text>
-          </View>
-          <View className={styles.sideItem}>
-            <Text className={styles.sideValueNeg}>+{data.costs.extraWalkMeters}米</Text>
-            <Text className={styles.sideDesc}>多走{data.costs.extraWalkMinutes}分钟</Text>
-          </View>
+          {tradeoffItems.map((item, i) => (
+            <View key={i} className={styles.sideItem}>
+              <Text className={styles.sideValueNeg}>{item.value}</Text>
+              <Text className={styles.sideDesc}>{item.label}</Text>
+            </View>
+          ))}
           <View className={styles.routeBox}>
-            <Text className={styles.routeName}>{data.currentStop.name}</Text>
-            <Text className={styles.routeMeta}>
-              ★{data.currentStop.rating} · 排队{data.currentStop.estimatedQueueMinutes}分钟
-            </Text>
-            <Text className={styles.routeTime}>原预计 {data.currentStop.estimatedEndTime} 结束</Text>
+            <Text className={styles.routeName}>{fromName}</Text>
           </View>
         </View>
       </View>
 
       {/* AI recommendation */}
       <View className={styles.aiRec}>
-        <Text className={styles.aiRecText}>{data.aiRecommendation}</Text>
+        <Text className={styles.aiRecText}>{aiRec}</Text>
       </View>
 
       {/* Buttons / Notifying state */}
@@ -212,7 +233,7 @@ export default function RouteDiffCard({
               ))}
             </View>
             <Text className={styles.notifyDesc}>
-              路线已更新为「{data.planBStop.name}」，所有人手机已收到新路线
+              路线已更新为「{toName}」，所有人手机已收到新路线
             </Text>
           </View>
         ) : (
@@ -220,7 +241,7 @@ export default function RouteDiffCard({
             {isSafe && (
               <>
                 <View className={styles.btnAccentFull} onClick={handleAccept}>
-                  <Text className={styles.btnText}>切换到{data.planBStop.name}</Text>
+                  <Text className={styles.btnText}>切换到{toName}</Text>
                 </View>
                 <View className={styles.btnGhost} onClick={onDecline}>
                   <Text className={styles.btnTextSecondary}>维持原路线</Text>
@@ -240,15 +261,10 @@ export default function RouteDiffCard({
             {isRescued && (
               <>
                 <View className={styles.btnPrimaryFull} onClick={handleAccept}>
-                  <Text className={styles.btnText}>立刻换！去{data.planBStop.name}</Text>
+                  <Text className={styles.btnText}>立刻换！去{toName}</Text>
                 </View>
                 <View className={styles.btnGhost} onClick={onDecline}>
-                  <Text className={styles.btnTextDanger}>
-                    维持原路线（将超时{Math.round(
-                      (new Date(`2000/01/01 ${data.currentStop.estimatedEndTime}`).getTime() -
-                       new Date(`2000/01/01 ${data.sessionDeadline}`).getTime()) / 60000
-                    )}分钟）
-                  </Text>
+                  <Text className={styles.btnTextDanger}>维持原路线</Text>
                 </View>
               </>
             )}

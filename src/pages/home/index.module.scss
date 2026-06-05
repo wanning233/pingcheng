@@ -60,7 +60,7 @@
 }
 
 .searchBarFocused {
-  box-shadow: 0 0 0 2rpx rgba(255, 107, 43, 0.35);
+  box-shadow: 0 0 0 2rpx rgba(0, 0, 0, 0.25);
 }
 
 .searchInput {
@@ -171,7 +171,7 @@
   padding: 0 24rpx;
   border-radius: 999rpx;
   background: #FFFFFF;
-  box-shadow: 0 0 0 2rpx rgba(255, 107, 43, 0.35);
+  box-shadow: 0 0 0 2rpx rgba(0, 0, 0, 0.25);
   flex-shrink: 0;
   margin-right: 16rpx;
   width: 200rpx;
@@ -514,7 +514,7 @@
   width: 12rpx;
   height: 12rpx;
   border-radius: 50%;
-  background: var(--color-primary);
+  background: #111111;
   flex-shrink: 0;
 }
 

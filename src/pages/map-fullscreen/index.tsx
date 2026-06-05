@@ -2,7 +2,7 @@
 import { View, Text, Map } from '@tarojs/components'
 import Taro, { useRouter } from '@tarojs/taro'
 import { useMemo } from 'react'
-import { mockRoutes } from '@/services/mock/routes'
+import { useRouteStore } from '@/stores/useRouteStore'
 import styles from './index.module.scss'
 
 const STOP_COORDS: Record<string, { lat: number; lng: number }> = {
@@ -19,12 +19,13 @@ const STOP_COORDS: Record<string, { lat: number; lng: number }> = {
 
 export default function MapFullscreenPage() {
   const router = useRouter()
-  const routeId = router.params.routeId || 'route-3'
+  const routeId = router.params.routeId || ''
   console.log('[map-fullscreen] render, routeId:', routeId)
-  const route = mockRoutes.find((r) => r.id === routeId) ?? mockRoutes[0]
+  const routes = useRouteStore(s => s.routes)
+  const route = routes.find((r) => r.id === routeId) ?? routes[0]
 
   const stops = useMemo(() =>
-    route.stops.map((stop) => ({
+    (route?.stops ?? []).map((stop) => ({
       ...stop,
       coord: STOP_COORDS[stop.id] ?? { lat: 31.2990, lng: 121.5120 },
     })), [route])
@@ -68,7 +69,7 @@ export default function MapFullscreenPage() {
         <Text className={styles.backText}>返回</Text>
       </View>
       <View className={styles.routeLabel}>
-        <Text className={styles.routeLabelText}>{route.name}</Text>
+        <Text className={styles.routeLabelText}>{route?.name ?? ''}</Text>
         <Text className={styles.routeLabelSub}>{stops.length} 个站点</Text>
       </View>
     </View>

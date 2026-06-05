@@ -6,8 +6,8 @@ import MapWindow from '@/components/business/MapWindow'
 import Timeline from '@/components/business/Timeline'
 import PlanBSheet from '@/components/business/PlanBSheet'
 import SwapStopSheet, { AlternativeStop } from '@/components/business/SwapStopSheet'
-import { getRouteDetailMock } from '@/services/mock/routes'
 import { useRouteStore } from '@/stores/useRouteStore'
+import { getTripWaitingStatus } from '@/services/api'
 import styles from './index.module.scss'
 
 const USE_TMAP_SDK = false
@@ -51,10 +51,13 @@ function getAlternatives(stopName: string): AlternativeStop[] {
 
 export default function RouteDetailPage() {
   const router = useRouter()
-  const routeId = router.params.routeId || 'route-3'
-  const route = getRouteDetailMock(routeId)
+  const routeId = router.params.routeId || ''
+  const tripId = (router.params.tripId as string) || ''
 
+  const storedRoutes = useRouteStore(s => s.routes)
+  const selectRoute = useRouteStore(s => s.selectRoute)
   const { modifiedStops, setModifiedStops, swapStop: swapStopInStore } = useRouteStore()
+  const [route, setRoute] = useState<any>(null)
   const [mapCollapsed, setMapCollapsed] = useState(false)
   const [swapStop, setSwapStop] = useState<{ name: string; index: number; alternatives: AlternativeStop[] } | null>(null)
   const [tripEnded, setTripEnded] = useState(false)
@@ -62,12 +65,48 @@ export default function RouteDetailPage() {
   // 防抖计时器引用
   const scrollTimerRef = useRef<number | null>(null)
 
+  // 从 store 加载路线详情（数据已由 instant-plan 存入）
+  useEffect(() => {
+    if (!routeId) return
+    const found = storedRoutes.find(r => r.id === routeId)
+    if (!found) return
+    setRoute({
+      ...found,
+      stops: found.stops.map((stop, i) => ({
+        ...stop,
+        status: i === 0 ? 'done' : i === 1 ? 'current' : 'upcoming',
+      })),
+    })
+  }, [routeId, storedRoutes])
+
   // 确保 modifiedStops 正确初始化
   useEffect(() => {
     if (route?.stops && modifiedStops.length === 0) {
       setModifiedStops(route.stops)
     }
   }, [route, modifiedStops.length, setModifiedStops])
+
+  // 多人模式：轮询 waiting-status，检测对方是否更换了路线
+  useEffect(() => {
+    if (!tripId) return
+    const poll = async () => {
+      try {
+        const status = await getTripWaitingStatus(tripId)
+        const newRouteId = status.selected_route_id
+        if (newRouteId && newRouteId !== routeId) {
+          selectRoute(newRouteId)
+          Taro.showToast({ title: '同伴更换了路线', icon: 'none', duration: 2000 })
+          setTimeout(() => {
+            Taro.redirectTo({ url: `/pages/route-detail/index?routeId=${newRouteId}&tripId=${tripId}` })
+          }, 1500)
+        }
+      } catch (e) {
+        // 轮询失败静默忽略
+      }
+    }
+    const timer = setInterval(poll, 10000)
+    return () => clearInterval(timer)
+  }, [tripId, routeId])  // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleScroll = useCallback((e: any) => {
     // 行程结束后不再响应滚动事件
@@ -179,9 +218,8 @@ export default function RouteDetailPage() {
   }, [swapStop, modifiedStops, swapStopInStore])
 
   const handleCallAI = (stopName?: string) => {
-    const params = stopName
-      ? `/pages/assistant/index?stopName=${encodeURIComponent(stopName)}&routeId=${routeId}`
-      : `/pages/assistant/index?routeId=${routeId}`
+    const base = `/pages/assistant/index?routeId=${routeId}&tripId=${tripId}`
+    const params = stopName ? `${base}&stopName=${encodeURIComponent(stopName)}` : base
     Taro.navigateTo({ url: params })
   }
 

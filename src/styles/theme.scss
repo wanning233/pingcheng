@@ -6,10 +6,10 @@ page, :root {
   --color-bg-card:    #FFFFFF;
   --gradient-bg:      #FFFFFF;
 
-  // 品牌橙
-  --color-primary:    #FF6B2B;
-  --color-primary-bg: rgba(255, 107, 43, 0.10);
-  --color-primary-light: rgba(255, 107, 43, 0.12);
+  // 品牌黑
+  --color-primary:    #111111;
+  --color-primary-bg: rgba(0, 0, 0, 0.06);
+  --color-primary-light: rgba(0, 0, 0, 0.08);
 
   // 文字
   --color-label-1:  #1A1A1A;
@@ -29,8 +29,8 @@ page, :root {
   --color-btn-secondary-bg:   #FFFFFF;
   --color-btn-secondary-text: #111111;
   // 图标圆形背景
-  --color-icon-circle-solid:  #FF7A30;
-  --color-icon-circle-ghost:  rgba(255, 107, 43, 0.12);
+  --color-icon-circle-solid:  #111111;
+  --color-icon-circle-ghost:  rgba(0, 0, 0, 0.08);
   --gradient-mask:  linear-gradient(180deg, transparent 0%, rgba(255,255,255,0.95) 100%);
 
   // 圆角

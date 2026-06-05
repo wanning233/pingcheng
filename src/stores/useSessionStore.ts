@@ -12,6 +12,9 @@ interface SessionState {
   sceneTags: string[]
   categories: string[]
   inviteCode: string
+  tripId: string
+  memberId: string
+  memberRole: 'initiator' | 'member' | ''
   setSession: (patch: Partial<Omit<SessionState, 'setSession'>>) => void
 }
 
@@ -26,5 +29,8 @@ export const useSessionStore = create<SessionState>((set) => ({
   sceneTags: [],
   categories: [],
   inviteCode: '',
+  tripId: '',
+  memberId: '',
+  memberRole: '',
   setSession: (patch) => set((state) => ({ ...state, ...patch })),
 }))

@@ -2,12 +2,9 @@
 
 .page {
   min-height: 100vh;
-  background: var(--color-bg-base);
+  background: #FFFFFF;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  position: relative;
-  overflow: hidden;
 }
 
 .bgGradient {
@@ -16,43 +13,51 @@
   left: 0;
   right: 0;
   height: 50vh;
-  background: linear-gradient(180deg, rgba(255, 92, 43, 0.10) 0%, transparent 100%);
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.04) 0%, transparent 100%);
   pointer-events: none;
 }
 
 .skylineArea {
   width: 100%;
-  height: 200px;
+  height: calc(80px + env(safe-area-inset-top));
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: 16px;
   position: relative;
   z-index: 1;
-  padding-top: env(safe-area-inset-top);
 }
 
-.skylinePlaceholder {
-  width: 100%;
-  height: 160px;
+.skylineDots {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: row;
+  align-items: flex-end;
+  gap: 6px;
 }
 
-.skylineEmoji {
-  font-size: 80px;
-  opacity: 0.7;
+.skylineDot {
+  width: 14px;
+  height: 24px;
+  background: rgba(0, 0, 0, 0.12);
+  border-radius: 3px 3px 0 0;
+}
+
+.skylineDotTall {
+  height: 40px;
+}
+
+.skylineDotMid {
+  height: 32px;
 }
 
 .card {
-  background: var(--color-bg-card);
-  border-radius: 20px 20px 0 0;
-  padding: 24px 20px;
-  padding-bottom: calc(24px + env(safe-area-inset-bottom));
+  background: #FFFFFF;
+  padding: 32px 24px;
+  padding-bottom: calc(100px + env(safe-area-inset-bottom));
   width: 100%;
   flex: 1;
-  position: relative;
-  z-index: 2;
+  box-sizing: border-box;
 }
 
 .initiatorRow {
@@ -67,7 +72,7 @@
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  background: var(--gradient-brand);
+  background: #111111;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -89,18 +94,18 @@
 .initiatorName {
   font-size: 32rpx;
   font-weight: 600;
-  color: var(--color-text-primary);
+  color: #1A1A1A;
 }
 
 .initiatorLabel {
   font-size: 24rpx;
-  color: var(--color-text-secondary);
+  color: rgba(26, 26, 26, 0.55);
 }
 
 .tripName {
   font-size: 44rpx;
   font-weight: 700;
-  color: var(--color-text-primary);
+  color: #1A1A1A;
   display: block;
   margin-bottom: 20px;
 }
@@ -127,7 +132,7 @@
 
 .metaText {
   font-size: 28rpx;
-  color: var(--color-text-secondary);
+  color: rgba(26, 26, 26, 0.55);
 }
 
 .progressWrap {
@@ -140,27 +145,27 @@
 
 .progressTrack {
   flex: 1;
-  height: 6px;
-  background: rgba(255, 255, 255, 0.08);
-  border-radius: 3px;
+  height: 8px;
+  background: rgba(0, 0, 0, 0.08);
+  border-radius: 4px;
   overflow: hidden;
 }
 
 .progressFill {
   height: 100%;
-  background: var(--gradient-brand);
+  background: #111111;
   border-radius: 3px;
   transition: width 600ms ease;
 }
 
 .progressLabel {
   font-size: 24rpx;
-  color: var(--color-text-secondary);
+  color: rgba(26, 26, 26, 0.55);
   font-variant-numeric: tabular-nums;
 }
 
 .messageBox {
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(0, 0, 0, 0.04);
   border-radius: 12px;
   padding: 12px 14px;
   margin-bottom: 24px;
@@ -169,7 +174,7 @@
 
 .messageQuote {
   font-size: 32px;
-  color: var(--color-primary);
+  color: #111111;
   opacity: 0.4;
   position: absolute;
   top: 4px;
@@ -179,18 +184,28 @@
 
 .messageText {
   font-size: 26rpx;
-  color: var(--color-text-secondary);
+  color: rgba(26, 26, 26, 0.55);
   line-height: 1.6;
   padding-left: 12px;
   display: block;
 }
 
+.ctaArea {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 12px 24px calc(12px + env(safe-area-inset-bottom));
+  background: #FFFFFF;
+  z-index: 10;
+}
+
 .joinBtn {
-  background: var(--gradient-brand);
+  background: #111111;
   border-radius: 14px;
   padding: 16px;
   text-align: center;
-  box-shadow: var(--shadow-btn-primary);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
   margin-bottom: 12px;
 }
 
@@ -206,7 +221,7 @@
 
 .hint {
   font-size: 22rpx;
-  color: var(--color-text-disabled);
+  color: rgba(26, 26, 26, 0.35);
   text-align: center;
   display: block;
 }
@@ -228,26 +243,26 @@
 .expiredTitle {
   font-size: 36rpx;
   font-weight: 600;
-  color: var(--color-text-primary);
+  color: #1A1A1A;
 }
 
 .expiredDesc {
   font-size: 28rpx;
-  color: var(--color-text-secondary);
+  color: rgba(26, 26, 26, 0.55);
 }
 
 .expiredHint {
   font-size: 24rpx;
-  color: var(--color-text-disabled);
+  color: rgba(26, 26, 26, 0.35);
   text-align: center;
 }
 
 .progressLabelUrgent {
-  color: var(--color-primary);
+  color: #111111;
   font-weight: 600;
 }
 
 .metaTextUrgent {
-  color: var(--color-primary);
+  color: #111111;
   font-weight: 600;
 }

@@ -34,19 +34,18 @@
 .aiBtnText {
   font-size: 28rpx;
   font-weight: 700;
-  color: var(--color-label-1);
+  color: #1A1A1A;
 }
 
 // 主按钮：导航到下一站
 .mainBtn {
   flex: 1;
   height: 96rpx;
-  background: var(--gradient-brand);
+  background: #111111;
   border-radius: 999rpx;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: var(--shadow-btn-primary);
 }
 
 .mainBtnContent {

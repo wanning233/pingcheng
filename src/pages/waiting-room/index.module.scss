@@ -1,0 +1,226 @@
+// src/pages/waiting-room/index.module.scss
+
+.page {
+  min-height: 100vh;
+  background: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+}
+
+// ---- 进度条（复用 ai-questions 样式） ----
+.progressBar {
+  display: flex;
+  align-items: center;
+  padding: 48rpx 48rpx 32rpx;
+}
+
+.progressStep {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8rpx;
+}
+
+.stepDot {
+  width: 48rpx;
+  height: 48rpx;
+  border-radius: 50%;
+  background: #F0F0F0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stepDotActive {
+  background: #111111;
+}
+
+.stepDotDone {
+  background: #111111;
+}
+
+.stepDotNum {
+  font-size: 20rpx;
+  color: #AAAAAA;
+  font-weight: 600;
+}
+
+.stepDotNumActive {
+  color: #FFFFFF;
+}
+
+.stepLabel {
+  font-size: 20rpx;
+  color: #AAAAAA;
+  white-space: nowrap;
+}
+
+.stepLabelActive {
+  color: #111111;
+  font-weight: 600;
+}
+
+.stepLabelDone {
+  color: #111111;
+}
+
+.stepLine {
+  flex: 1;
+  height: 2rpx;
+  background: #F0F0F0;
+  margin: 0 8rpx;
+  margin-bottom: 28rpx;
+}
+
+.stepLineDone {
+  background: #111111;
+}
+
+.stepLineActive {
+  background: #111111;
+}
+
+// ---- 主体 ----
+.main {
+  flex: 1;
+  padding: 48rpx 48rpx 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.title {
+  font-size: 44rpx;
+  font-weight: 700;
+  color: #111111;
+  letter-spacing: -0.5rpx;
+  text-align: center;
+  margin-bottom: 16rpx;
+}
+
+.subtitle {
+  font-size: 28rpx;
+  color: rgba(26, 26, 26, 0.45);
+  text-align: center;
+  margin-bottom: 64rpx;
+}
+
+// ---- 成员列表 ----
+.memberList {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+  margin-bottom: 64rpx;
+}
+
+.memberRow {
+  display: flex;
+  align-items: center;
+  gap: 24rpx;
+  padding: 24rpx 32rpx;
+  background: #F7F7F7;
+  border-radius: 20rpx;
+}
+
+.memberAvatar {
+  width: 72rpx;
+  height: 72rpx;
+  border-radius: 50%;
+  background: #E0E0E0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.memberAvatarDone {
+  background: #111111;
+}
+
+.memberAvatarText {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #FFFFFF;
+}
+
+.memberName {
+  flex: 1;
+  font-size: 28rpx;
+  color: #111111;
+  font-weight: 500;
+}
+
+.memberStatus {
+  font-size: 24rpx;
+  font-weight: 500;
+}
+
+.memberStatus_done {
+  color: #00AA55;
+}
+
+.memberStatus_filling {
+  color: #FF6B35;
+}
+
+.memberStatus_pending {
+  color: #AAAAAA;
+}
+
+// ---- 加载中 ----
+.loadingWrap {
+  padding: 64rpx 0;
+}
+
+.loadingText {
+  font-size: 28rpx;
+  color: rgba(26, 26, 26, 0.45);
+}
+
+// ---- 催一催按钮 ----
+.inviteBtn {
+  width: 100%;
+  padding: 36rpx 0;
+  border: 2rpx solid #E0E0E0;
+  border-radius: 20rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.inviteBtnText {
+  font-size: 28rpx;
+  color: #111111;
+  font-weight: 500;
+}
+
+// ---- 生成中动画 ----
+.generatingWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24rpx;
+  padding: 64rpx 0;
+}
+
+.spinnerDots {
+  display: flex;
+  gap: 12rpx;
+}
+
+.spinnerDot {
+  width: 16rpx;
+  height: 16rpx;
+  border-radius: 50%;
+  background: #111111;
+  animation: dotPulse 1.2s ease-in-out infinite;
+}
+
+.spinnerDot:nth-child(2) { animation-delay: 0.2s; }
+.spinnerDot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes dotPulse {
+  0%, 80%, 100% { opacity: 0.2; transform: scale(0.8); }
+  40% { opacity: 1; transform: scale(1); }
+}

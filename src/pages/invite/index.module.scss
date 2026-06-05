@@ -58,13 +58,13 @@
   width: 72rpx;
   height: 72rpx;
   border-radius: 50%;
-  background: var(--gradient-brand);
+  background: #111111;
   flex-shrink: 0;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4rpx 16rpx rgba(255, 107, 43, 0.32);
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.16);
 }
 
 .createIconH {
@@ -150,7 +150,7 @@
 }
 
 .statusActive {
-  background: rgba(255, 107, 43, 0.10);
+  background: rgba(0, 0, 0, 0.06);
 }
 
 .statusClosed {
@@ -202,7 +202,7 @@
 
 .progressFill {
   height: 100%;
-  background: var(--gradient-brand);
+  background: #111111;
   border-radius: 999rpx;
 }
 
@@ -252,7 +252,7 @@
   width: 120rpx;
   height: 120rpx;
   border-radius: 50%;
-  background: rgba(255, 107, 43, 0.08);
+  background: rgba(0, 0, 0, 0.05);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -263,7 +263,7 @@
   width: 56rpx;
   height: 44rpx;
   border-radius: 6rpx;
-  border: 3rpx solid var(--color-primary);
+  border: 1.5rpx solid #111111;
   position: relative;
 }
 
@@ -273,7 +273,7 @@
   left: 0;
   width: 100%;
   height: 22rpx;
-  border-bottom: 3rpx solid var(--color-primary);
+  border-bottom: 3rpx solid #111111;
   clip-path: polygon(0 0, 50% 100%, 100% 0);
 }
 
@@ -293,11 +293,11 @@
 // 新行程卡片
 // ══════════════════════════════════
 .newTripCard {
-  background: rgba(255, 107, 43, 0.08);
+  background: #F5F5F5;
   border-radius: 28rpx;
   padding: 40rpx;
   margin-bottom: 32rpx;
-  border: 1.5rpx solid rgba(255, 107, 43, 0.2);
+  border: 1.5rpx solid rgba(0, 0, 0, 0.08);
 }
 
 .newTripTitle {
@@ -334,7 +334,7 @@
   flex: 1;
   height: 80rpx;
   border-radius: 999rpx;
-  border: 1.5rpx solid var(--color-primary);
+  border: 1.5rpx solid #111111;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -344,4 +344,105 @@
   font-size: 28rpx;
   color: var(--color-primary);
   font-weight: 500;
+}
+
+// ══════════════════════════════════
+// Tab 切换
+// ══════════════════════════════════
+.tabs {
+  display: flex;
+  flex-direction: row;
+  gap: 8rpx;
+  margin-bottom: 32rpx;
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 20rpx;
+  padding: 6rpx;
+}
+
+.tab {
+  flex: 1;
+  height: 72rpx;
+  border-radius: 16rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 150ms ease;
+}
+
+.tabActive {
+  background: #FFFFFF;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.08);
+}
+
+.tabText {
+  font-size: 28rpx;
+  color: rgba(26, 26, 26, 0.45);
+  font-weight: 500;
+}
+
+.tabTextActive {
+  color: #111111;
+  font-weight: 600;
+}
+
+// ══════════════════════════════════
+// 参加的行程额外字段
+// ══════════════════════════════════
+.inviteCreator {
+  font-size: 24rpx;
+  color: var(--color-label-3);
+}
+
+.myStatusRow {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  margin-top: 4rpx;
+}
+
+.myStatusLabel {
+  font-size: 24rpx;
+  color: var(--color-label-3);
+}
+
+.myStatusDone {
+  font-size: 24rpx;
+  color: #00AA55;
+  font-weight: 500;
+}
+
+// ══════════════════════════════════
+// 路线已选定提示条
+// ══════════════════════════════════
+.routeReadyStrip {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12rpx;
+  background: #111111;
+  border-radius: 16rpx;
+  padding: 20rpx 24rpx;
+  margin-top: 8rpx;
+}
+
+.routeReadyDot {
+  width: 14rpx;
+  height: 14rpx;
+  border-radius: 50%;
+  background: #4ADE80;
+  flex-shrink: 0;
+  box-shadow: 0 0 0 4rpx rgba(74, 222, 128, 0.2);
+}
+
+.routeReadyText {
+  flex: 1;
+  font-size: 26rpx;
+  font-weight: 500;
+  color: #FFFFFF;
+}
+
+.routeReadyArrow {
+  font-size: 28rpx;
+  color: rgba(255, 255, 255, 0.5);
+  flex-shrink: 0;
 }

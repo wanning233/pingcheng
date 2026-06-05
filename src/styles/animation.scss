@@ -25,9 +25,9 @@
 
 // 头像填写中 — 呼吸光效
 @keyframes breathe {
-  0%   { box-shadow: 0 0 0 0px rgba(255, 92, 43, 0.60); }
-  50%  { box-shadow: 0 0 0 6px rgba(255, 92, 43, 0.20); }
-  100% { box-shadow: 0 0 0 0px rgba(255, 92, 43, 0.00); }
+  0%   { box-shadow: 0 0 0 0px rgba(0, 0, 0, 0.40); }
+  50%  { box-shadow: 0 0 0 6px rgba(0, 0, 0, 0.12); }
+  100% { box-shadow: 0 0 0 0px rgba(0, 0, 0, 0.00); }
 }
 
 // 集结爆发帧 — 白色冲击波圆环，150ms极速
@@ -78,7 +78,7 @@
 
 // 边框颜色过渡（冲突 → 解决）
 @keyframes borderResolve {
-  from { border-color: #FF5C2B; }
+  from { border-color: #111111; }
   to   { border-color: #00C9A7; }
 }
 

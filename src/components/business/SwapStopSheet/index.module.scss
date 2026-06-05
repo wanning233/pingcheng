@@ -77,11 +77,11 @@
   flex-direction: column;
   align-items: center;
   gap: 4rpx;
-  background: var(--gradient-brand);
+  background: #111111;
   border-radius: 20rpx;
   padding: 16rpx 24rpx;
   flex-shrink: 0;
-  box-shadow: 0 4rpx 16rpx rgba(255, 107, 43, 0.30);
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.15);
 }
 
 .aiBtnText {

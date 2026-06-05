@@ -15,7 +15,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 24rpx 28rpx;
-  background: var(--gradient-brand);
+  background: #111111;
 }
 
 .headerLeft {
@@ -157,8 +157,8 @@
 
 // ── AI Rec ────────────────────────────────────────
 .aiRec {
-  background: rgba(255, 107, 43, 0.04);
-  border-top: 1rpx solid rgba(255, 107, 43, 0.10);
+  background: rgba(0, 0, 0, 0.03);
+  border-top: 1rpx solid rgba(0, 0, 0, 0.06);
   padding: 20rpx 28rpx;
 }
 
@@ -177,7 +177,7 @@
 }
 
 .btnPrimaryFull {
-  background: var(--gradient-brand);
+  background: #111111;
   border-radius: 999rpx;
   padding: 28rpx 16rpx;
   text-align: center;
@@ -185,7 +185,7 @@
 }
 
 .btnAccentFull {
-  background: var(--gradient-brand);
+  background: #111111;
   border-radius: 999rpx;
   padding: 28rpx 16rpx;
   text-align: center;
@@ -194,11 +194,11 @@
 
 .btnHalf {
   flex: 1;
-  background: rgba(255, 107, 43, 0.08);
+  background: rgba(0, 0, 0, 0.05);
   border-radius: 999rpx;
   padding: 24rpx 8rpx;
   text-align: center;
-  border: 1.5rpx solid rgba(255, 107, 43, 0.22);
+  border: 1.5rpx solid rgba(0, 0, 0, 0.12);
 }
 
 .btnHalfGhost {
@@ -265,7 +265,7 @@
   width: 64rpx;
   height: 64rpx;
   border-radius: 50%;
-  background: rgba(255, 107, 43, 0.12);
+  background: rgba(0, 0, 0, 0.07);
   display: flex;
   align-items: center;
   justify-content: center;

@@ -6,12 +6,11 @@ import cx from 'classnames'
 import styles from './index.module.scss'
 import { useSessionStore } from '../../stores/useSessionStore'
 import { useRouteStore } from '../../stores/useRouteStore'
+import { createTrip } from '../../services/api'
 import Icon from '../../components/base/Icon'
-import { Image } from '@tarojs/components'
 import LoginSheet from '../../components/business/LoginSheet'
 import { useUserStore } from '../../stores/useUserStore'
 
-const DEFAULT_AVATAR = 'https://thirdwx.qlogo.cn/mmopen/vi_32/POgEwh4mIHO4nibH0KlMECNjjGxQUq24ZEaGT4poC6icRiccVGKSyXwibcPq4BWmiaIaKx9EV8vj5A52KKQCS3ekPlFg/132'
 const PRESET_TAGS = ['朋友聚会', '情侣约会', '亲子出行', '少排队']
 
 // 场景 → 推荐主题映射
@@ -61,18 +60,23 @@ type SheetConfig = {
 }
 
 export default function HomePage() {
-  const { area, notes, inviteCode, setSession } = useSessionStore()
+  const area = useSessionStore(s => s.area)
+  const notes = useSessionStore(s => s.notes)
+  const inviteCode = useSessionStore(s => s.inviteCode)
+  const setSession = useSessionStore(s => s.setSession)
   const selectedRouteId = useRouteStore(s => s.selectedRouteId)
-  const { isLoggedIn, avatarUrl } = useUserStore()
+  const isLoggedIn = useUserStore(s => s.isLoggedIn)
+  const clearUser = useUserStore(s => s.clearUser)
   const [showLogin, setShowLogin] = useState(false)
   const [pendingAction, setPendingAction] = useState<'plan' | 'invite' | null>(null)
+  const [pendingInviteCode, setPendingInviteCode] = useState<string | null>(null)
   const [focused, setFocused] = useState(false)
   const [activeTags, setActiveTags] = useState<string[]>([])
   const [customTags, setCustomTags] = useState<string[]>([])
   const [activeCategories, setActiveCategories] = useState<string[]>([])
   const [showTagInput, setShowTagInput] = useState(false)
   const [tagInputVal, setTagInputVal] = useState('')
-  const [personIdx, setPersonIdx] = useState(2)
+  const [personIdx, setPersonIdx] = useState(0)
   const [budgetInput, setBudgetInput] = useState('')
   const [startTimeIdx, setStartTimeIdx] = useState(2)
   const [endTimeIdx, setEndTimeIdx] = useState(11)
@@ -81,13 +85,20 @@ export default function HomePage() {
   const [showThemeSheet, setShowThemeSheet] = useState(false)
   const [themeSheetScene, setThemeSheetScene] = useState('')
   const [pendingThemes, setPendingThemes] = useState<string[]>([])
-  const [showInviteSheet, setShowInviteSheet] = useState(false)
   const [planning, setPlanning] = useState(false)
 
   useEffect(() => {
     const t = setInterval(() => setPhIdx(i => (i + 1) % PLACEHOLDERS.length), 3000)
     return () => clearInterval(t)
   }, [])
+
+  useEffect(() => {
+    if (!pendingInviteCode) return
+    const url = `/pages/invite/landing/index?inviteCode=${pendingInviteCode}`
+    console.log('[home] effect navigateTo:', url)
+    setPendingInviteCode(null)
+    Taro.navigateTo({ url })
+  }, [pendingInviteCode])
 
   const toggleTag = (tag: string) => {
     const isAdding = !activeTags.includes(tag)
@@ -134,6 +145,59 @@ export default function HomePage() {
   const openSheet = (config: SheetConfig) => setSheet(config)
   const closeSheet = () => setSheet(null)
 
+  const handleJoinTrip = () => {
+    console.log('[home] handleJoinTrip called')
+    Taro.getClipboardData({
+      success: (res) => {
+        const text = res.data || ''
+        console.log('[home] clipboard text:', text)
+        const match = text.match(/邀请码[：:]\s*([A-Za-z0-9]+)/)
+        console.log('[home] match:', match?.[1])
+        if (match) {
+          console.log('[home] setPendingInviteCode from clipboard:', match[1])
+          setPendingInviteCode(match[1])
+        } else {
+          Taro.showModal({
+            title: '加入行程',
+            placeholderText: '请输入邀请码',
+            editable: true,
+            success: (r) => {
+              const code = r.content?.trim()
+              console.log('[home] modal code:', code)
+              if (r.confirm && code) {
+                console.log('[home] setPendingInviteCode from modal:', code)
+                setPendingInviteCode(code)
+              }
+            },
+          })
+        }
+      },
+    })
+  }
+
+  const handleAvatarClick = () => {
+    Taro.showActionSheet({
+      itemList: ['我发起的行程', '我参加的行程', '退出登录'],
+      success: (res) => {
+        if (res.tapIndex === 0) {
+          Taro.navigateTo({ url: '/pages/invite/index?tab=created' })
+        } else if (res.tapIndex === 1) {
+          Taro.navigateTo({ url: '/pages/invite/index?tab=joined' })
+        } else if (res.tapIndex === 2) {
+          Taro.showModal({
+            title: '退出登录',
+            content: '确认退出当前账号？',
+            confirmText: '退出',
+            confirmColor: '#CC0000',
+            success: (r) => {
+              if (r.confirm) clearUser()
+            },
+          })
+        }
+      },
+    })
+  }
+
   const handlePlan = () => {
     if (!area.trim()) {
       Taro.showToast({ title: '请输入目的地或活动', icon: 'none' })
@@ -147,26 +211,43 @@ export default function HomePage() {
     doPlan()
   }
 
-  const doPlan = useCallback(() => {
+  const doPlan = useCallback(async () => {
     if (!area.trim()) {
       Taro.showToast({ title: '请输入目的地或活动', icon: 'none' })
       return
     }
-    const code = Math.random().toString(36).slice(2, 8).toUpperCase()
+    const count = PERSON_COUNTS[personIdx]
+    const budget = budgetInput ? parseInt(budgetInput, 10) : 999
+    const endTime = ENDTIME_OPTIONS[endTimeIdx]
     setSession({
-      peopleCount: PERSON_COUNTS[personIdx],
-      budgetPerPerson: budgetInput ? parseInt(budgetInput, 10) : 999,
+      peopleCount: count,
+      budgetPerPerson: budget,
       startTime: STARTTIME_OPTIONS[startTimeIdx],
-      endTime: ENDTIME_OPTIONS[endTimeIdx],
+      endTime,
       sceneTags: activeTags,
       categories: activeCategories,
-      inviteCode: code,
     })
     setPlanning(true)
-    setTimeout(() => {
-      setPlanning(false)
-      Taro.navigateTo({ url: '/pages/ai-questions/index' })
-    }, 1800)
+    if (count > 1) {
+      try {
+        const trip = await createTrip({
+          area, peopleCount: count, endTime, budgetPerPerson: budget,
+          sceneTags: activeTags, categories: activeCategories,
+        })
+        setSession({ tripId: trip.trip_id, inviteCode: trip.invite_code, memberRole: 'initiator' })
+        setPlanning(false)
+        Taro.navigateTo({ url: `/pages/ai-questions/index?tripId=${trip.trip_id}&role=initiator` })
+      } catch (e) {
+        setPlanning(false)
+        Taro.showToast({ title: '创建行程失败', icon: 'none' })
+      }
+    } else {
+      setSession({ tripId: '', memberRole: '', inviteCode: '' })
+      setTimeout(() => {
+        setPlanning(false)
+        Taro.navigateTo({ url: '/pages/ai-questions/index' })
+      }, 1000)
+    }
   }, [area, personIdx, budgetInput, startTimeIdx, endTimeIdx, activeTags, activeCategories, setSession])
 
   return (
@@ -178,11 +259,9 @@ export default function HomePage() {
           <View className={styles.headerRow}>
             <Text className={styles.pageTitle}>今天去哪儿？</Text>
             {isLoggedIn ? (
-              <Image
-                src={avatarUrl || DEFAULT_AVATAR}
-                className={styles.userAvatar}
-                onClick={() => setShowInviteSheet(true)}
-              />
+              <View className={styles.userAvatar} onClick={handleAvatarClick}>
+                <Text style={{ fontSize: '20px' }}>👤</Text>
+              </View>
             ) : (
               <View className={styles.inviteBtn}
                 onClick={() => {
@@ -206,6 +285,15 @@ export default function HomePage() {
               onFocus={() => setFocused(true)}
               onBlur={() => setFocused(false)}
             />
+          </View>
+        </View>
+
+        {/* 加入行程入口 */}
+        <View style={{ padding: '0 40rpx 8rpx', display: 'flex', justifyContent: 'flex-end' }}>
+          <View onClick={handleJoinTrip} style={{ padding: '8rpx 0' }}>
+            <Text style={{ fontSize: '26rpx', color: 'rgba(26,26,26,0.45)' }}>
+              收到邀请？加入行程 →
+            </Text>
           </View>
         </View>
 
@@ -402,32 +490,6 @@ export default function HomePage() {
         </View>
       )}
 
-      {/* 邀请好友弹窗 */}
-      {showInviteSheet && (
-        <View className={styles.sheetMask} onClick={() => setShowInviteSheet(false)}>
-          <View className={styles.sheet} onClick={e => e.stopPropagation()}>
-            <View className={styles.sheetHandle} />
-            <Text className={styles.sheetTitle}>邀请好友</Text>
-            <View className={styles.inviteBody}>
-              <Text className={styles.inviteDesc}>分享邀请码给朋友，大家填完偏好后 AI 帮你们协调路线</Text>
-              <View className={styles.inviteCodeRow}>
-                <Text className={styles.inviteCodeLabel}>邀请码</Text>
-                <Text className={styles.inviteCodeValue}>{inviteCode || '—'}</Text>
-              </View>
-              {!inviteCode && <Text className={styles.inviteHint}>先规划行程，生成后即可邀请</Text>}
-            </View>
-            <View className={styles.inviteFooter}>
-              <View className={styles.inviteBtn2} onClick={() => {
-                setShowInviteSheet(false)
-                Taro.navigateTo({ url: '/pages/invite/index' })
-              }}>
-                <Text className={styles.inviteBtn2Text}>查看所有邀请</Text>
-              </View>
-            </View>
-          </View>
-        </View>
-      )}
-
       {showLogin && (
         <LoginSheet
           onClose={() => { setShowLogin(false); setPendingAction(null) }}
@@ -437,7 +499,7 @@ export default function HomePage() {
             setShowLogin(false)
             setPendingAction(null)
             if (action === 'plan') doPlan()
-            if (action === 'invite') setShowInviteSheet(true)
+            if (action === 'invite') Taro.navigateTo({ url: '/pages/invite/index' })
           }}
         />
       )}

@@ -1,7 +1,7 @@
 // src/pages/route-detail/index.module.scss
 .page {
   height: 100vh;
-  background: var(--color-bg-base);
+  background: #FFFFFF;
   display: flex;
   flex-direction: column;
 }
@@ -32,7 +32,7 @@
 
 .endTriggerText {
   font-size: 26rpx;
-  color: var(--color-label-4);
+  color: rgba(26, 26, 26, 0.25);
   font-weight: 400;
 }
 
@@ -96,14 +96,14 @@
 .endTitle {
   font-size: 44rpx;
   font-weight: 700;
-  color: var(--color-label-1);
+  color: #1A1A1A;
   text-align: center;
   margin-bottom: 12rpx;
 }
 
 .endSub {
   font-size: 26rpx;
-  color: var(--color-label-3);
+  color: rgba(26, 26, 26, 0.45);
   text-align: center;
   margin-bottom: 48rpx;
 }
@@ -119,7 +119,7 @@
   flex: 1;
   height: 96rpx;
   border-radius: 999rpx;
-  background: var(--gradient-brand);
+  background: #111111;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -143,5 +143,5 @@
 
 .endBtnSecondaryText {
   font-size: 32rpx;
-  color: var(--color-label-2);
+  color: #4A4A4A;
 }

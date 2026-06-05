@@ -280,3 +280,45 @@ export function buildPromptFromAnswers(
 
   return lines.join('\n')
 }
+
+// ── 将 ai-questions 答案映射到后端 MemberPreference 结构 ────────
+// 后端 /api/v1/preferences/questions 返回的题目 ID：
+//   "taste"          → MemberPreference.taste_level
+//   "walk_tolerance" → MemberPreference.walk_tolerance
+// 其余题目的选中项统一归入 likes[]，自定义输入也归入 likes[]
+
+interface SessionSnapshot {
+  endTime?: string
+  budgetPerPerson?: number
+}
+
+export function mapAnswersToPreference(
+  answers: Record<string, string[]>,
+  customInputs: Record<string, string>,
+  session: SessionSnapshot,
+): {
+  member_id: string; nickname: string; budget_max: number
+  likes: string[]; avoid: string[]; activities: string[]
+  taste_level: string; walk_tolerance: string; end_time: string
+} {
+  const MAPPED_IDS = new Set(['taste', 'walk_tolerance'])
+  const likes: string[] = []
+  for (const [qId, selected] of Object.entries(answers)) {
+    if (!MAPPED_IDS.has(qId)) likes.push(...selected)
+  }
+  for (const val of Object.values(customInputs)) {
+    const t = val.trim()
+    if (t) likes.push(t)
+  }
+  return {
+    member_id: '',
+    nickname: '',
+    budget_max: session.budgetPerPerson ?? 0,
+    likes,
+    avoid: [],
+    activities: [],
+    taste_level: answers['taste']?.[0] ?? 'any',
+    walk_tolerance: answers['walk_tolerance']?.[0] ?? 'medium',
+    end_time: session.endTime ?? '',
+  }
+}

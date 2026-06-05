@@ -32,14 +32,14 @@
 
 // 当前节点（橙色+单环pulse）
 .nodeActive {
-  background: var(--color-primary);
+  background: #111111;
 }
 
 .pulseRing1 {
   position: absolute;
   inset: -8rpx;
   border-radius: 50%;
-  border: 2px solid rgba(255, 92, 43, 0.5);
+  border: 2px solid rgba(0, 0, 0, 0.25);
   animation: pulseRing 2.4s infinite;
 }
 
@@ -61,14 +61,14 @@
 
 // 未到节点（灰色）
 .nodeUpcoming {
-  background: var(--color-text-disabled);
+  background: #D0D0D0;
 }
 
 // 连接线
 .line {
   flex: 1;
   width: 2rpx;
-  background: var(--color-text-disabled);
+  background: #D0D0D0;
   margin-top: 8rpx;
   min-height: 40rpx;
 }
@@ -97,7 +97,7 @@
 .stopName {
   font-size: 36rpx;
   font-weight: 600;
-  color: var(--color-label-1);
+  color: #1A1A1A;
   line-height: 1.4;
   display: block;
 }
@@ -106,7 +106,7 @@
 .stopMeta {
   font-size: 26rpx;
   font-weight: 400;
-  color: var(--color-label-3);
+  color: rgba(26, 26, 26, 0.45);
   line-height: 1.5;
   margin-top: 6rpx;
   display: block;
@@ -132,14 +132,14 @@
 }
 
 .actionBtnPrimary {
-  background: var(--color-primary);
-  border-color: var(--color-primary);
+  background: #111111;
+  border-color: #111111;
 }
 
 .actionText {
   font-size: 28rpx;
   font-weight: 600;
-  color: var(--color-label-2);
+  color: #1A1A1A;
 }
 
 .actionTextPrimary {

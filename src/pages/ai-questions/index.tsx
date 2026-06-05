@@ -1,28 +1,43 @@
 // src/pages/ai-questions/index.tsx
 import { useState, useEffect, useCallback } from 'react'
-import Taro from '@tarojs/taro'
+import Taro, { useLoad } from '@tarojs/taro'
 import { View, Text, ScrollView, Input } from '@tarojs/components'
 import { useSessionStore } from '../../stores/useSessionStore'
-import { getQuestionsForDestination, Question } from '../../services/mock/questions'
+import { Question } from '../../services/mock/questions'
+import { getPreferenceQuestions, submitMemberPreferences } from '../../services/api'
 import styles from './index.module.scss'
 
 export default function AiQuestionsPage() {
   const area = useSessionStore(s => s.area)
   const setSession = useSessionStore(s => s.setSession)
 
+  const [tripId, setTripId] = useState('')
+  const [role, setRole] = useState<'initiator' | 'member'>('initiator')
   const [questions, setQuestions] = useState<Question[]>([])
   const [answers, setAnswers] = useState<Record<string, string[]>>({})
   const [customInputs, setCustomInputs] = useState<Record<string, string>>({})
   const [loading, setLoading] = useState(true)
+  const [submitting, setSubmitting] = useState(false)
+  const [loadError, setLoadError] = useState<string | null>(null)
+
+  useLoad(() => {
+    const params = Taro.getCurrentInstance()?.router?.params ?? {}
+    setTripId((params.tripId as string) ?? '')
+    setRole((params.role as string) === 'member' ? 'member' : 'initiator')
+  })
 
   useEffect(() => {
     setLoading(true)
-    const timer = setTimeout(() => {
-      setQuestions(getQuestionsForDestination(area || ''))
-      setLoading(false)
-    }, 1200)
-    return () => clearTimeout(timer)
-  }, [area])
+    setLoadError(null)
+    getPreferenceQuestions()
+      .then((qs) => setQuestions(qs))
+      .catch((e) => {
+        const msg = typeof e === 'object' ? JSON.stringify(e) : String(e)
+        console.error('[ai-questions] load questions error:', msg)
+        setLoadError(msg)
+      })
+      .finally(() => setLoading(false))
+  }, [])
 
   const toggleOption = useCallback((questionId: string, optionId: string, multi: boolean) => {
     setAnswers(prev => {
@@ -39,11 +54,19 @@ export default function AiQuestionsPage() {
     })
   }, [])
 
-  const handleNext = useCallback(() => {
-    // 存答案到 session，跳转 prompt 预览页
+  const handleNext = useCallback(async () => {
+    if (submitting) return
+    setSubmitting(true)
     setSession({ aiAnswers: answers, aiCustomInputs: customInputs } as any)
-    Taro.navigateTo({ url: '/pages/ai-prompt-preview/index' })
-  }, [answers, customInputs, setSession])
+    if (tripId) {
+      await submitMemberPreferences(tripId, answers, customInputs)
+      Taro.navigateTo({ url: `/pages/ai-prompt-preview/index?tripId=${tripId}&role=${role}` })
+    } else {
+      Taro.navigateTo({ url: '/pages/ai-prompt-preview/index' })
+    }
+  }, [answers, customInputs, setSession, tripId, role, submitting])
+
+  const isMulti = !!tripId
 
   return (
     <View className={styles.page}>
@@ -83,10 +106,20 @@ export default function AiQuestionsPage() {
               AI正在分析{area ? `"${area}"` : '目的地'}的特色...
             </Text>
           </View>
+        ) : loadError ? (
+          <View style={{ padding: '40rpx', background: '#FFF3F3', borderRadius: '16rpx', margin: '32rpx 0' }}>
+            <Text style={{ fontSize: '24rpx', color: '#CC0000', wordBreak: 'break-all' }}>
+              加载失败：{loadError}
+            </Text>
+          </View>
         ) : (
           <>
             <Text className={styles.intro}>
-              根据你的目的地，AI提了几个小问题，帮你规划更贴心的路线。全部可跳过。
+              {isMulti && role === 'member'
+                ? '填写你的出行偏好，AI 会帮大家协调出最合适的路线。'
+                : isMulti
+                ? '先填你自己的偏好，朋友加入后 AI 会合并大家的需求。'
+                : '根据你的目的地，AI提了几个小问题，帮你规划更贴心的路线。全部可跳过。'}
             </Text>
 
             {questions.map(q => {
@@ -126,15 +159,19 @@ export default function AiQuestionsPage() {
                 </View>
               )
             })}
-
           </>
         )}
       </ScrollView>
 
       {!loading && (
         <View className={styles.footer}>
-          <View className={styles.submitBtn} onClick={handleNext}>
-            <Text className={styles.submitBtnText}>下一步，确认需求描述</Text>
+          <View
+            className={`${styles.submitBtn} ${submitting ? styles.submitBtnLoading : ''}`}
+            onClick={!submitting ? handleNext : undefined}
+          >
+            <Text className={styles.submitBtnText}>
+              {submitting ? '提交中...' : '下一步，确认需求描述'}
+            </Text>
           </View>
         </View>
       )}

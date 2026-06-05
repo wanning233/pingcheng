@@ -3,7 +3,7 @@ export default defineAppConfig({
   pages: [
     'pages/home/index',
     'pages/invite/index',
-    'pages/preference/index',
+    'pages/waiting-room/index',
     'pages/ai-questions/index',
     'pages/ai-prompt-preview/index',
     'pages/route-compare/index',

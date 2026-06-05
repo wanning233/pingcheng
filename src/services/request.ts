@@ -5,9 +5,8 @@ import Taro from '@tarojs/taro'
 import { mockDelay } from '@/utils/delay'
 
 // ---- Mock 数据懒加载 ----
+// 仅保留后端尚未提供接口的 fallback mock
 const mockLoaders: Record<string, () => Promise<unknown>> = {
-  '/routes':     () => import('./mock/routes.json').then((m) => m.default),
-  '/members':    () => import('./mock/members.json').then((m) => m.default),
   '/route-diff': () => import('./mock/routeDiff.json').then((m) => m.default),
   '/stops/photo': () => import('./mock/stops-photo.json').then((m) => m.default),
 }
@@ -26,37 +25,53 @@ interface ApiResponse<T> {
   data: T
 }
 
-const BASE_URL = process.env.NODE_ENV === 'production'
-  ? 'https://api.pincheng.app'
-  : 'https://dev-api.pincheng.app'
+const BASE_URL = 'http://10.178.203.1:18080'
 
 /**
  * 核心请求函数
- * - development 环境：优先命中 Mock 数据（带 minDelay）
- * - production 环境：发起真实 Taro.request
+ * - 自动从 useUserStore 注入 Bearer token
+ * - 缺失后端接口的路径（/route-diff, /stops/photo）fallback 到 mock 数据
  */
 async function request<T>(
   path: string,
   options: RequestOptions = {}
 ): Promise<T> {
   const { method = 'GET', data, header = {} } = options
+  console.log('[request] called:', method, path)
 
-  // Mock 模式（开发环境 + 存在对应 mock 数据）
-  if (process.env.NODE_ENV !== 'production' && mockLoaders[path]) {
+  // Mock fallback（仅限缺失后端接口）
+  if (mockLoaders[path]) {
     const result = await mockDelay(() => mockLoaders[path](), 200)
     return result as T
   }
 
+  // 从 useUserStore 读取 token，注入 Authorization header
+  // 使用动态 import 避免循环依赖
+  let authHeader: Record<string, string> = {}
+  try {
+    const { useUserStore } = await import('@/stores/useUserStore')
+    const token = useUserStore.getState().token
+    if (token) {
+      authHeader = { Authorization: `Bearer ${token}` }
+    }
+  } catch (e) {
+    // store 未初始化时忽略
+  }
+
   // 真实请求
+  console.log('[request] Taro.request →', `${BASE_URL}${path}`)
   const response = await Taro.request<ApiResponse<T>>({
     url: `${BASE_URL}${path}`,
     method,
     data,
     header: {
       'Content-Type': 'application/json',
+      ...authHeader,
       ...header,
     },
   })
+
+  console.log('[request] response:', response.statusCode, path, response.data?.code)
 
   if (response.statusCode !== 200) {
     throw new Error(`HTTP ${response.statusCode}: ${path}`)
